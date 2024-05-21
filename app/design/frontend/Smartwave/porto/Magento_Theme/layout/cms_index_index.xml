@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="css/slick.min.css" />
+        <css src="css/slick-theme.min.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <container name="home_page_first_banner" htmlTag="div" htmlClass="home_page_first_banner" />
+            <container name="category_cart" htmlTag="div" htmlClass="category_cart" />
+            <container name="category_slider" htmlTag="div" htmlClass="category_slider" />
+        </referenceContainer>
+        <referenceContainer name="home_page_first_banner">
+            <block class="Magento\Cms\Block\Widget\Block" name="home_page_first_banner_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">1</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="category_cart">
+            <block class="Magento\Cms\Block\Widget\Block" name="category_cart_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">2</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="category_slider">
+            <block class="Magento\Cms\Block\Widget\Block" name="category_slider_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">3</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
