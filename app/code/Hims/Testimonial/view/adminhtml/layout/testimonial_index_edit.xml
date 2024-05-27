@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="left">
+            <block class="Hims\Testimonial\Block\Adminhtml\Index\Items\Edit\Tabs" name="testimonial_edit_tab">
+                <block class="Hims\Testimonial\Block\Adminhtml\Index\Items\Edit\Tab\Main" name="testimonial_edit_tab_main"/>
+                <!-- <block class="Cabinotch\Testimonial\Block\Adminhtml\Index\Items\Edit\Tab\Product" name="testimonial_product">
+                    <arguments>
+                        <argument name="path" xsi:type="string">brands/index/product</argument>
+                    </arguments>
+                </block> -->
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">testimonial_edit_tab_main</argument>
+                </action>
+                <!-- <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section_new</argument>
+                     <argument name="block" xsi:type="array">
+                        <item name="label" xsi:type="string">Brand Products</item>
+                        <item name="title" xsi:type="string">Brand Products</item>
+                        <item name="url" xsi:type="helper" helper="Cabinotch\Testimonial\Helper\Dataa::getCustomUrlAdmin"></item>
+                        <item name="class" xsi:type="string">ajax</item>
+                    </argument>
+                </action> -->
+                
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Hims\Testimonial\Block\Adminhtml\Index\Items\Edit" name="testimonial_items_edit"/>
+        </referenceContainer>
+    </body>
+</page>

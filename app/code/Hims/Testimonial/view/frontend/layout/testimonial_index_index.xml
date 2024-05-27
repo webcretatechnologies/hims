@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Hims_Testimonial::css/testimonials.css"/>                      
+    </head>
+    <body>
+        <!-- <referenceBlock name="navigation.sections" remove="true" /> -->
+        <referenceContainer name="content">
+            <block class="Hims\Testimonial\Block\Index" ifconfig="testimonial/general/enable" name="testimonial.index" template="Hims_Testimonial::index.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Hims_Testimonial::manager" title="Testimonial" module="Hims_Testimonial" sortOrder="10" resource="Hims_Testimonial::manager" />
+        <add id="Hims_Testimonial::brand" title="Testimonial Record" module="Hims_Testimonial" sortOrder="20" parent="Hims_Testimonial::manager" action="testimonial" resource="Hims_Testimonial::testimonial"/>
+    </menu>
+</config>

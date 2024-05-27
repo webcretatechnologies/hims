@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+     <default>
+        <testimonial>
+           <general>
+               <enable>1</enable>
+               <form_show>1</form_show>
+               <emailsubject>Share Your Expriance</emailsubject>
+               <stars>1</stars>
+           </general>
+         </testimonial>
+     </default>
+</config>
