@@ -40,10 +40,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="product_slider_block">
-            <block class="Magento\Cms\Block\Widget\Block" name="product_slider_block_widget" template="widget/static_block/default.phtml">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">5</argument>
-                </arguments>
+            <block class="GemsMed\ProductSlider\Block\ProductSlider" name="product_slider_block_widget" template="GemsMed_ProductSlider::productSlider.phtml">
             </block>
         </referenceContainer>
         <referenceContainer name="testimonial_slider_block">
