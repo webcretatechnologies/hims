@@ -1,147 +1,145 @@
 <?php
- $helper=$this->helper('Hims\Testimonial\Helper\Data');
-if($block->Alltestimonial()): ?>
-<?php $testimonials = $block->Alltestimonial();
+$helper = $this->helper('Hims\Testimonial\Helper\Data');
+if ($block->Alltestimonial()): ?>
+<?php 
+$testimonials = $block->Alltestimonial();
 $baseUrl = $block->getBaseUrl();
+$totalRating = 0;
+$numTestimonials = count($testimonials);
+foreach ($testimonials as $testimonial) {
+    $testimonialData = $testimonial->getData();
+    $totalRating += (float)$testimonialData['rating'];
+}
+$averageRating = $numTestimonials > 0 ? number_format($totalRating / $numTestimonials, 1) : 0;
+$fullStars = floor($averageRating);
+$halfStar = ($averageRating - $fullStars >= 0.5) ? 1 : 0;
+$emptyStars = 5 - $fullStars - $halfStar;
 ?>
 
 <section class="testimonial-slider-block my-50">
     <div class="container">
-    <div class="row align-items-center">
+        <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="testimonial-left">
                     <h2 class="sec-title">Hear What Our <span>Global Clients Say</span></h2>
                     <div class="testimonial-rating">
                         <div class="d-flex align-items-center">
-                            <h3 class="rating-point">4.9</h3>
+                            <h3 class="rating-point"><?= $averageRating ?></h3>
                             <sub>/5</sub>
                         </div>
                         <div class="d-flex mb-2">
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_231_570)">
-                                <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" fill="#FFD12E"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_231_570">
-                                <rect width="31.9049" height="31.7635" fill="white"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_231_570)">
-                                <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" fill="#FFD12E"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_231_570">
-                                <rect width="31.9049" height="31.7635" fill="white"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_231_570)">
-                                <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" fill="#FFD12E"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_231_570">
-                                <rect width="31.9049" height="31.7635" fill="white"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_231_570)">
-                                <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" fill="#FFD12E"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_231_570">
-                                <rect width="31.9049" height="31.7635" fill="white"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
-                            <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_231_578)">
-                                <path d="M17.8645 25.4559L17.4903 25.2192L17.1161 25.4559L9.50246 30.2716L11.5347 21.1425L11.623 20.7455L11.3219 20.4721L4.52074 14.2977L13.4432 13.5044L13.8696 13.4665L14.0301 13.0696L17.4903 4.51399L20.9504 13.0696L21.1109 13.4665L21.5374 13.5044L30.4598 14.2977L23.6586 20.4721L23.3575 20.7455L23.4459 21.1425L25.4781 30.2716L17.8645 25.4559Z" stroke="#FFD12E" stroke-width="1.4"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_231_578">
-                                <rect width="31.9049" height="31.7635" fill="white" transform="translate(0.207031)"/>
-                                </clipPath>
-                                </defs>
-                            </svg>
+                            <?php for ($i = 0; $i < $fullStars; $i++): ?>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_231_570)">
+                                        <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" fill="#FFD12E"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_231_570">
+                                            <rect width="31.9049" height="31.7635" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            <?php endfor; ?>
+                            <?php if ($halfStar): ?>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_231_570)">
+                                        <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" fill="url(#half_star)" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_231_570">
+                                            <rect width="31.9049" height="31.7635" fill="white"/>
+                                        </clipPath>
+                                        <linearGradient id="half_star" x1="0%" y1="0%" x2="50%" y2="0%">
+                                            <stop offset="50%" stop-color="#FFD12E" />
+                                            <stop offset="50%" stop-color="white" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            <?php endif; ?>
+                            <?php for ($i = 0; $i < $emptyStars; $i++): ?>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_231_570)">
+                                        <path d="M17.2832 26.0475L26.3203 31.7635L23.9221 20.9904L31.9063 13.7419L21.3923 12.8071L17.2832 2.64697L13.1742 12.8071L2.66016 13.7419L10.6444 20.9904L8.24618 31.7635L17.2832 26.0475Z" stroke="#FFD12E" stroke-width="1.4"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_231_570">
+                                            <rect width="31.9049" height="31.7635" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            <?php endfor; ?>
                         </div>
-                        <span class="text-sm">Base on 1445 reviews</span>
+                        <span class="text-sm">Based on <?= $numTestimonials ?> reviews</span>
                     </div>
                     <p>A selection of testimonials from Gemsmed clients. Read what my clients say about our health coach, workshop, retreats and healing services.</p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="testimonial-slider">
-                        <?php foreach ($testimonials as $testimonial): ?>
-                            <?php
-                            $testimonialData = $testimonial->getData();
-                            $imageUrl = $baseUrl . 'pub/media/' . $testimonialData['image'];
-                            $rating = $testimonialData['rating']; 
-
-                            ?>
-                           <div class="slider-item">
-                                <div class="slider-inner">
-                                    <div class="d-flex mb-4">
-                                        <p><?= $block->escapeHtml($testimonial['message']); ?></p>
+                    <?php foreach ($testimonials as $testimonial): ?>
+                        <?php
+                        $testimonialData = $testimonial->getData();
+                        $imageUrl = $baseUrl . 'pub/media/' . $testimonialData['image'];
+                        ?>
+                        <div class="slider-item">
+                            <div class="slider-inner">
+                                <div class="d-flex mb-4">
+                                    <p><?= $block->escapeHtml($testimonialData['message']); ?></p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="d-block pe-3">
+                                        <img src="<?= $block->escapeUrl($imageUrl); ?>" alt="" />
                                     </div>
-                                    <div class="d-flex align-items-center">
-                                        <div class="d-block pe-3">
-                                            <img src="<?= $block->escapeUrl($imageUrl); ?>" alt="" />
-                                        </div>
-                                        <div class="d-block">
-                                            <h6 class="mb-0"><?= $block->escapeHtml($testimonial['name']) ?></h6>
-                                            <span><?= $block->escapeHtml($testimonial['location']) ?></span>
-                                        </div>
+                                    <div class="d-block">
+                                        <h6 class="mb-0"><?= $block->escapeHtml($testimonialData['name']) ?></h6>
+                                        <span><?= $block->escapeHtml($testimonialData['location']) ?></span>
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach; ?>     
+                        </div>
+                    <?php endforeach; ?>     
                 </div>
+            </div>
         </div>
     </div>
 </section>  
-     
-</div>
 <?php endif; ?>
 
 <script>
-      require(['jquery', 'slick'], function($) {
-        $(document).ready(function(){
-            $('.testimonial-slider').slick({
-                slidesToShow: 2, 
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 0,
-                arrows: false,
-                dots: false,
-                speed: 5000,
-                cssEase: 'linear',
-                vertical: true,
-                infinite: true,
-                responsive: [
-                    {
-                        breakpoint: 1024,
-                        settings: {
+require(['jquery', 'slick'], function($) {
+    $(document).ready(function(){
+        $('.testimonial-slider').slick({
+            slidesToShow: 2, 
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 0,
+            arrows: false,
+            dots: false,
+            speed: 5000,
+            cssEase: 'linear',
+            vertical: true,
+            infinite: true,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
                         slidesToShow: 2
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                        slidesToShow: 2
-                        }
-                    },
-                    {
-                        breakpoint: 640,
-                        settings: {
-                        slidesToShow: 1
-                        }
                     }
-                ]
-            });
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                },
+                {
+                    breakpoint: 640,
+                    settings: {
+                        slidesToShow: 1
+                    }
+                }
+            ]
         });
     });
-    </script>
+});
+</script>
