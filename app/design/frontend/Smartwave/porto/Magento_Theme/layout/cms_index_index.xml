@@ -25,17 +25,11 @@
             </block>
         </referenceContainer>
         <referenceContainer name="category_cart">
-            <block class="Magento\Cms\Block\Widget\Block" name="category_cart_widget" template="widget/static_block/default.phtml">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">2</argument>
-                </arguments>
+            <block class="GemsMed\CategoryName\Block\CategoryList" name="category_cart_widget" template="GemsMed_CategoryName::categoryName.phtml">
             </block>
         </referenceContainer>
         <referenceContainer name="category_slider">
-            <block class="Magento\Cms\Block\Widget\Block" name="category_slider_widget" template="widget/static_block/default.phtml">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">3</argument>
-                </arguments>
+            <block class="GemsMed\CategoryName\Block\CategoryList" name="category_slider_widget" template="GemsMed_CategoryName::category_list.phtml">
             </block>
         </referenceContainer>
          <referenceContainer name="service_block_after_category_slider">
