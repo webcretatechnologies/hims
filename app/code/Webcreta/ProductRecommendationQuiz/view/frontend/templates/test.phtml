@@ -14,6 +14,7 @@ if ((int) $status !== 0) {
     $questionData = $block->getQuestionData($categoryAttributeValue);
     if (!empty($questionData) && $questionData !== "null") { 
         ?>
+        <form action="#">
         <div id="quiz-container">
             <div class="question" data-question-id="">
                 <p></p>
@@ -21,11 +22,12 @@ if ((int) $status !== 0) {
             <div class="options">
             </div>
             <div class="customer_button">
-                <button id="back-question">Back</button>
-                <button id="reset-question">Reset</button>
-                <button id="next-question">Next</button>
+                <button type="button" id="back-question">Back</button>
+                <button type="button" id="reset-question">Reset</button>
+                <button type="button" id="next-question">Next</button>
             </div>
         </div>
+        </form>
         <?php 
     }
 } else {
@@ -89,14 +91,14 @@ if ((int) $status !== 0) {
                             if (response.data.type === 'text') {
                                     $('.options').append(
                                         '<div class="option">' +
-                                        '<input type="text" id="text_field" name="text_field">' +
+                                        '<input required type="text" id="text_field" name="text_field">' +
                                         '</div>'
                                     );
                                 } else if (response.data.type === 'multiselect') {
                                     $.each(response.data.options, function (index, option) {
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
@@ -105,7 +107,7 @@ if ((int) $status !== 0) {
                                     $.each(response.data.options, function (index, option) {
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
@@ -131,24 +133,50 @@ if ((int) $status !== 0) {
                 
             });
 
-            $('#next-question').on('click', function () {   
+            $('#next-question').on('click', function (e) {   
+                e.preventDefault();
+                var isValid = true;
+                var isRadio = $("input[type=radio]");
+                var isCheckbox = $("input[type=checkbox]");
                 var uncheckedCheckboxes = $("input[type=checkbox]:not(:checked)");
                 if (uncheckedCheckboxes.length > 0) {
-                
+                console.log("i am in a checkbox");
                     var selectedOptionId = [];
-                $("input[type=checkbox]:checked").each(function(){
-                    selectedOptionId.push($(this).val());
-                });
+                    $("input[type=checkbox]:checked").each(function(){
+                        selectedOptionId.push($(this).val());
+                    });
+                    if (selectedOptionId.length === 0 && isCheckbox.length > 0) {
+                        alert('Please select proper value.');
+                        isValid = false;
+                    }
                 }
+                console.log(selectedOptionId);
                 var selectedRadioValue = $("input[type=radio]:checked").val();
-                if (selectedRadioValue !== undefined) {
-                    var selectedOptionId = $("input[type=radio]:checked").val();
+                if(selectedRadioValue === 'undefined'){
+                if (isRadio.length > 0) {
+                    alert('Please select proper value.');
+                    isValid = false;
+                } else {
+                    selectedOptionId = selectedRadioValue;
+                    console.log(selectedOptionId);
                 }
+            }
+                // if (selectedRadioValue !== undefined) {
+                //     var selectedOptionId = $("input[type=radio]:checked").val();
+                // }
 
                 var textValue = $("input[name=text_field]").val();
                 console.log(textValue);
                 if (textValue !== undefined && textValue.trim() !== '') {
-                    var selectedOptionId = textValue;
+                    if(textValue){
+                        var selectedOptionId = textValue;
+                    }else{
+                    alert('Please add proper value.');
+                        isValid = false;
+                    }
+                }
+                if (!isValid) {
+                    return;
                 }
                 var currentQuestionId  = localStorage.getItem('nextQuestionId');
                 localStorage.setItem('question_id',currentQuestionId);
@@ -234,14 +262,14 @@ if ((int) $status !== 0) {
                                 if (response.data.type === 'text') {
                                     $('.options').append(
                                         '<div class="option">' +
-                                        '<input type="text" id="text_field" name="text_field">' +
+                                        '<input required type="text" id="text_field" name="text_field">' +
                                         '</div>'
                                     );
                                 } else if (response.data.type === 'multiselect') {
                                     $.each(response.data.options, function (index, option) {
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
@@ -250,7 +278,7 @@ if ((int) $status !== 0) {
                                 else if (response.data.type === 'media_image') {
                                         $('.options').append(
                                             '<div class="option">' +
-                                            '<input type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
+                                            '<input required type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
                                             '</div>'
                                         );
                                    
@@ -261,14 +289,14 @@ if ((int) $status !== 0) {
                                             $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
                                             '<img src="' + option.images + '" alt="Option Image">' +
-                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
                                         }else{
                                             $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
@@ -371,14 +399,14 @@ if ((int) $status !== 0) {
                                     var fieldValue = selectedOptionId ? selectedOptionId : '';
                                         $('.options').append(
                                             '<div class="option">' +
-                                            '<input type="text" id="text_field" name="text_field" value="' + fieldValue + '">' +
+                                            '<input required type="text" id="text_field" name="text_field" value="' + fieldValue + '">' +
                                             '</div>'
                                         );
                                 } else if (response.data.type === 'multiselect') {
                                     $.each(response.data.options, function (index, option) {
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '"' +
+                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '"' +
                                             (selectedOptionId.includes(option.value) ? ' checked' : '') + '>' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
@@ -388,7 +416,7 @@ if ((int) $status !== 0) {
                                 else if (response.data.type === 'media_image') {
                                         $('.options').append(
                                             '<div class="option">' +
-                                            '<input type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
+                                            '<input required type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
                                             '</div>'
                                         );
                                    
@@ -399,7 +427,7 @@ if ((int) $status !== 0) {
                                             $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
                                             '<img src="' + option.images + '" alt="Option Image" class = >' +
-                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
+                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
                                                 (option.value === selectedOptionId ? ' checked' : '') + '>' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
@@ -407,7 +435,7 @@ if ((int) $status !== 0) {
                                         }else{
                                             $('.options').append(
                                                 '<div class="option" data-option-id="' + option.value + '">' +
-                                                '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
                                                 (option.value === selectedOptionId ? ' checked' : '') + '>' +
                                                 '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                                 '</div>'

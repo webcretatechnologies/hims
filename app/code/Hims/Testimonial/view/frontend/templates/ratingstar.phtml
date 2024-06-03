@@ -1,0 +1,15 @@
+<?php
+$helper = $this->helper('Hims\Testimonial\Helper\Data');
+if ($block->Alltestimonial()): ?>
+<?php 
+$testimonials = $block->Alltestimonial();
+$baseUrl = $block->getBaseUrl();
+$totalRating = 0;
+$numTestimonials = count($testimonials);
+foreach ($testimonials as $testimonial) {
+    $testimonialData = $testimonial->getData();
+    $totalRating += (float)$testimonialData['rating'];
+}
+echo $averageRating = $numTestimonials > 0 ? number_format($totalRating / $numTestimonials, 1) : 0;
+?>
+<?php endif; ?>
