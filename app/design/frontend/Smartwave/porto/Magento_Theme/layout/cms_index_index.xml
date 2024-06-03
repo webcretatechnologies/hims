@@ -9,6 +9,13 @@
             <container name="home_page_first_banner" htmlTag="div" htmlClass="home_page_first_banner" />
             <container name="category_cart" htmlTag="div" htmlClass="category_cart" />
             <container name="category_slider" htmlTag="div" htmlClass="category_slider" />
+            <container name="service_block_after_category_slider" htmlTag="div" htmlClass="service_block_after_category_slider" />
+            <container name="product_slider_block" htmlTag="div" htmlClass="product_slider_block" />
+            <container name="testimonial_slider_block" htmlTag="div" htmlClass="testimonial_slider_block" />
+            <container name="single_product_block" htmlTag="div" htmlClass="single_product_block" />
+            <container name="brand_slider_block" htmlTag="div" htmlClass="brand_slider_block" />
+            <container name="customer_benefits_block" htmlTag="div" htmlClass="customer_benefits_block" />
+            <container name="faq_block" htmlTag="div" htmlClass="faq_block" />
         </referenceContainer>
         <referenceContainer name="home_page_first_banner">
             <block class="Magento\Cms\Block\Widget\Block" name="home_page_first_banner_widget" template="widget/static_block/default.phtml">
@@ -28,6 +35,55 @@
             <block class="Magento\Cms\Block\Widget\Block" name="category_slider_widget" template="widget/static_block/default.phtml">
                 <arguments>
                     <argument name="block_id" xsi:type="string">3</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+         <referenceContainer name="service_block_after_category_slider">
+            <block class="Magento\Cms\Block\Widget\Block" name="service_block_after_category_slider_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">4</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="product_slider_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="product_slider_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">5</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="testimonial_slider_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="testimonial_slider_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">6</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="single_product_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="single_product_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">7</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="brand_slider_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="brand_slider_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">8</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="faq_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="faq_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">9</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="customer_benefits_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="customer_benefits_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">10</argument>
                 </arguments>
             </block>
         </referenceContainer>

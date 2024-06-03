@@ -12,10 +12,13 @@
     
     $title = $_helper->getConfig('porto_settings/footer/footer_newsletter_title');//"Be the First to Know";
     $sub_title = $_helper->getConfig('porto_settings/footer/footer_newsletter_text');//"Get all the latest information on Events,<br>Sales and Offers. Sign up for newsletter today.";
+    $staticBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_logo')->toHtml();
 ?>
 <div class="block newsletter">
-    <div class="block-title"><strong><?php echo __($title); ?></strong></div>
+    <!-- <div class="block-title"><strong><?php echo __($title); ?></strong></div> -->
+    <div class="block-title"><a href="#"><?=$staticBlock?></a></div>
     <div class="content">
+
         <p><?php echo __($sub_title); ?></p>
         <label for="footer_newsletter"><?php echo __('Enter your email address') ?></label>
         <form class="form subscribe"
@@ -27,7 +30,7 @@
             <div class="field newsletter">
                 <label class="label" for="footer_newsletter"><span><?php echo __('Sign Up for Our Newsletter:') ?></span></label>
                 <div class="control">
-                    <input name="email" type="email" id="footer_newsletter"
+                    <input name="email" type="email" id="footer_newsletter" placeholder="Enter your Email..."
                                 data-validate="{required:true, 'validate-email':true}"/>
                 </div>
             </div>

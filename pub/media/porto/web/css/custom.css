@@ -1282,3 +1282,517 @@ body>.custom-html .mfp-close:before{content:'';position:absolute;width:17px;top:
 .text-uppercase {
     text-transform: uppercase !important;
 }
+
+
+
+/********************************************* NEW CUSTOME CSS *************************************************/
+a
+{
+    text-decoration: none;
+}
+body
+{
+    font-family: "Readex Pro", sans-serif !important;
+}
+.btn
+{
+    padding: 15px 25px !important;
+}
+.primary-btn
+{
+    background-color: #F3C395 !important;
+    color: black !important;
+    border-radius: 10px !important;
+    border-color: #F3C395 !important;
+}
+.secondary-btn
+{
+    background-color: transparent !important;
+    border: 1px solid black !important;
+    color: black !important;
+    border-radius: 10px !important;
+}
+.secondary-btn:hover 
+{
+    background-color: #F3C395 !important;
+    border-color: #F3C395 !important;
+}
+.green-btn
+{
+    background-color: #055346 !important;
+    border-radius: 50px !important;
+    color: white !important;
+}
+h1.hero-title
+{
+    font-size: 64px;
+}
+h1.hero-title span 
+{
+    color: #F3C395;
+}
+.py-50
+{
+    padding-top: 45px;
+    padding-bottom: 45px;
+}
+.my-50
+{
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+.hero-content p 
+{
+    font-size: 20px;
+    line-height: 30px;
+}
+span.hero-rating
+{
+    font-size: 18px;
+}
+.category-box
+{
+    background-color: #FFE9D3;
+    border-radius: 12px;
+}
+.category-box a
+{
+    color: black;
+}
+.category-box img 
+{
+    width: 130px;
+}
+h2.sec-title
+{
+    font-size: 36px;
+}
+h2.sec-title span
+{
+    color: #055346;
+}
+.category-slider .slider-item img 
+{
+    border-radius: 190px 190px 0px 0px;
+    height: 400px;
+    object-fit: cover;
+}
+.category-overlay
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+.category-overlay span
+{
+    background-color: #F3C395;
+    padding: 8px 8px 8px 30px;
+    border-radius: 0px 70px 0px 0px;
+    width: 80%;
+}
+.category-overlay span::before
+{
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 13px;
+    width: 3px;
+    background-color: black;
+    height: 14px;
+    z-index: 2;
+}
+.category-slider .slider-item .slider-inner
+{
+    border-radius: 190px 190px 0px 0px;
+    overflow: hidden;
+    position: relative;
+}
+.category-slider .slider-item .slider-inner::before
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #00000078;
+}
+button.slick-arrow
+{
+    border-radius: 50%;
+    background-color: #055346 !important;
+    color: white;
+    width: 46px !important;
+    height: 46px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+button.slick-prev
+{
+    left: -15px;
+}
+button.slick-next
+{
+    right: -15px;
+}
+button.slick-arrow::before
+{
+    color: white !important;
+    font-size: 24px !important;
+}
+.services-block
+{
+    background-color: #CDFDF5;
+    margin-top: 180px;
+    margin-bottom: 50px;
+}
+.service-box
+{
+    background-color: #066152;
+    padding: 25px 25px 25px 60px;
+    position: relative;
+    border-radius: 0px 12px 12px 0px;
+    margin: 15px 0px;
+    min-height: 155px;
+}
+.service-box .service-no{
+    position: absolute;
+    left: -81px;
+    font-size: 216px;
+    top: 61px;
+    color: #066152;
+    text-shadow: 5px 5px 0px #fff, -5px -5px 0px #fff, 5px -5px 0px #fff, 5px -5px 0px #fff;
+}
+.service-bg-img img
+{
+    width: 400px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.ps-7
+{
+    padding-left: 70px;
+}
+.pr-name
+{
+    font-size: 18px;
+    font-weight: 600;
+}
+.product-slider img 
+{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+.testimonial-slider-block
+{
+    background-color: #CDFDF5;
+}
+.testimonial-left
+{
+    padding: 50px 200px 50px 0px
+}
+.testimonial-left h2.sec-title 
+{
+    font-size: 46px;
+}
+.testimonial-rating h3.rating-point
+{
+    font-size: 48px;
+}
+.testimonial-rating sub 
+{
+    font-size: 20px;
+}
+.testimonial-left span
+{
+    color:#797979;
+}
+.testimonial-slider .slider-inner
+{
+    padding: 25px;
+    border-radius: 12px;
+    background-color: white;
+    margin: 15px 0px;
+}
+.testimonial-slider .slider-inner img
+{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.testimonial-slider h6,
+.testimonial-slider p
+{
+    color:#797979;
+}
+.testimonial-slider p
+{
+    font-size: 17px;
+}
+.single-product-right span
+{
+    font-size: 36px;
+    font-weight: 300;
+}
+.single-product-right ul 
+{
+    padding-left: 0px;
+    list-style-type: none;
+    margin: 20px 0px;
+}
+.single-product-right ul li 
+{
+    margin: 10px 0px;
+}
+.brand-slider .slider-inner
+{
+    padding: 10px;
+}
+.brand-slider .slider-inner img 
+{
+    margin: auto;
+}
+.benifit-box
+{
+    padding: 30px 25px;
+    background-color: #FFF7F2;
+    border-radius: 12px;
+}
+.benifit-box span
+{
+    display: flex;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #F3C395;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 30px;
+}
+.footer-middle,.footer-bottom
+{
+    background-color:#055346 !important;
+}
+.footer-contact ul li 
+{
+    padding-bottom: 15px;
+    color: white;
+}
+.footer-contact h4,.footer-links h4
+{
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+.footer-contact span
+{
+    margin-right: 10px;
+}
+.footer-bottom address
+{
+    margin-bottom: 0px;
+    padding: 0px;
+    text-align: center;
+    color: white;
+}
+.footer-middle>.container::after
+{
+    border-color: white;
+}
+.footer-middle .block.newsletter
+{
+    padding-right: 150px;
+}
+.footer-middle .block.newsletter p 
+{
+    color: white;
+}
+.footer-links ul li 
+{
+    padding-bottom: 10px;
+}
+button.subscribe,button.subscribe:hover
+{
+    background-color: #F3C395 !important;
+    border-radius: 30px !important;
+    color: black !important;
+}
+.footer .newsletter input
+{
+    border-radius: 30px;
+}
+.block.newsletter .form.subscribe
+{
+    display: flex;
+    position: relative;
+}
+.block.newsletter .form.subscribe .field.newsletter
+{
+    width: 100%;
+}
+.form.subscribe .action
+{
+    position: absolute;
+    right: 0;
+    width: auto;
+}
+.columns .column.main
+{
+    padding-bottom: 0px;
+}
+.faq-accordion
+{
+    border: none;
+}
+.faq-accordion .accordion-item
+{
+    border: none;
+    background-color: #F6F6F6;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+.faq-accordion .accordion-item:last-child
+{
+    margin-bottom: 0px;
+}
+.faq-accordion .accordion-button
+{
+    border: none;
+    background-color: #FFF7F2;
+    padding: 15px;
+    border-radius: 10px !important;
+    font-size: 20px;
+    color: black;
+}
+.faq-accordion .accordion-button:not(.collapsed)
+{
+    background-color: #F3C395;
+}
+
+@media (max-width: 992px){
+
+    h1.hero-title
+    {
+        font-size: 42px;
+    }
+    .py-50
+    {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .my-50
+    {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    button.slick-arrow
+    {
+        display: none !important;
+    }
+    .services-block
+    {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    h2.sec-title,.single-product-right span
+    {
+        font-size: 30px;
+    }
+    .testimonial-left
+    {
+        padding: 50px 0px 50px 0px;
+    }
+    .testimonial-rating h3.rating-point,.testimonial-left h2.sec-title 
+    {
+        font-size: 36px;
+    }
+    .single-product-right
+    {
+        margin-top: 30px;
+    }
+    .benifit-box
+    {
+        margin-bottom: 20px;
+    }
+    .footer-middle .col-lg-2,
+    .footer-middle .col-lg-5,
+    .footer-middle .col-lg-3
+    {
+        width: 50%;
+    }
+    .footer-middle .block.newsletter
+    {
+        padding-right: 0px;
+    }
+    .footer-links,.footer-contact,.block.newsletter
+    {
+        margin-bottom: 20px;
+    }
+
+}
+
+
+
+
+@media (max-width: 640px){
+
+    h1.hero-title
+    {
+        font-size: 30px;
+    }
+    .py-50
+    {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+    .hero-content p {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    h2.sec-title,.single-product-right span {
+        font-size: 24px;
+    }
+    .my-50
+    {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    .services-block
+    {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    .benifit-box
+    {
+        display: flex;
+        padding: 15px 15px;
+        align-items: center;
+    }
+    .benifit-box span {
+        width: 60px;
+        height: 60px;
+        margin: 0px;
+        margin-right: 15px;
+        margin-bottom: 0px;
+    }
+    .footer-middle .col-lg-2,
+    .footer-middle .col-lg-5,
+    .footer-middle .col-lg-3
+    {
+        width: 100%;
+    }
+    .faq-accordion .accordion-button
+    {
+        font-size: 16px;
+    }
+
+}

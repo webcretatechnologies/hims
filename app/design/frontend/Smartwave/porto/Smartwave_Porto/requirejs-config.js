@@ -8,7 +8,8 @@ var config = {
         'lazyload': 'js/jquery.lazyload',
         'owlcarousel': 'owl.carousel/owl.carousel',
         'parallax': 'js/jquery.parallax.min',
-        'floatelement': 'js/jquery.floatelement'
+        'floatelement': 'js/jquery.floatelement',
+        'bootstrap' : 'Smartwave_Porto/js/bootstrap',
     },
     shim: {
         'packery': {
@@ -28,6 +29,9 @@ var config = {
         },
         'floatelement': {
           deps: ['jquery']
+        },
+        'bootstrap': {
+            deps: ['jquery']
         }
     }
 };
