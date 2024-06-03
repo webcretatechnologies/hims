@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="faq_faqbackend_listing_data_source" xsi:type="string">Sparsh\Faq\Model\ResourceModel\Faq\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Sparsh\Faq\Model\ResourceModel\Faq\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">sparsh_faq</argument>
+            <argument name="eventPrefix" xsi:type="string">sparsh_faq_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">faq_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Sparsh\Faq\Model\ResourceModel\Faq</argument>
+        </arguments>
+    </type>
+    <virtualType name="FaqGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="FaqGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Sparsh\Faq\Model\ResourceModel\Faq\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">FaqGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+
+    <preference for="Sparsh\Faq\Api\FaqRepositoryInterface" type="Sparsh\Faq\Model\FaqRepository" />
+    <preference for="Sparsh\Faq\Api\Data\FaqInterface" type="Sparsh\Faq\Model\Faq" />
+
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Sparsh\Faq\Api\Data\FaqInterface" xsi:type="string">Sparsh\Faq\Api\FaqRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type> 
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Sparsh\Faq\Api\Data\FaqInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">sparsh_faq</item>
+                    <item name="identifierField" xsi:type="string">faq_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Sparsh\Faq\Api\Data\FaqInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="storeReader" xsi:type="string">Sparsh\Faq\Model\ResourceModel\Faq\Relation\Store\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="storeCreator" xsi:type="string">Sparsh\Faq\Model\ResourceModel\Faq\Relation\Store\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="storeUpdater" xsi:type="string">Sparsh\Faq\Model\ResourceModel\Faq\Relation\Store\SaveHandler</item>
+                    </item>
+                </item>                
+           </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Sparsh\Faq\Api\Data\FaqInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- faq category -->
+    <virtualType name="FaqCategoryGirdFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">
+                    Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter
+                </item>
+                <item name="fulltext" xsi:type="object">
+                    Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="FaqCategoryGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">
+                Sparsh\Faq\Model\ResourceModel\FaqCategory\Collection
+            </argument>
+            <argument name="filterPool" xsi:type="object" shared="false">FaqCategoryGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="faq_faqcategorybackend_listing_data_source" xsi:type="string">
+                    Sparsh\Faq\Model\ResourceModel\FaqCategory\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Sparsh\Faq\Model\ResourceModel\FaqCategory\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">sparsh_faq_category</argument>
+            <argument name="resourceModel" xsi:type="string">Sparsh\Faq\Model\ResourceModel\FaqCategory
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

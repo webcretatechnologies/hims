@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::faq_settings" title="FAQ" translate="title" sortOrder="70">
+                    <resource id="Magento_Backend::faq_manage" title="Manage FAQ" translate="title" sortOrder="70">
+                        <resource id="Sparsh_Faq::sparsh_faq_category" title="Manage FAQ Category" translate="title" sortOrder="10" />
+                        <resource id="Sparsh_Faq::sparsh_faq" title="FAQ" translate="title" sortOrder="20" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Sparsh_Faq::faq" title="Sparsh Faq Section" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

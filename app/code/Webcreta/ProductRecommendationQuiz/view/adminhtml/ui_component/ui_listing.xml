@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">ui_listing.category</item>
+            <item name="deps" xsi:type="string">ui_listing.category</item>
+        </item>
+        <item name="spinner" xsi:type="string">columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New Category</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">productrecommendationquiz/category/addnewcategory</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="category">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">category</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render" />
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listing>
+        <listingToolbar>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="applied" xsi:type="array">
+                        <item name="is_approved" xsi:type="string">1</item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+            <massaction name="listing_massaction" >
+                 <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">ui_listing.ui_listing.columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="displayArea" xsi:type="string">bottom</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+                <!-- <action name="delete">
+                    <settings>
+                        <confirm>
+                            <message translate="true">Delete selected items?</message>
+                            <title translate="true">Delete items</title>
+                        </confirm>
+                        <url path="pushnotifications/index/deletenotification" />
+                        <type>delete</type>
+                        <label translate="true">Delete</label>
+                    </settings>
+                </action> -->
+                 <action name="disable">
+                    <settings>
+                            <confirm>
+                                <message translate="true">Disable selected items?</message>
+                                <title translate="true">Disable items</title>
+                            </confirm>
+                            <url path="productrecommendationquiz/category/disablestatus" />
+                            <type>disable</type>
+                            <label translate="true">Disable</label>
+                        </settings>
+                </action>
+                <action name="enable">
+                    <settings>
+                            <confirm>
+                                <message translate="true">Enable selected items?</message>
+                                <title translate="true">Enable items</title>
+                            </confirm>
+                            <url path="productrecommendationquiz/category/enablestatus" />
+                            <type>enable</type>
+                            <label translate="true">Enable</label>
+                        </settings>
+                </action>
+            </massaction>
+            <paging name="listing_paging" />
+        </listingToolbar>
+    </listing>
+
+    <columns name="columns">
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">ui_listing.ui_listing.columns.actions</item>
+                    <item name="target" xsi:type="string">applyAction</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">view</item>
+                        <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids" >
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="category" class="Webcreta\ProductRecommendationQuiz\Ui\Component\Column\CategoryName">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="label" xsi:type="string" translate="true">category</item>
+                </item>
+            </argument>
+        </column>
+        <column name="status" class="Webcreta\ProductRecommendationQuiz\Ui\Component\Column\Status">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="label" xsi:type="string" translate="true">status</item>
+                </item>
+            </argument>
+        </column>
+        <actionsColumn name="actions" class="Webcreta\ProductRecommendationQuiz\Ui\Component\Column\ActionsCategory">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

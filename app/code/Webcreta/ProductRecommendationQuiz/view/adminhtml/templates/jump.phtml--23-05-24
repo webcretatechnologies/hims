@@ -1,0 +1,478 @@
+<?php
+$blockObject= $block->getLayout()->createBlock('Webcreta\ProductRecommendationQuiz\Block\GetAttribute');
+$params = $blockObject->getRequest()->getParams(); 
+// print_r($params);
+$id = isset($params['id']) ? $params['id'] : null; // Check if 'id' key exists
+
+$allQuestion = $block->getQuestion($id);
+$_productCollection = $block->getProductData($id);
+$ProductQuestionData = $block->getProductQuestionData($id);
+// dd($ProductQuestionData);
+if(empty($ProductQuestionData)){
+    $ProductQuestionData=[[]];
+}
+// echo"<pre>";
+// print_r($ProductQuestionData);
+?>
+<form id="mainForm">
+
+    <!-- <input type="text" name="set_id" value="" class = "set_id"> -->
+<div class="custom">
+    <div class="customer_label">
+        <h4 class="default_label">Default </h4>
+        <h4 class="question_label">Question</h4>
+        <h4 class="value_label">Value</h4>
+        <h4 class='nq_label'>Next Question</h4>
+        <!-- <h4>Product</h4> -->
+        <h4 class="action">Action</h4>
+    </div>
+  
+    <?php foreach ($ProductQuestionData as $index =>$data): ?>
+        <div class = "main_field">
+            <input type="hidden" class="category_id" name="category_id" value="<?php echo $id; ?>">
+                <input type="hidden" class="category_id" name="set_id" value="<?php echo $id; ?>">
+               
+            <div class="field">
+            
+                <input type="hidden" class ="record_id" name="id[]" value="<?php echo isset($data['id']) ? $data['id'] : ''; ?>">
+                <input type="hidden" class ="attribute_id" name="attribute_set_id[]" value="<?php echo isset($data['attribute_set_id']) ? $data['attribute_set_id'] : ''; ?>">
+
+                <input type="radio" name="default_id[]" id="my_checkbox_<?php echo isset($data['default_id']) ? $data['default_id'] : ''; ?>" <?php if (isset($data['default_id']) && $data['default_id'] == 1) echo 'checked'; ?>>
+
+                <select name="question_id[]" id="question" class="question custom_fields options_valuess">
+                    <option value="">Select Question</option>
+                    <?php foreach ($allQuestion as $item): ?>
+                        <?php $isSelected = isset($data['question_id']) && $item['value'] == $data['question_id'] ? 'selected' : ''; ?>
+
+                        <option value="<?php echo $item['value']; ?>" <?php echo $isSelected; ?>><?php echo $item['label']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            
+                <span class = "option_value custom_fields">
+                    <?php
+                        $getOptionsByQuestionId = [];
+                        if (isset($data['question_id'])) {
+                            $getOptionsByQuestionId = $block->getOptionsByQuestionId($data['question_id']);
+                            // print_r($getOptionsByQuestionId);
+                            $getmultitype = $block->getMultipleType($data['question_id']);
+                            // print_r($getmultitype);
+                        }
+                        ?>
+                        <?php
+                        if (!isset($getmultitype) || ($getmultitype != "text" && $getmultitype != "select" && $getmultitype != "multiselect" && $getmultitype != "media_image")) {
+                            $getmultitype = "select"; 
+                        }
+                    ?>
+
+                    <?php if (isset($getmultitype) && ($getmultitype == "select" || $getmultitype == "multiselect" || $getmultitype == "media_image")):
+                    ?>
+                            <select name="option_id[]" id="value" class="value dropdown options_valuess<?php if ($getmultitype == "multiselect") echo ' admin__control-multiselect'; ?>" <?php if ($getmultitype == "multiselect") echo ' multiple'; ?>>
+                                <?php
+                                if (empty($getOptionsByQuestionId)) {
+                                    $finalQuestionValue = '0';
+                                    $finalQuestionLabel = 'No option found';
+                                    $isSelected = isset($data['option_id']) && $finalQuestionValue == $data['option_id'] ? 'selected' : '';
+                                ?>
+                                <option value="<?php echo $finalQuestionValue; ?>" <?php echo $isSelected; ?>><?php echo $finalQuestionLabel; ?></option>
+
+                                
+                                <?php  } else {
+                                    foreach ($getOptionsByQuestionId as $option) {
+                                        $isSelected = '';
+                                        if (is_string($data['option_id'])) {
+                                            $selectedOptions = explode(',', $data['option_id']);
+                                            if (in_array($option['value'], $selectedOptions)) {
+                                                $isSelected = 'selected';
+                                            }
+                                        } elseif (is_array($data['option_id'])) {
+                                            if (in_array($option['value'], $data['option_id'])) {
+                                                $isSelected = 'selected';
+                                            }
+                                        }
+                                        ?>
+                                        <option value="<?php echo $option['value']; ?>" <?php echo $isSelected; ?>>
+                                            <?php echo $option['label']; ?>
+                                        </option>
+                                    <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                <?php endif; ?>
+                <?php if(isset($getmultitype) && $getmultitype == "text"):?>
+                           
+                    <input type="text" class ="value options_valuess input" name="option_id[]" value="<?= $data['option_id'] ?>">
+                <?php endif;?>
+                </span>
+                <select name="next_question_id[]" id="nextQuestion" class="nextQuestion custom_fields options_valuess">
+                    <option value="">Select Next Question</option>
+                    <?php foreach ($allQuestion as $item): ?>
+                        <?php $isSelected = isset($data['next_question_id']) && $item['value'] == $data['next_question_id'] ? 'selected' : ''; ?>
+                        <option value="<?php echo $item['value']; ?>" <?php echo $isSelected; ?>><?php echo $item['label']; ?></option>
+                    <?php endforeach; ?>
+                    <?php
+                        // Add a static final question option here
+                        $finalQuestionValue = 'final_question';
+                        $finalQuestionLabel = 'Final Question';
+                        $isSelected = isset($data['next_question_id']) && $finalQuestionValue == $data['next_question_id'] ? 'selected' : '';
+                    ?>
+                    <option value="<?php echo $finalQuestionValue; ?>" <?php echo $isSelected; ?>><?php echo $finalQuestionLabel; ?></option>
+                </select>
+
+                <button type="button" class="delete_button_recored_from_database">Delete</button>
+
+            </div>
+
+            <?php
+                if (isset($data['next_question_id'])) {
+                    $productId = $data['next_question_id'];
+                    if ($productId === "final_question") {
+                        ?>
+                        <div class="product_field">
+                            <select name="product[]" class="product product-select-2 options_valuess" id="product_<?php echo $index; ?>">
+                                <option value="">Select Product</option>
+                                <?php foreach ($_productCollection as $_product): ?>
+                                    <?php
+                                    $selected = in_array($_product->getId(), explode(',', $data['product'])) ? 'selected="selected"' : '';
+                                    ?>
+                                    <option value="<?php echo $_product->getId(); ?>" <?php echo $selected; ?>>
+                                        <?php echo $_product->getName() . ' - ' . $_product->getSku() . ' - ' . $_product->getPrice(); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php
+                    } else {
+                        ?>
+                        <div class="product_field" style="display: none;">
+                            <select name="product[]" class="product options_valuess" id="product_<?php echo $index; ?>">
+                                <option value="">Select Product</option>
+                                <?php foreach ($_productCollection as $_product): ?>
+                                    <option value="<?php echo $_product->getId(); ?>">
+                                        <?php echo $_product->getName() . ' - ' . $_product->getSku() . ' - ' . $_product->getPrice(); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <div class="product_field" style="display: none;">
+                        <select name="product[]" class="product options_valuess" id="product_<?php echo $index; ?>">
+                            <option value="">Select Product</option>
+                            <?php foreach ($_productCollection as $_product): ?>
+                                <option value="<?php echo $_product->getId(); ?>">
+                                    <?php echo $_product->getName() . ' - ' . $_product->getSku() . ' - ' . $_product->getPrice(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php
+                }
+            ?>
+
+        </div>
+    <?php endforeach; ?>
+
+   
+  
+    <button type="button" id="addNew">Add New</button>
+    <button type="button" id="save">Save</button>
+</div>
+</form>
+
+<script>
+    require(['jquery', 'select2'], function($,select2) {
+        $(document).ready(function() {
+            $('.product-select-2').select2();
+
+            $(document).on('click', '.delete_button_recored_from_database', function() {
+                var recordId = $(this).closest('.field').find('.record_id').val(); 
+                // $(this).closest('.field').hide(); 
+                if(recordId){
+                    if (confirm('Are you sure you want to delete this record?')) {
+                        $(this).closest('.main_field').hide(); 
+                        $.ajax({
+                            url: '<?php echo $block->getUrl('productrecommendationquiz/jump/delete'); ?>',
+                            type: 'POST',
+                            data: {record_id: recordId},
+                            success: function(response){
+                                $(this).closest('.main_field').hide();                
+                                console.log('Record deleted successfully');
+                            },
+                            error: function(xhr, status, error){
+                                console.error('Error deleting record:', error);
+                            }
+                        });
+                    } else {
+                        console.log('Deletion cancelled');
+                    }
+                }else{
+                    $(this).closest('.main_field').remove();
+                }
+            });
+
+
+            $('#save').click(function(e) {
+                e.preventDefault(); 
+
+                var $custome_field = $(this).closest('.custom');
+                // console.log($custome_field);
+                $custome_field.find("select[name='option_id[]']").each(function() {
+                    $custome_field.find('.field .option_value select[name="option_id[]"][style="display: none;"]').remove();
+
+                });
+                $custome_field.find('.field').find('.option_value').find('select[name="option_id[]"][style="display: none;"]').remove();
+
+                console.log("test");
+                
+                var data = {
+                    id:[],
+                    category_id: [],
+                    attribute_set_id: [],
+                    question_id: [],
+                    condition_id: [],
+                    option_id: [],
+                    next_question_id: [],
+                    default_id:[],
+                    product:[],
+                };
+
+                console.log(data);
+
+                data.category_id = $custome_field.find("input[name='category_id']").val(); // Assigning value directly to the property
+
+
+                $custome_field.find("input[name='id[]']").each(function() {
+                    data.id.push($(this).val());
+                });
+                $custome_field.find("select[name='product[]']").each(function() {
+                    data.product.push($(this).val());
+                });
+                $custome_field.find("input[name='attribute_set_id[]']").each(function() {
+                    data.attribute_set_id.push($(this).val());
+                });
+
+                $custome_field.find("select[name='question_id[]']").each(function() {
+                    data.question_id.push($(this).val());
+                });
+
+                var $select_option = $custome_field.find("select[name='option_id[]']");
+                var $input_option = $custome_field.find("input[name='option_id[]']");
+
+                var $all_options = $select_option.add($input_option);
+
+                $all_options.each(function() {
+                    data.option_id.push($(this).val());
+                });
+
+                $custome_field.find("input[name='default_id[]']").each(function() {
+                    data.default_id.push($(this).prop('checked') ? $(this).val() : '');
+                });
+
+
+                $custome_field.find("select[name='next_question_id[]']").each(function() {
+                    data.next_question_id.push($(this).val());
+                });
+
+                console.log(data);
+                // console.log(hsud);
+                $.ajax({
+                    url: '<?php echo $block->getUrl('productrecommendationquiz/jump/save'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function(response) {
+                        location.reload();
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+
+
+            $('#addNew').click(function() {
+                var fieldClone = $('.main_field').first().clone(); 
+                fieldClone.find('input, select').val(''); 
+
+                var lastField = $('.main_field').last();
+                
+                fieldClone.find('input[type="radio"]').prop('checked', false);
+
+                lastField.after(fieldClone); 
+            });
+
+
+            $(document).on('change', '.question', function() {
+                console.log("change");
+                var selectedQuestion = $(this).val();
+
+                var getDropdown = $(this).closest('.field').find('.option_value').find('select[name="option_id[]"]');
+                var addFieldInput = $(this).closest('.field').find('.option_value');
+                var addDropDown = $(this).closest('.field').find('.option_value');
+                var nextQuestionSelect = $(this).closest('.field').find('.option_value').find('.value');
+
+                nextQuestionSelect.empty().append('<option value="">Select Value</option>');
+
+                if (selectedQuestion !== '') {
+                    $.ajax({
+                        url: '<?php echo $block->getUrl('productrecommendationquiz/index/getoptions'); ?>',
+                        type: 'GET',
+                        data: { attribute_id: selectedQuestion },
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log("Response received:", response);
+                            if (response.options && response.options.length > 0) {
+                                console.log(response.options[0].type);
+                                if(response.options[0].type == "select" || response.options[0].type == "multiselect"){
+                                    // if(response.options[0].type == "multiselect"){
+                                    //     getDropdown.remove();
+                                    // }
+                                getDropdown.show();
+                                addFieldInput.find('.input').remove();
+
+                                var validOptionsExist = false;
+                                $.each(response.options, function(index, question) {
+                                    if (question.value.trim() !== '' && question.label.trim() !== '') {
+                                        nextQuestionSelect.append('<option value="' + question.value + '">' + question.label + '</option>');
+                                        validOptionsExist = true;
+                                    } else {
+                                        console.log("Skipping option due to empty label or value.");
+                                    }
+                                });
+                                }else if(response.options[0].type == "text") {
+                                        console.log("add text filed here");
+                                        getDropdown.hide();
+                                        addFieldInput.append('<input type="text" class="value input options_valuess" name="option_id[]" value="">');
+                                        console.log("No valid options available");
+                                    }else{
+                                        // nextQuestionSelect.append('<option value="">No options found</option>');
+
+                                    }
+                            } else {
+                                // getDropdown.hide();
+                                // addFieldInput.append('<input type="text" class="value" name="option_id[]" value="">');
+                                console.log("No options available");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error occurred while fetching options:", error);
+                        }
+                    });
+                }
+            });
+
+            $(document).on('change', '.nextQuestion', function() {
+                console.log("nextQuestion");
+                var selectedQuestion = $(this).val();
+                console.log(selectedQuestion);
+                var nearestProduct = $(this).closest('.main_field').find('.product_field');
+
+                if (selectedQuestion === 'final_question') {
+                    nearestProduct.show(); 
+                } else {
+                    nearestProduct.hide(); // Hide the nearest .product element
+                }
+            });
+
+
+
+        });
+    });
+</script>
+
+<style>
+   .custom_fields{
+
+   }
+#mainForm {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Style the labels */
+.customer_label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.customer_label h4 {
+    margin: 0;
+}
+
+/* Style the input fields */
+.field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+/* .field input[type="text"],
+.field select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+} */
+.options_valuess {
+    /* flex: 1; */
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+.field select {
+    cursor: pointer;
+}
+h4.action {
+    margin-right: 4%;
+}
+
+.product {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+/* Style the buttons */
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#addNew {
+    margin-right: 10px;
+}
+
+.main_field {
+    margin-top: 2%;
+    border: 1px solid #aaa6a7;
+    padding: 19px;
+}
+
+.product_field {
+    margin-left: 37%;
+    align-items: center;
+}
+</style>

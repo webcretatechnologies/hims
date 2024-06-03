@@ -1,0 +1,96 @@
+/* FAQ */
+.sparsh-faq-block .accordion .block > .question {
+  border-bottom: 1px solid #cccccc;
+  padding: 10px 40px 10px 0;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  margin-bottom: 0;
+  position: relative;
+  cursor: pointer;
+  line-height: 32px;
+}
+.sparsh-question-answer .content-heading:before{
+  content: none;
+}
+@media(min-width: 767px){
+  .sparsh-block-content.column1layout{
+    float :  left;
+    padding-left :  0;
+    padding-right :  2%;
+    width :  18.833333%;
+    margin-top :  10px;
+    margin-bottom: 40px;
+  }
+  .sparsh-question-answer.column1layout >.content-heading:first-child{
+    float: right;
+    width: 79.16666667%;
+  }
+  .sparsh-question-answer.column1layout .sparsh-faq-block {
+    float: right;
+    width: 79.16666667%;
+  }
+}
+.sparsh-faq-block h2{
+  text-align: center;
+}
+.sparsh-block-subtitle {
+  border-bottom: 1px solid #cccccc;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1em;
+  padding: 10px 10px 20px;
+}
+.sparsh-block-item{
+  border-bottom: 1px solid #cccccc;
+  padding: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.sparsh-block-item.active{
+  font-weight: bold;
+}
+.sparsh-faq-block .accordion .block > .question::after {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 12px;
+  line-height: 12px;
+  color: inherit;
+  content: '\e622';
+  font-family: 'luma-icons';
+  margin: 3px 0 0;
+  vertical-align: middle;
+  display: inline-block;
+  font-weight: normal;
+  overflow: hidden;
+  speak: none;
+  text-align: center;
+}
+
+.sparsh-faq-block .accordion .block > .open::after {
+  content: '\e621' !important;
+}
+
+.sparsh-faq-block .accordion .block > .question strong {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.sparsh-faq-block .answer{
+  padding: 10px 0px 10px 0px;
+  display: none;
+  overflow: hidden;
+  line-height: 32px;
+  font-size: 1.7rem;
+  font-weight: 400;
+}
+
+@media(max-width: 767px){
+  .sparsh-faq-block .accordion .block > .question::after {
+    top: 20px;
+  }
+}
