@@ -1,0 +1,67 @@
+<?php
+    $categoryCollection = $block->getCategoryCollection();
+?>
+
+<section class="category-slider-block py-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <h2 class="sec-title">Get a personalized treatment plan with <span>Doctor‑trusted solutions</span></h2>
+            </div>
+            <div class="col-lg-12">
+                <div class="category-slider">
+                    <?php foreach ($categoryCollection as $category): ?>
+                    <div class="slider-item px-2">
+                        <div class="slider-inner">
+                            <a href="#">
+                                <img src="<?php echo $category->getimage(); ?>" alt="" />
+                                <div class="category-overlay">
+                                    <h4 class="category-tagline text-white p-3 m-0">Looking to lose some weight?</h4>
+                                    <span class="position-relative d-flex text-black"><?php echo $category->getName(); ?></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+<script>
+    require(['jquery', 'slick'], function($) {
+        $(document).ready(function(){
+            $('.category-slider').slick({
+                slidesToShow: 4, 
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                arrows: true,
+                dots: false,
+                prevArrow:'<button type="button" data-role="none" class="slick-prev"></button>',
+                nextArrow:'<button type="button" data-role="none" class="slick-next"></button>',
+                responsive: [
+                    {
+                        breakpoint: 1024,
+                        settings: {
+                        slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                        slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 640,
+                        settings: {
+                        slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        });
+    });
+</script>

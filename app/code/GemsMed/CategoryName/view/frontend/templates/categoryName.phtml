@@ -1,0 +1,26 @@
+<?php
+    $categoryCollection = $block->getCategoryCollectionWithIsFeatrured();
+?>
+<section class="category-block py-50">
+    <div class="container">
+        <div class="row">
+            <?php foreach ($categoryCollection as $category): ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-box mb-4 p-4 d-flex justify-content-between align-items-center">
+                        <div class="d-block">
+                            <img src="<?php echo $category->getimage(); ?>" alt="" />
+                        </div>
+                        <div class="d-block text-end">
+                            <h5 class="category-name fs-md-5 fs-6"><?php echo $category->getName(); ?></h5>
+                            <a href="<?php echo $category->getUrl(); ?>">Explore 
+                                <svg class="ms-1" width="17" height="22" viewBox="0 0 17 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.3949 11.1995L9.71913 17.1058C9.62165 17.2289 9.48943 17.2981 9.35156 17.2981C9.2137 17.2981 9.08148 17.2289 8.98399 17.1058C8.88651 16.9826 8.83174 16.8156 8.83174 16.6415C8.83174 16.4673 8.88651 16.3003 8.98399 16.1772L12.7733 11.3915H2.59766C2.45987 11.3915 2.32772 11.3223 2.23029 11.1993C2.13286 11.0762 2.07813 10.9093 2.07813 10.7352C2.07813 10.5612 2.13286 10.3943 2.23029 10.2712C2.32772 10.1481 2.45987 10.079 2.59766 10.079H12.7733L8.98399 5.29327C8.88651 5.17014 8.83174 5.00312 8.83174 4.82898C8.83174 4.65483 8.88651 4.48782 8.98399 4.36468C9.08148 4.24154 9.2137 4.17236 9.35156 4.17236C9.48943 4.17236 9.62165 4.24154 9.71913 4.36468L14.3949 10.2709C14.4432 10.3319 14.4815 10.4043 14.5077 10.4839C14.5338 10.5636 14.5473 10.649 14.5473 10.7352C14.5473 10.8215 14.5338 10.9069 14.5077 10.9865C14.4815 11.0662 14.4432 11.1386 14.3949 11.1995Z" fill="black"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
