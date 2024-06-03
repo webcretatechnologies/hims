@@ -152,15 +152,15 @@ if ((int) $status !== 0) {
                 }
                 console.log(selectedOptionId);
                 var selectedRadioValue = $("input[type=radio]:checked").val();
-                if(selectedRadioValue === 'undefined'){
-                if (isRadio.length > 0) {
+                if (selectedRadioValue === undefined && isRadio.length > 0) {
                     alert('Please select proper value.');
                     isValid = false;
                 } else {
+                    if (isRadio.length > 0) {
                     selectedOptionId = selectedRadioValue;
                     console.log(selectedOptionId);
+                    }
                 }
-            }
                 // if (selectedRadioValue !== undefined) {
                 //     var selectedOptionId = $("input[type=radio]:checked").val();
                 // }
