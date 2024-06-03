@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">testimonial_record.testimonial_record_data_source</item>
+            <item name="deps" xsi:type="string">testimonial_record.testimonial_record_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">testimonial_records_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New Testimonial</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/newaction</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="testimonial_record_data_source">
+   
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">testimonial_record_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">testimonial_id</argument>
+            <argument name="requestFieldName" xsi:type="string">testimonial_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+         <settings>
+            <storageConfig>
+                <param name="cacheRequests" xsi:type="boolean">false</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+    </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+                <item name="stickyTmpl" xsi:type="string">ui/grid/sticky/toolbar</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">testimonial_record.testimonial_record.testimonial_records_columns</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">testimonial_record.testimonial_record.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">testimonial_record.testimonial_record.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">testimonial_record.testimonial_record.testimonial_records_columns.${ $.index }:visible</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+        </filters>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">testimonial_record.testimonial_record.testimonial_records_columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">testimonial_id</item>
+                </item>
+            </argument>
+            <!-- Mass actions which you want to add in your grid-->
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="*/*/massdelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected row record?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="approved">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">approve</item>
+                        <item name="label" xsi:type="string" translate="true">Approve</item>
+                        <item name="url" xsi:type="url" path="*/*/massapproved"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Approve</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to approve the selected row record?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+
+            <action name="rejected">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">reject</item>
+                        <item name="label" xsi:type="string" translate="true">Reject</item>
+                        <item name="url" xsi:type="url" path="*/*/massrejected"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Reject</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to reject the selected row record?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">testimonial_record.testimonial_record.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">testimonial_record.testimonial_record.testimonial_records_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+    <columns name="testimonial_records_columns">
+        <selectionsColumn name="ids">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                <item name="filter" xsi:type="string">true</item>
+                   <item name="indexField" xsi:type="string">testimonial_id</item>
+               </item>
+           </argument>
+        </selectionsColumn>
+        <column name="testimonial_id">
+           <argument name="data" xsi:type="array">  
+               <item name="config" xsi:type="array">
+                 <item name="sorting" xsi:type="string">desc</item>
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string">Id</item>
+               </item>
+           </argument>
+       </column>
+       <column name="image" class="Hims\Testimonial\Ui\Component\Listing\Grid\Column\Logo">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/thumbnail</item>
+                <item name="label" xsi:type="string" translate="true">Customer Image</item>
+                <item name="altField" xsi:type="string">title</item>    
+                <item name="has_preview" xsi:type="string">1</item>
+                <item name="sortOrder" xsi:type="number">30</item>
+            </item>
+        </argument>
+        </column>
+       <column name="name">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">text</item>
+                   <item name="label" xsi:type="string" translate="true">Customer Name</item>
+               </item>
+           </argument>
+       </column>
+       <column name="email" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                     <item name="filter" xsi:type="string">text</item> 
+                   <item name="label" xsi:type="string" translate="true">Customer Email</item>
+               </item>
+           </argument>
+       </column>
+       <column name="message" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Message</item>
+               </item>
+           </argument>
+       </column>
+       <!--  -->
+    
+       <column name="status" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Status</item>
+               </item>
+           </argument>
+       </column>
+        <column name="location" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Location</item>
+               </item>
+           </argument>
+       </column>
+       <!-- <column name="youtube" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">Youtube Link</item>
+               </item>
+           </argument>
+       </column>
+       <column name="twitter" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">twitter</item>
+               </item>
+           </argument>
+       </column>
+       <column name="facebook" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">facebook</item>
+               </item>
+           </argument>
+       </column> -->
+       <column name="rating" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">rating</item>
+               </item>
+           </argument>
+       </column>
+       <column name="store" >
+          <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">true</item>
+                   <item name="label" xsi:type="string" translate="true">store</item>
+               </item>
+           </argument>
+       </column>
+       <column name="date" class="Magento\Ui\Component\Listing\Columns\Date" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">dateRange</item>
+                   <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                   <item name="dataType" xsi:type="string">date</item>
+                   <item name="label" xsi:type="string" translate="true">Created Date</item>
+               </item>
+           </argument>
+       </column>
+       <column name="update_time" class="Magento\Ui\Component\Listing\Columns\Date" >
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="filter" xsi:type="string">dateRange</item>
+                   <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                   <item name="dataType" xsi:type="string">date</item>
+                   <item name="label" xsi:type="string" translate="true">Updated Time</item>
+               </item>
+           </argument>
+       </column>
+       <!-- Add Action with each row of grid and for this we will create a class Action -->
+       <actionsColumn name="actions" class="Hims\Testimonial\Ui\Component\Listing\Grid\Column\Action">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="resizeEnabled" xsi:type="boolean">false</item>
+                   <item name="resizeDefaultWidth" xsi:type="string">107</item>
+                   <item name="indexField" xsi:type="string">testimonial_id</item>
+               </item>
+           </argument>
+       </actionsColumn>
+       
+    </columns>
+</listing>

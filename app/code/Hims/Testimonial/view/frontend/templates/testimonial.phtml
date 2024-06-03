@@ -1,0 +1,96 @@
+<?php
+ $helper=$this->helper('Hims\Testimonial\Helper\Data');
+if($block->Alltestimonial()): ?>
+<?php $testimonials = $block->Alltestimonial();
+$baseUrl = $block->getBaseUrl();
+?>
+
+<section class="testimonial-slider">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>WHAT OUR CLIENTS ARE SAYING</h2>
+            </div>
+            <div class="col-lg-12">
+            <div class="testimonials-list">
+                <div class="testimonials" style="overflow-x:hidden;">
+                        <?php foreach ($testimonials as $testimonial): ?>
+                            <?php
+                            $testimonialData = $testimonial->getData();
+                            $imageUrl = $baseUrl . 'pub/media/' . $testimonialData['image'];
+                            $rating = $testimonialData['rating']; // Assuming 'rating' is the field name
+
+                            ?>
+                            <figure class="testimonial<?php if ($block->getIsAjax()): ?> loaded<?php endif;?>"  style="width:40%; text-align:left !important;">
+                                <div class="testi-wrapper">
+                               
+                                    <span><img src="<?= $block->escapeUrl($imageUrl); ?>" alt="Testimonial Image"></span>
+                                    <h5><?= $block->escapeHtml($testimonial['name']) ?></h5>
+                                    <h5><?= $block->escapeHtml($testimonial['location']) ?></h5>
+                                    <div class="limited-lines"><?= $block->escapeHtml($testimonial['message']); ?></div>
+                                    <div class="rating">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <span class="fa fa-star<?php if ($i <= $rating) echo ' checked'; ?>"></span>
+                                    <?php endfor; ?>
+                                </div>
+                                </div>
+                            </figure>
+                        <?php endforeach; ?>     
+                </div>
+            </div>
+        </div>
+    </div>
+</section>  
+     
+</div>
+<?php endif; ?>
+<style>
+    .rating {
+        display: flex;
+    }
+    .fa-star {
+        color: #ddd; 
+    }
+    .fa-star.checked {
+        color: #ffc107;
+    }
+</style>
+<script>
+       require(['jquery', 'slick'], function ($) {
+        $(document).ready(function () {
+            $('.testimonials').slick({
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                autoplay:true,
+                dots:true,
+                arrows:false,
+                responsive: [
+                    {
+                    breakpoint: 1400,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots:true
+                    }
+                    },
+                    {
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots:false
+                    }
+                    },
+                    {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots:false
+                    }
+                    }
+                ]
+            });
+        });
+    });
+    </script>

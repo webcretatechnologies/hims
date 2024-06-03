@@ -1,0 +1,123 @@
+<style>
+      .register-testimonial{
+        display: inline-block;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        transition: color 0.3s ease-in-out;
+        text-align: center;
+        font-size: 16px;
+        /* font-weight:bold; */
+        margin-top: 10px;
+        width:25%;
+    }
+    .register-testimonial:hover{
+        background-color: #ffffff;
+        border:1px solid #007bff;
+        color:#007bff;
+    }
+</style>
+<?php $helper=$this->helper('Hims\Testimonial\Helper\Data'); 
+?>
+<?php if(count($block->Alltestimonial())>0): 
+if($helper->isFormEnable()):
+?>
+<div>
+    <button class="register-testimonial" onclick="window.location.href = '/testimonial/index/form'">Submit Your Testimonial</button>
+</div>
+<?php endif; 
+$testimonials = $block->Alltestimonial();
+?>
+<div class="testimonials-list">
+    <div class="testimonials">
+            <?php /** @var $testimonial \Swissup\Testimonials\Model\Data */ ?>
+            <?php foreach ($testimonials as $testimonial): ?>
+                <figure class="testimonial<?php if ($block->getIsAjax()): ?> loaded<?php endif;?>">
+                    <blockquote>
+                        <?= $block->escapeHtml($testimonial['message']); ?>
+                        <div class="arrow"></div>
+                        <div class="extra-info">
+                            <small class="date nobr">
+                                <?= $block->formatDate($testimonial['date'], \IntlDateFormatter::LONG) ?>
+                            </small>
+                            <?php if ($testimonial['rating']): ?>
+                            <?php $ratingValue = $testimonial['rating']; ?>
+                            <small class="rating nobr">
+                                <div class="review-ratings">
+                                    <div class="rating-summary item">
+                                        <span class="label rating-label">
+                                            <span><?= __('Rating') ?></span>
+                                        </span>
+                                        <div class="rating-result" title="<?= $ratingValue ?> out of 5">
+                                            <?php
+                                            $ratingPercent = ($ratingValue / 5) * 100;
+                                            $ratingPercent = round($ratingPercent, 2);
+                                            ?>
+                                            <span style="width:<?= $ratingPercent ?>%">
+                                                <span><?= $ratingValue ?> out of 5</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </small>
+                        </div>
+                        <?php endif; ?>
+                    </blockquote>
+                    <div class="info">
+                        <?php $image = $block->ImageUrl($testimonial['image']); ?>
+                        <img src="<?= $image ?>" alt="Profile image" />
+                        <div class="author">
+                            <h5><?= $block->escapeHtml($testimonial['name']) ?></h5>
+                            <?php
+                            $company = $testimonial->getCompany();
+                            $website = $testimonial->getWebsite();
+                            if ($company && $website): ?>
+                            <p>
+                                <a href="<?= $block->escapeUrl($website) ?>" target='_blank'>
+                                    <?= $block->escapeHtml($company) ?>
+                                </a>
+                            </p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </figure>
+            <?php endforeach; ?>     
+    </div>
+</div>
+<?php
+else: ?><blockquote>
+    <?= $block->escapeHtml($testimonial['message']); ?>
+    <div class="arrow"></div>
+    <div class="extra-info">
+        <small class="date nobr">
+            <?= $block->formatDate($testimonial['date'], \IntlDateFormatter::LONG) ?>
+        </small>
+        <?php if ($testimonial['rating']): ?>
+        <?php $ratingValue = $testimonial['rating']; ?>
+        <small class="rating nobr">
+            <div class="review-ratings">
+                <div class="rating-summary item">
+                    <span class="label rating-label">
+                        <span><?= __('Rating') ?></span>
+                    </span>
+                    <div class="rating-result" title="<?= $ratingValue ?> out of 5">
+                        <?php
+                        $ratingPercent = ($ratingValue / 5) * 100;
+                        $ratingPercent = round($ratingPercent, 2);
+                        ?>
+                        <span style="width:<?= $ratingPercent ?>%">
+                            <span><?= $ratingValue ?> out of 5</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </small>
+    </div>
+    <?php endif; ?>
+</blockquote>
+    <?= __('There are no available any testimonials') ?>
+</div>
+<?php endif; ?>

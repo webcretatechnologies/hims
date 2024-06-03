@@ -1,0 +1,183 @@
+<?php $helper = $this->helper('Hims\Testimonial\Helper\Data'); ?>
+<h1>Testimonial Form</h1>
+<button class="back-testimonial" onclick="window.location.href='/testimonial'" style="margin-bottom:30px;">Back</button>
+
+<form method="POST" action="/testimonial/index/save" enctype="multipart/form-data">
+    <div class="testimonial-form-container">
+        <div class="field-div">
+            <label class="field-div-label"><p>*</p> Name:</label>
+            <input class="field-div-input" type="text" name="name" required>
+        </div>
+        <div class="field-div">
+            <label class="field-div-label"><p>*</p>Email Id:</label>
+            <input class="field-div-input" type="email" name="email"  required>
+        </div>
+        <div class="field-div">
+            <label class="field-div-label"><p>*</p>Image:</label>
+            <div class="file-input-container">
+                <input class="file-input" type="file" name="image" id="image-upload"  required>
+                <label for="image-upload" class="file-input-label">Choose File</label>
+                <span class="file-name">No file chosen</span>
+            </div>
+            <div class="image-preview"></div>
+        </div>
+        <div class="field-div">
+            <label class="field-div-label"><p>*</p>Message:</label>
+            <textarea name="message"  required></textarea>
+        </div>
+
+        <?php if ($helper->isRating()): ?>
+            <div class="field-div" style="height:60px;">
+                <label class="field-div-label"><p>*</p>Rating:</label>
+                <!-- <input class="field-div-input" type="text" name="rating"> -->
+                <div class="control review-control-vote">
+                    <input type="radio" name="rating" id="Rating_1" value="1" class="radio" data-validate="{'rating-required':true}" aria-labelledby="Rating_rating_label Rating_1_label" aria-required="true">
+                    <label class="rating-1" for="Rating_1" title="1 star" id="Rating_1_label">
+                        <span>1 star</span>
+                    </label>
+                    <input type="radio" name="rating" id="Rating_2" value="2" class="radio" data-validate="{'rating-required':true}" aria-labelledby="Rating_rating_label Rating_2_label" aria-required="true">
+                    <label class="rating-2" for="Rating_2" title="2 stars" id="Rating_2_label">
+                        <span>2 stars</span>
+                    </label>
+                    <input type="radio" name="rating" id="Rating_3" value="3" class="radio" data-validate="{'rating-required':true}" aria-labelledby="Rating_rating_label Rating_3_label" aria-required="true">
+                    <label class="rating-3" for="Rating_3" title="3 stars" id="Rating_3_label">
+                        <span>3 stars</span>
+                    </label>
+                    <input type="radio" name="rating" id="Rating_4" value="4" class="radio" data-validate="{'rating-required':true}" aria-labelledby="Rating_rating_label Rating_4_label" aria-required="true">
+                    <label class="rating-4" for="Rating_4" title="4 stars" id="Rating_4_label">
+                        <span>4 stars</span>
+                    </label>
+                    <input type="radio" name="rating" id="Rating_5" value="5" class="radio" data-validate="{'rating-required':true}" aria-labelledby="Rating_rating_label Rating_5_label" aria-required="true">
+                    <label class="rating-5" for="Rating_5" title="5 stars" id="Rating_5_label">
+                        <span>5 stars</span>
+                    </label>
+                </div>
+            </div>
+        <?php endif; ?>
+        <input type="submit" name="submit" value="Submit">
+    </div>
+</form>
+<style>
+    .testimonial-form-container {
+        background-color: #f8f8f8;
+        padding: 20px;
+        border: 1px solid #eaeaea;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    .field-div {
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .field-div-label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333333;
+        display:flex;
+        margin-bottom: 5px;
+    }
+    .field-div-label p{
+        color:red;
+        margin-right:5px;
+    }
+
+    .field-div-input {
+        border: 1px solid #cccccc;
+        height: 40px;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .file-input-container {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .file-input-label {
+        display: inline-block;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        transition: color 0.3s ease-in-out;
+        text-align: center;
+        font-size: 18px;
+        margin-top: 10px;
+        font-weight:200;
+        width:30%;
+    }
+
+    .file-name {
+        display: block;
+        margin-top: 5px;
+        color: #777777;
+        font-size: 12px;
+    }
+
+    .image-preview {
+        width: 100%;
+        max-height: 200px;
+        overflow: hidden;
+        margin-top: 10px;
+        border: 1px solid #eaeaea;
+        border-radius: 5px;
+    }
+
+    .image-preview img {
+        height: 114px !important;
+        object-fit: cover;
+    }
+    input[type="submit"], .back-testimonial{
+        display: inline-block;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        transition: color 0.3s ease-in-out;
+        text-align: center;
+        font-size: 18px;
+        font-weight:bold;
+        margin-top: 10px;
+        width:20%;
+    }
+    input[type="submit"]:hover, .back-testimonial:hover{
+        background-color: #ffffff;
+        border:1px solid #007bff;
+        color:#007bff;
+    }
+</style>
+<script>
+    document.getElementById("image-upload").addEventListener("change", function (event) {
+        var fileName = event.target.files[0].name;
+        document.querySelector(".file-name").textContent = fileName;
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var imagePreview = document.querySelector(".image-preview");
+            imagePreview.innerHTML = '<img src="' + e.target.result + '" alt="Image Preview">';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
