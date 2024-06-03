@@ -31,10 +31,16 @@ class Index extends Template
         ->addFieldToFilter('store', ['eq' => $storeId]);
         return $model;
     }
-    public function getEmailIconUrl()
+
+
+    public function getTotalReviews()
     {
-        return $this->getViewFileUrl('Hims_Testimonial::images/email.png');
+        return $this->Alltestimonial()->count();
     }
+    // public function getEmailIconUrl()
+    // {
+    //     return $this->getViewFileUrl('Hims_Testimonial::images/email.png');
+    // }
     // public function getFacebookIconUrl()
     // {
     //     return $this->getViewFileUrl('Hims_Testimonial::images/facebook.png');

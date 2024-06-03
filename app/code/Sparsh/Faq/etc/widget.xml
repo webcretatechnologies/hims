@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget class="Sparsh\Faq\Block\Widget\Faq" id="sparsh_faq">
+		<label>FAQ</label>
+        <description>Sparsh FAQ</description>
+		<parameters>
+			<parameter name="faqlabel" sort_order="10" visible="true" xsi:type="text">
+				<label>FAQ Title</label>
+			</parameter>
+			<parameter name="template" xsi:type="select" required="true" visible="false">
+                <label>Template</label>
+                <options>
+                    <option name="datatemplate" value="widget/faq.phtml" selected="true">
+                        <label translate="true">FAQ Template</label>
+                    </option>                    
+                </options>
+            </parameter>
+		</parameters>
+		<containers>           
+            <container name="content">
+                <template name="datatemplate" value="datatemplate" />
+            </container>
+        </containers>
+	</widget>
+</widgets>

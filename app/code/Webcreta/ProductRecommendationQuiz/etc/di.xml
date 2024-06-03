@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- create a admin grid -->
+    <virtualType name="Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuiz\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">webcreta_productrecommendationquiz</argument>
+            <argument name="resourceModel" xsi:type="string">Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuiz</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ui_listing_data_source" xsi:type="string">Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuiz\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    
+    <!-- create a admin grid -->
+    <virtualType name="Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuizCategory\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">webcreta_productrecommendationquizcategory</argument>
+            <argument name="resourceModel" xsi:type="string">Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuizCategory</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="category" xsi:type="string">Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuizCategory\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

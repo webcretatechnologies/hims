@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <faq_module>
+            <general>
+                <enable>1</enable>
+                <is_category_navbar_enable>1</is_category_navbar_enable>
+            </general>
+            <faq_list_config>
+                <faq_list_label_text>Sparsh FAQ</faq_list_label_text>
+            </faq_list_config>
+        </faq_module>
+    </default>
+</config>

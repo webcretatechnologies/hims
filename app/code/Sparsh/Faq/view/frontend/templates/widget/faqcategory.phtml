@@ -1,0 +1,41 @@
+<?php
+$items = $block->getFaqItems();
+?>
+<section class="faq-block py-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4 text-center">
+                <h2 class="sec-title">Have questions? <span>Get answers</span></h2>
+                <!-- <h2 class="sec-title"><?= $escaper->escapeHtml(__($block->getFaqListLabelText())) ?></h2> -->
+            </div>
+            <div class="col-lg-12">
+                <div class="accordion faq-accordion" id="faq">
+                    <?php if ($items->getSize()) : ?>
+                        <?php
+                        $count = 1;
+                        foreach ($items as $item) : ?>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading<?= $count ?>">
+                                    <button class="accordion-button <?= $count === 1 ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $count ?>" aria-expanded="<?= $count === 1 ? 'true' : 'false' ?>" aria-controls="collapse<?= $count ?>">
+                                        <?= $escaper->escapeHtml($item->getFaqQuestion()) ?>
+                                    </button>
+                                </h2>
+                                <div id="collapse<?= $count ?>" class="accordion-collapse collapse <?= $count === 1 ? 'show' : '' ?>" aria-labelledby="heading<?= $count ?>" data-bs-parent="#faq">
+                                    <div class="accordion-body">
+                                        <p><?= /* @noEscape */ $item->getFaqAnswer() ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                        $count++;
+                        endforeach;
+                        ?>
+                    <?php else : ?>
+                        <h2 class="title"><?= $escaper->escapeHtml(__("No FAQ Found.")) ?></h2>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">require(['bootstrap']);</script>

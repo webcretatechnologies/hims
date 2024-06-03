@@ -5,6 +5,6 @@
 </head>
 <body>
         <block class="Hims\Testimonial\Block\Index" ifconfig="testimonial/general/enable" name="testimonial" template="Hims_Testimonial::testimonial.phtml" cacheable="false"/>
-         <move element="testimonial" destination="content" before="pagebuilder.column.line"/>
+         <move element="testimonial" destination="content" after="product_slider_block"/>
 </body>
 </page>

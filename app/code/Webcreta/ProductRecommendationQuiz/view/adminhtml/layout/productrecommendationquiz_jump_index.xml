@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <script src="Webcreta_ProductRecommendationQuiz::js/addSelectBoxInProductField.js"/>
+        <css src="Webcreta_ProductRecommendationQuiz::css/select2.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+        <uiComponent name="manage_quiz_form"/>
+
+        <block class="Webcreta\ProductRecommendationQuiz\Block\Adminhtml\Jump\GetQuestion" name="custom_block" template="Webcreta_ProductRecommendationQuiz::jump.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

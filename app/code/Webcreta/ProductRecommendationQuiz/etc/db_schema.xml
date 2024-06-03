@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+   <table name="webcreta_productrecommendationquiz" resource="default" engine="innodb" comment="webcreta_productrecommendationquiz">
+      <column xsi:type="smallint" name="id" padding="7" unsigned="false" nullable="false" identity="true" comment="ID" />
+      <column xsi:type="varchar" name="attribute_set_id"   nullable="false" comment="attribute_set_id" />
+      <column xsi:type="varchar" name="set_id"   nullable="false" comment="set_id" />
+      <column xsi:type="varchar" name="default_id"   nullable="false" comment="sort_order_id" />
+      <column xsi:type="varchar" name="question_id"   nullable="false" comment="question_id" />
+      <!-- <column xsi:type="varchar" name="sort_order_id"   nullable="false" comment="sort_order_id" /> -->
+      <!-- <column xsi:type="varchar" name="question_set"   nullable="false" comment="question_id" /> -->
+      <!-- <column xsi:type="varchar" name="condition_id" nullable="false"  comment="condition_id" /> -->
+      <column xsi:type="varchar" name="option_id" nullable="false"  comment="option_id" />
+      <column xsi:type="varchar" name="next_question_id" nullable="false"  comment="next_question_id" />
+      <column xsi:type="varchar" name="product" nullable="false"  comment="product" />
+      <constraint xsi:type="primary" referenceId="PRIMARY">
+         <column name="id" />
+      </constraint>
+   </table>
+
+   <table name="webcreta_productrecommendationquizcategory" resource="default" engine="innodb" comment="webcreta_productrecommendationquizcategory">
+      <column xsi:type="smallint" name="id" padding="7" unsigned="false" nullable="false" identity="true" comment="ID" />
+      <column xsi:type="varchar" name="category" nullable="false" comment="attribute category" />
+      <column xsi:type="varchar" name="status" nullable="false" comment="attribute status" />
+      <constraint xsi:type="primary" referenceId="PRIMARY">
+         <column name="id" />
+      </constraint>
+   </table>
+
+   
+</schema>

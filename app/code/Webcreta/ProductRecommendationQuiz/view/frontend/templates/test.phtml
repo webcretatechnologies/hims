@@ -1,0 +1,488 @@
+<?php
+
+$categoryAttributeValue = $block->getChooseCategoryQuizValue();
+// print_r($categoryAttributeValue);
+
+$data = $block->getCategoryStatus();
+
+$status = isset($data['status']) ? $data['status'] : null;
+
+?>
+<?php
+
+if ((int) $status !== 0) {
+    $questionData = $block->getQuestionData($categoryAttributeValue);
+    if (!empty($questionData) && $questionData !== "null") { 
+        ?>
+        <div id="quiz-container">
+            <div class="question" data-question-id="">
+                <p></p>
+            </div>
+            <div class="options">
+            </div>
+            <div class="customer_button">
+                <button id="back-question">Back</button>
+                <button id="reset-question">Reset</button>
+                <button id="next-question">Next</button>
+            </div>
+        </div>
+        <?php 
+    }
+} else {
+}
+?>
+
+
+<script>
+    require(['jquery'], function ($) {
+        $(document).ready(function () {
+           
+            
+            $(".options").on("change", "#fileInput", function(event){
+                console.log("File selected");
+                var file = event.target.files[0];
+
+                if (file) {
+                    var reader = new FileReader();
+                    console.log(reader);
+                    reader.onload = function(e) {
+                        $('.selected-image').empty();
+                        $('#quiz-container .options').append(
+                            '<div class="selected-image">' +
+                            '<img src="' + e.target.result + '">' +
+                            '</div>'
+                        );
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function fetchQuestionData() {
+                var currentQuestionId = localStorage.getItem('question_id');
+
+                var selectedOptionId = localStorage.getItem('question_value');
+                console.log("load after get value");
+                
+                console.log(currentQuestionId);
+                console.log(selectedOptionId);
+                if(selectedOptionId && selectedOptionId !== 'null' && currentQuestionId !== 'null'){
+                    var attributeSetId = '<?php echo $categoryAttributeValue ?>';
+                    console.log(attributeSetId);
+                    ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId)
+                }else{
+                    $.ajax({
+                        url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getquestion'); ?>',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: {
+                            categoryAttributeValue: '<?php echo $categoryAttributeValue; ?>'
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            if(response.success !== false)
+                            {
+                            localStorage.setItem('nextQuestionId', response.data.question_id);
+    
+                            $('.question').attr('data-question-id', response.data.question_id);
+                            $('.question p').text(response.data.question);
+                            $('.options').empty();
+                            if (response.data.type === 'text') {
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input type="text" id="text_field" name="text_field">' +
+                                        '</div>'
+                                    );
+                                } else if (response.data.type === 'multiselect') {
+                                    $.each(response.data.options, function (index, option) {
+                                        $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<input type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                    });
+                                } else {
+                                    $.each(response.data.options, function (index, option) {
+                                        $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                    });
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            }
+            fetchQuestionData();
+
+            $('#reset-question').on('click', function () {
+           
+                localStorage.setItem('question_id','');
+                localStorage.setItem('question_value','');
+                localStorage.setItem('question_sets', '');
+
+                window.location.reload();
+                
+            });
+
+            $('#next-question').on('click', function () {   
+                var uncheckedCheckboxes = $("input[type=checkbox]:not(:checked)");
+                if (uncheckedCheckboxes.length > 0) {
+                
+                    var selectedOptionId = [];
+                $("input[type=checkbox]:checked").each(function(){
+                    selectedOptionId.push($(this).val());
+                });
+                }
+                var selectedRadioValue = $("input[type=radio]:checked").val();
+                if (selectedRadioValue !== undefined) {
+                    var selectedOptionId = $("input[type=radio]:checked").val();
+                }
+
+                var textValue = $("input[name=text_field]").val();
+                console.log(textValue);
+                if (textValue !== undefined && textValue.trim() !== '') {
+                    var selectedOptionId = textValue;
+                }
+                var currentQuestionId  = localStorage.getItem('nextQuestionId');
+                localStorage.setItem('question_id',currentQuestionId);
+                localStorage.setItem('question_value',selectedOptionId);
+
+    
+                var attributeSetId = '<?php echo $categoryAttributeValue ?>';
+
+                let questionSets = localStorage.getItem('question_sets');
+                if (questionSets) {
+                    questionSets = JSON.parse(questionSets);
+                } else {
+                    questionSets = [];
+                }
+
+                // let lastUsedId = 0;
+                let lastUsedId = questionSets.length > 0 ? questionSets[questionSets.length - 1].id : 0;
+
+
+                const newId = lastUsedId + 1;
+
+                questionSets.push({
+                    id: newId,
+                    currentQuestionId: currentQuestionId,
+                    selectedOptionId: selectedOptionId,
+                    attributeSetId: attributeSetId
+                });
+
+                localStorage.setItem('question_sets', JSON.stringify(questionSets));
+
+                ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId)
+               
+            });
+
+            function ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId){
+              console.log('ajaxCallForGetQuestion');
+              console.log(currentQuestionId);
+              console.log(selectedOptionId);
+              console.log(attributeSetId);
+                $.ajax({
+                    url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getnextquestion'); ?>',
+                    data: {current_question_id: currentQuestionId, selected_option_id: selectedOptionId, attribute_set_id: attributeSetId},
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                       
+                        console.log(response);
+                        if(response && response.success == false){
+                        
+                            $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
+                        $('.options').empty();
+                        localStorage.setItem('question_id','');
+                        localStorage.setItem('question_value','');
+                        
+                        }else if(response.data && response.data.final){
+                            var url  = response.data.productUrl;
+                            window.location.href = url;
+
+                            // $('.question p').text('Product Name: ' + response.data.productName );
+                            // $('.question ').append(
+                            //     '<img src="' + response.data.productImage + '" alt="Product Image">'
+                            // );
+                            // $('.options').empty();
+                            localStorage.setItem('question_id','');
+                            localStorage.setItem('question_value','');
+                                            localStorage.setItem('question_sets', '');
+
+
+                        }else if(response.data && response.data.question_id == null || response.data.question_id == ''){
+                            $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
+                            $('.options').empty();
+                            localStorage.setItem('question_id','');
+                            localStorage.setItem('question_value','');
+                        
+                        }else {
+                            if(response.data && response.data.question_id){
+                                localStorage.setItem('nextQuestionId', response.data.question_id);
+                                $('.question p').text(response.data.question);
+                                $('.question').attr('data-question-id', response.data.question_id); 
+                                
+                                $('.options').empty();
+                                console.log(response.data.type);
+                                if (response.data.type === 'text') {
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input type="text" id="text_field" name="text_field">' +
+                                        '</div>'
+                                    );
+                                } else if (response.data.type === 'multiselect') {
+                                    $.each(response.data.options, function (index, option) {
+                                        $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<input type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                    });
+                                } 
+                                else if (response.data.type === 'media_image') {
+                                        $('.options').append(
+                                            '<div class="option">' +
+                                            '<input type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
+                                            '</div>'
+                                        );
+                                   
+                                }
+                                else {
+                                    $.each(response.data.options, function (index, option) {
+                                        if(option.images){
+                                            $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<img src="' + option.images + '" alt="Option Image">' +
+                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                        }else{
+                                            $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                        }
+                                       
+                                    });
+                                }
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            // function updateQuestionDisplay() {
+            //     var questionSets = JSON.parse(localStorage.getItem('question_sets'));
+            //     console.log(currentIndex);
+
+            //     if (questionSets && questionSets.length > 0) {
+            //         var currentQuestion = questionSets[currentIndex];
+            //         console.log(currentQuestion); 
+            //     }
+            // }
+
+            var currentIndex = 1;
+
+            $('#back-question').click(function() {
+                console.log("back button click");
+
+                var questionSets = JSON.parse(localStorage.getItem('question_sets'));
+                console.log(questionSets);
+                    if (questionSets && questionSets.length > 0) {
+                        currentIndex--;
+
+                        if (currentIndex < 1) {
+                            currentIndex = questionSets.length - 1;
+                        }
+
+                        // updateQuestionDisplay();
+                        console.log(questionSets);
+                    var previousQuestionSet = questionSets[currentIndex];
+                    var currentQuestionId = previousQuestionSet.currentQuestionId;
+                    var selectedOptionId = previousQuestionSet.selectedOptionId;
+                    var attributeSetId = previousQuestionSet.attributeSetId;
+                    localStorage.setItem('question_value',selectedOptionId);
+
+                    localStorage.setItem('question_id',currentQuestionId);
+                    ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId);
+                  
+                  
+                } else {
+                    console.log("No question sets found.");
+                }
+            });
+
+            function ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId){
+                $.ajax({
+                    url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getbackquestion'); ?>',
+                    data: {current_question_id: currentQuestionId, selected_option_id: selectedOptionId, attribute_set_id: attributeSetId},
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                        var questionSets = JSON.parse(localStorage.getItem('question_sets'));
+
+                        questionSets.splice(currentIndex, 1);
+                        localStorage.setItem('question_sets', JSON.stringify(questionSets));
+                        if(response && response.success == false){
+                        
+                            $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
+                            $('.options').empty();
+                            localStorage.setItem('question_id','');
+                            localStorage.setItem('question_value','');
+                        
+                        }else if(response.data && response.data.final){
+                            $('.question p').text('Product Name: ' + response.data.productName );
+                            $('.question ').append(
+                                '<img src="' + response.data.productImage + '" alt="Product Image">'
+                            );
+                            $('.options').empty();
+                            localStorage.setItem('question_id','');
+                            localStorage.setItem('question_value','');
+
+                        }else if(response.data && response.data.question_id == null || response.data.question_id == ''){
+                            $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
+                            $('.options').empty();
+                            localStorage.setItem('question_id','');
+                            localStorage.setItem('question_value','');
+                        
+                        }else {
+                            if(response.data && response.data.question_id){
+                                localStorage.setItem('nextQuestionId', response.data.question_id);
+                                $('.question p').text(response.data.question);
+                                $('.question').attr('data-question-id', response.data.question_id); 
+                                
+                                $('.options').empty();
+                                console.log(response.data.type);
+                                if (response.data.type === 'text') {
+                                    var fieldValue = selectedOptionId ? selectedOptionId : '';
+                                        $('.options').append(
+                                            '<div class="option">' +
+                                            '<input type="text" id="text_field" name="text_field" value="' + fieldValue + '">' +
+                                            '</div>'
+                                        );
+                                } else if (response.data.type === 'multiselect') {
+                                    $.each(response.data.options, function (index, option) {
+                                        $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<input type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '"' +
+                                            (selectedOptionId.includes(option.value) ? ' checked' : '') + '>' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                    });
+                                } 
+                                else if (response.data.type === 'media_image') {
+                                        $('.options').append(
+                                            '<div class="option">' +
+                                            '<input type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
+                                            '</div>'
+                                        );
+                                   
+                                }
+                                else {
+                                    $.each(response.data.options, function (index, option) {
+                                        if(option.images){
+                                            $('.options').append(
+                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<img src="' + option.images + '" alt="Option Image" class = >' +
+                                            '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
+                                                (option.value === selectedOptionId ? ' checked' : '') + '>' +
+                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                            '</div>'
+                                        );
+                                        }else{
+                                            $('.options').append(
+                                                '<div class="option" data-option-id="' + option.value + '">' +
+                                                '<input type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
+                                                (option.value === selectedOptionId ? ' checked' : '') + '>' +
+                                                '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                                '</div>'
+                                            );
+
+                                        }
+                                       
+                                    });
+                                }
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            }
+            
+        });
+    });
+</script>
+
+<style>
+   .customer_button {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #quiz-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .question {
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .option {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .option:hover {
+        background-color: #e6e6e6;
+    }
+
+    #next-question,#reset-question,#back-question{
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #next-question,#reset-question:hover ,#back-question{
+        background-color: #0056b3;
+    }
+</style>

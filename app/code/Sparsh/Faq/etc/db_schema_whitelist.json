@@ -1,0 +1,51 @@
+{
+    "sparsh_faq_category": {
+        "column": {
+            "faq_category_id": true,
+            "faq_category_name": true,
+            "faq_category_description": true,
+            "is_active": true,
+            "sort_order": true,
+            "creation_time": true,
+            "update_time": true
+        },
+        "index": {
+            "SPARSH_FAQ_CATEGORY_FAQ_CATEGORY_NAME": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "sparsh_faq": {
+        "column": {
+            "faq_id": true,
+            "faq_category_id": true,
+            "faq_question": true,
+            "faq_answer": true,
+            "is_active": true,
+            "sort_order": true,
+            "creation_time": true,
+            "update_time": true
+        },
+        "index": {
+            "SPARSH_FAQ_FAQ_QUESTION": true,
+            "SPARSH_FAQ_FAQ_ANSWER": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SPARSH_FAQ_FAQ_CATEGORY_ID_SPARSH_FAQ_CATEGORY_FAQ_CATEGORY_ID": true
+        }
+    },
+    "sparsh_faq_store": {
+        "column": {
+            "faq_store_id": true,
+            "faq_id": true,
+            "store_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SPARSH_FAQ_STORE_FAQ_ID_SPARSH_FAQ_FAQ_ID": true,
+            "SPARSH_FAQ_STORE_STORE_ID_STORE_STORE_ID": true
+        }
+    }
+}

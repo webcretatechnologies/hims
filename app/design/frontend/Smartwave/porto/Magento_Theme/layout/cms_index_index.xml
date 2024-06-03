@@ -20,61 +20,58 @@
         <referenceContainer name="home_page_first_banner">
             <block class="Magento\Cms\Block\Widget\Block" name="home_page_first_banner_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">1</argument>
+                    <argument name="block_id" xsi:type="string">home_page_first_banner</argument>
                 </arguments>
             </block>
         </referenceContainer>
         <referenceContainer name="category_cart">
-            <block class="GemsMed\CategoryName\Block\CategoryList" name="category_cart_widget" template="GemsMed_CategoryName::categoryName.phtml">
-            </block>
+           <block class="GemsMed\CategoryName\Block\CategoryList" name="category_cart_widget" template="GemsMed_CategoryName::categoryName.phtml">
         </referenceContainer>
         <referenceContainer name="category_slider">
             <block class="GemsMed\CategoryName\Block\CategoryList" name="category_slider_widget" template="GemsMed_CategoryName::category_list.phtml">
-            </block>
         </referenceContainer>
          <referenceContainer name="service_block_after_category_slider">
             <block class="Magento\Cms\Block\Widget\Block" name="service_block_after_category_slider_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">4</argument>
+                    <argument name="block_id" xsi:type="string">service_block_after_category_slider</argument>
                 </arguments>
             </block>
         </referenceContainer>
         <referenceContainer name="product_slider_block">
-            <block class="GemsMed\ProductSlider\Block\ProductSlider" name="product_slider_block_widget" template="GemsMed_ProductSlider::productSlider.phtml">
-            </block>
+             <block class="GemsMed\ProductSlider\Block\ProductSlider" name="product_slider_block_widget" template="GemsMed_ProductSlider::productSlider.phtml">
         </referenceContainer>
-        <referenceContainer name="testimonial_slider_block">
+        <!-- <referenceContainer name="testimonial_slider_block">
             <block class="Magento\Cms\Block\Widget\Block" name="testimonial_slider_block_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">6</argument>
+                    <argument name="block_id" xsi:type="string">testimonial_slider_block</argument>
                 </arguments>
             </block>
-        </referenceContainer>
+        </referenceContainer> -->
         <referenceContainer name="single_product_block">
             <block class="Magento\Cms\Block\Widget\Block" name="single_product_block_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">7</argument>
+                    <argument name="block_id" xsi:type="string">single_product_block</argument>
                 </arguments>
             </block>
         </referenceContainer>
         <referenceContainer name="brand_slider_block">
             <block class="Magento\Cms\Block\Widget\Block" name="brand_slider_block_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">8</argument>
+                    <argument name="block_id" xsi:type="string">brand_slider_block</argument>
                 </arguments>
             </block>
         </referenceContainer>
-        <referenceContainer name="faq_block">
+        <!-- <referenceContainer name="faq_block">
             <block class="Magento\Cms\Block\Widget\Block" name="faq_block_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">9</argument>
+                    <argument name="block_id" xsi:type="string">faq_block</argument>
                 </arguments>
             </block>
-        </referenceContainer>
+        </referenceContainer> -->
         <referenceContainer name="customer_benefits_block">
             <block class="Magento\Cms\Block\Widget\Block" name="customer_benefits_block_widget" template="widget/static_block/default.phtml">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">10</argument>
+                    <argument name="block_id" xsi:type="string">customer_benefits_block</argument>
                 </arguments>
             </block>
         </referenceContainer>

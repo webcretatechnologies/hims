@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Magento_Backend::faq_settings" title="FAQ" module="Sparsh_Faq" sortOrder="60"  resource="Magento_Backend::faq_settings" />
+    	<add id="Magento_Backend::faq_manage" title="FAQ Management" module="Sparsh_Faq" sortOrder="60" parent="Magento_Backend::faq_settings"  resource="Magento_Backend::faq_manage" />
+        <add id="Sparsh_Faq::sparsh_faq_category" title="Manage FAQ Category" module="Sparsh_Faq" sortOrder="0" parent="Magento_Backend::faq_manage" action="faq/faqcategorybackend" resource="Sparsh_Faq::sparsh_faq_category"/>
+        <add id="Sparsh_Faq::sparsh_faq" title="Manage FAQ" module="Sparsh_Faq" sortOrder="1" parent="Magento_Backend::faq_manage" action="faq/faqbackend" resource="Sparsh_Faq::sparsh_faq"/>
+    </menu>
+</config>

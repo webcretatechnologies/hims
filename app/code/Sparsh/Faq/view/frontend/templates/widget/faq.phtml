@@ -1,0 +1,91 @@
+<?php
+if ($block->isFaqEnabled() == 1) :
+    $items = $block->getFaqCategoryItems();
+    $categoriesArray = $items->getData();
+    $itemCount = count($categoriesArray);
+    $isActive = '';
+
+    if ($block->getCurrentFaqCatId()) {
+        $faqCatId = $block->getCurrentFaqCatId();
+    } else {
+        $faqCatId = $categoriesArray[0]['faq_category_id'];
+    }
+
+    $pageLayout = $block->getCurrentPageLayout();
+    $categoryNavbarEnable = $block->isCategoryNavbarEnable();
+
+    ?>
+    <!-- <div class="content-heading">
+        <h2 class="title"><?= $escaper->escapeHtml(__($block->getFaqListLabelText())) ?></h2>
+    </div> -->
+    <?php foreach ($items as $item) : ?>
+        <input type="hidden" id="<?= $escaper->escapeHtmlAttr($item->getFaqCategoryId()) ?>" class="categoryvalue">
+    <?php endforeach; ?>
+    <?php
+    if ($categoryNavbarEnable) {
+
+        if ($itemCount > 1) {
+            ?>
+            <div class="sparsh-block-content <?= ($pageLayout == "1column")?'column1layout':''; ?>">
+                <div class="sparsh-block-subtitle">
+                    <strong role="heading" aria-level="2"><?= $escaper->escapeHtml(__("CATEGORIES")); ?></strong>
+                </div>
+                <?php
+                foreach ($items as $item) :
+                    if ($faqCatId == $item->getFaqCategoryId()) {
+                        $isActive = 'active';
+                    } else {
+                        $isActive = '';
+                    }
+                    ?>
+                    <div class="sparsh-block-item <?= $escaper->escapeHtmlAttr($isActive); ?>"
+                         id="<?= $escaper->escapeHtmlAttr($item->getFaqCategoryId()) ?>">
+                        <span><?= $escaper->escapeHtml($item->getFaqCategoryName()) ?></span>
+                    </div>
+                <?php
+                endforeach; ?>
+            </div>
+            <?php
+        }
+    }  //end of isCategoryNavbarEnable() condition
+    ?>
+
+<div class="sparsh-question-answer <?= ($pageLayout == "1column" && $itemCount > 1 && $categoryNavbarEnable)?'column1layout':''; ?>">
+    <?php if ($itemCount != 0) {
+        echo $this->getLayout()
+            ->createBlock('Sparsh\Faq\Block\Widget\Faq')
+            ->setTemplate('Sparsh_Faq::widget/faqcategory.phtml')->toHtml();
+} ?>
+</div>
+<script type="text/javascript">
+    require(["jquery"], function ($) {
+        jQuery(document).ready(function () {
+            jQuery(".sparsh-block-content").appendTo(".sidebar.sidebar-additional");
+
+            jQuery(".sparsh-block-item").click(function () {
+                id = jQuery(this).attr('id');
+                url = "<?= $escaper->escapeUrl($block->getBaseUrl()) . 'faq/index/faqcategory/id/';?>" + id;
+                sparshLoadFaq(url);
+                jQuery(this).siblings().removeClass('active');
+                jQuery(this).addClass('active');
+            })
+
+            function sparshLoadFaq(url) {
+                var data = '';
+                jQuery.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    showLoader: true,
+                    success: function (data) {
+                        jQuery('.sparsh-question-answer').html(data.output);
+                        return true;
+                    },
+                    error: function (data) {}
+                });
+            }
+        });
+    });
+</script>
+<?php endif; ?>
+<!-- This site has installed PayPal for WooCommerce v2.1.6 - https://www.angelleye.com/product/woocommerce-paypal-plugin/ -->
