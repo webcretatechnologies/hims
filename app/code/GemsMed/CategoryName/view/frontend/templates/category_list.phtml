@@ -16,7 +16,7 @@
                             <a href="#">
                                 <img src="<?php echo $category->getimage(); ?>" alt="" />
                                 <div class="category-overlay">
-                                    <h4 class="category-tagline text-white p-3 m-0">Looking to lose some weight?</h4>
+                                    <h4 class="category-tagline text-white p-3 m-0"><?php echo $category->getdescription(); ?></h4>
                                     <span class="position-relative d-flex text-black"><?php echo $category->getName(); ?></span>
                                 </div>
                             </a>
