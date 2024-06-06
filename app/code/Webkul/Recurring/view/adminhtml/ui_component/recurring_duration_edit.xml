@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">recurring_duration_edit.recurring_duration_edit_data_source</item>
+            <item name="deps" xsi:type="string">recurring_duration_edit.recurring_duration_edit_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Duration Information</item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+            <item name="navContainerName" xsi:type="string">left</item>
+        </item>
+        <item name="reverseMetadataMerge" xsi:type="boolean">true</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Webkul\Recurring\Block\Adminhtml\Duration\Edit\SaveButton"/>
+            <button name="delete" class="Magento\Customer\Block\Adminhtml\Edit\DeleteButton"/>
+            <button name="back" class="Magento\Customer\Block\Adminhtml\Edit\BackButton"/>
+        </buttons>
+    </settings>
+    <dataSource name="recurring_duration_edit_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="name" xsi:type="string">recurring_duration_edit_data_source</argument>
+            <argument name="class" xsi:type="string">Webkul\Recurring\Model\DurationDataProvider</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="*/*/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="information">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Information</item>
+            </item>
+        </argument>
+        <field name="entity_id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">information</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+            </settings>
+        </field>
+        <field name="status">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                </item>
+                <item name="options" xsi:type="object">Webkul\Recurring\Model\Config\Source\Status</item>
+                <item name="source" xsi:type="string">information</item>
+                <item name="dataScope" xsi:type="string">status</item>
+            </argument>
+        </field>
+        <field name="title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Duration Title</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">information</item>
+                    <item name="dataScope" xsi:type="string">title</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-no-html-tags" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="duration_type">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Duration Type</item>
+                </item>
+                <item name="options" xsi:type="object">Webkul\Recurring\Model\Config\Source\DurationType</item>
+                <item name="source" xsi:type="string">information</item>
+                <item name="dataScope" xsi:type="string">duration_type</item>
+            </argument>
+        </field>
+        <field name="duration">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Duration(Billing Cycle)</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">information</item>
+                    <item name="dataScope" xsi:type="string">duration</item>
+                    <item name="notice" xsi:type="string">The number of duration after which a subscriber is billed. For example, if the duration type is DAY with an duration of 2, the subscription is billed once every two days.</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-no-html-tags" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="validate-number" xsi:type="boolean">true</item>
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                        <item name="validate-duration" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>        
+        <field name="sort_order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Sort Order</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">information</item>
+                    <item name="dataScope" xsi:type="string">sort_order</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-no-html-tags" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="initial_fee_status">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Initial Fees</item>
+                    <item name="notice" xsi:type="string">Set "Yes" if you charge initial fee to the customer. It will only deducted at the time of first purchase of the subscription.</item>
+                </item>
+                <item name="options" xsi:type="object">Webkul\Recurring\Model\Config\Source\Options</item>
+                <item name="source" xsi:type="string">information</item>
+                <item name="dataScope" xsi:type="string">initial_fee_status</item>                
+            </argument>
+            <settings>
+                <switcherConfig>
+                        <rules>
+                            <rule name="0">
+                                <value>0</value>
+                                <actions>
+                                    <action name="0">
+                                        <target>recurring_duration_edit.areas.information.information.initial_fee</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">false</param>
+                                        </params>
+                                    </action>                                    
+                                </actions>
+                            </rule> 
+                            <rule name="1">
+                                <value>1</value>
+                                <actions>
+                                    <action name="0">
+                                        <target>recurring_duration_edit.areas.information.information.initial_fee</target>
+                                        <callback>visible</callback>
+                                        <params>
+                                            <param name="0" xsi:type="boolean">true</param>
+                                        </params>
+                                    </action>                                    
+                                </actions>
+                            </rule>                            
+                        </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+        </field>
+        <field name="initial_fee">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Initial Fee Amount</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">information</item>
+                    <item name="dataScope" xsi:type="string">initial_fee</item>
+                    <item name="notice" xsi:type="string">Please type the "Amount" you would like to charge as Initial Amount.</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-no-html-tags" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

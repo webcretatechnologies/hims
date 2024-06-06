@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="controller_action_catalog_product_save_entity_after">
+    	<observer name="webkul_recurring_controller_action_catalog_product_save_entity_after" instance="Webkul\Recurring\Observer\ProductSaveAfter" />
+	</event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="webkul_recurring_sales_order_creditmemo_save_after_observer" instance="Webkul\Recurring\Observer\SalesOrderCreditmemoSaveAfter" />
+    </event>
+</config>

@@ -1,0 +1,184 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$model = $block->getSubscriptions();
+$viewModel = $block->getData('view_model');
+$helper = $viewModel->getRecurringHelper();
+$cancellationReason = $helper->getCancellationReason();
+$canHold = $helper->canHoldTheSubscription();
+$canCancel = $helper->canCancelTheSubscription();
+$reason = $model->getCancellationReason();
+$url = $block->getUrl('*/*/*');
+?>
+<?php if (str_contains($url, "subscription/view")):  ?>
+    <div class="order-date">
+        <?= $escaper->escapeHtml($block->getCreateDate()) ?>
+    </div>
+<?php endif;?>
+<div class="actions">
+    <?php if ($model->getStatus()): ?>
+        <?php if ($canCancel): ?>
+            <a
+                class="button primary action wk-mp-btn recurring-unsubscribe"
+                title="UnSubscribe the subscription"
+                id ="unSubscribe"       
+            >
+                <span><span><?= $escaper->escapeHtml(__("UnSubscribe")) ?></span></span>
+            </a>
+        <?php endif; ?>
+        <?php if ($canHold && $reason != 'hold'):  ?>
+            <a
+                class="button primary action wk-mp-btn"
+                title="Hold the Subscription details"
+                id ="hold"   
+                onclick="return confirm('<?= $escaper->escapeHtml(__('Do you want to Hold the Subscription?')) ?>')"
+                href="<?= $escaper->escapeUrl($block->getHoldSubscribeUrl()) ?>"             
+            >
+                <span><span class='hold'><?= $escaper->escapeHtml(__("Hold")) ?></span></span>
+            </a>
+    <?php endif; ?>
+        <?php if ($reason == 'hold'):  ?>
+        <a
+            class="button primary action wk-mp-btn"
+            title="Resume the Subscription details"
+            id ="resume"   
+            onclick="return confirm('<?= $escaper->escapeHtml(__('Do you want to Resume the Subscription?')) ?>')"
+            href="<?= $escaper->escapeUrl($block->getResumeSubscribeUrl()) ?>"             
+        >
+            <span><span class='resume'><?= $escaper->escapeHtml(__("Resume")) ?></span></span>
+        </a>
+    <?php endif;
+endif; ?>
+<?php if (str_contains($url, "subscription/view")):  ?>
+    <a
+        class="button primary action wk-mp-btn"
+        title="Back"
+        id ="backButton"
+        href="<?= $escaper->escapeUrl($block->getBackUrl()) ?>"
+    >
+        <span><span><?= $escaper->escapeHtml(__("Back")) ?></span></span>
+    </a>
+<?php endif;?>
+</div>
+<?php
+if ($detailedInfoGroup = $block->getGroupChildNames('microsite_details', 'getChildHtml')): ?>
+
+<div class="product info detailed">
+    <?php $layout = $block->getLayout(); ?>
+    <div class="product data items" 
+        data-mage-init='{"tabs":{"openedState":"active"}}'>
+        <?php
+        foreach ($detailedInfoGroup as $name):?>
+                <?php
+                $html = $layout->renderElement($name);
+                $alias = $layout->getElementAlias($name);
+                $label = $block->getChildData($alias, 'title'); ?>
+            
+                <div class="data item title"
+                    aria-labeledby="tab-label-<?= $escaper->escapeHtml($alias) ?>-title"
+                    data-role="collapsible" id="tab-label-<?= $escaper->escapeHtml($alias) ?>">
+                
+                    <a class="data switch"
+                        tabindex="-1"
+                        data-toggle="switch"
+                        href="#<?= $escaper->escapeHtml($alias) ?>"
+                        id="tab-label-<?= $escaper->escapeHtml($alias) ?>-title">
+                        <?= $escaper->escapeHtml($label) ?>
+                    </a>
+                    
+                </div>
+                <div class="data item content wk-display-none" 
+                    id="<?= $escaper->escapeHtml($alias) ?>"
+                    data-role="content">
+                        <?= /*@noEscape */ $html ?>
+                </div>
+            <?php
+        endforeach;?>
+    </div>
+</div>
+<?php endif;
+if ($cancellationReason): ?>
+    <div class="product-flag">
+        <div id="wk-mp-flag-data">
+            <div class="modals-wrapper">
+                <aside tabindex="0" data-type="popup" data-role="modal" 
+                class="modal-popup modal-slide _inner-scroll wk-mp-model-flag-popup">
+                    <div tabindex="0" data-role="focusable-start"></div>
+                    <div data-role="focusable-scope" class="modal-inner-wrap">
+                        <header class="modal-header">
+                            <h4 class="modal-title"><b><?=
+                            $escaper->escapeHtml(__('Please select a reason for cancellation')) ?></b></h4>
+                            <button type="button" data-role="closeBtn" 
+                            class="action-close wk-product-flag-close">
+                                <span><?= $escaper->escapeHtml(__('Close'))?></span>
+                            </button>
+                            <span class="wk-product-flag-clear"></span>
+                        </header>                      
+                        
+                        <form id="flag-form" method="post" action="#" class="fieldset">
+                            <div class="modal-body form-list
+                            field wk-flag-form required">                                
+                                <?php foreach ($cancellationReason as $flagReason):
+                                    if ($flagReason['cancellation_resason'] != 'Other Reasons'
+                                    && $flagReason['visibility'] == 1) {
+                                        $id = str_replace(' ', '-', $flagReason['cancellation_resason']);?>
+                                        <div class="wk-flagreasons">
+                                        <input type="radio" name="reason" id="<?= $escaper->escapeHtml($id) ?>"
+                                        class="flag-reason required-entry" 
+                                        value="<?= $escaper->escapeHtml($flagReason['cancellation_resason'])?>" >
+                                        <label for="<?= $escaper->escapeHtml($id) ?>">
+                                        <?= $escaper->escapeHtml($flagReason['cancellation_resason'])?></label>
+                                        </div>
+                                    <?php }
+                                    if ($flagReason['cancellation_resason'] == 'Other Reasons'
+                                    && $flagReason['visibility'] == 1) {?>
+                                        <div class="wk-flagreasons">
+                                        <input type="radio" name="reason" id="reason_other"
+                                        class="flag-reason required-entry" value="other_value" checked>
+                                        <label for="reason_other" class="bold">
+                                            <?= $escaper->escapeHtml($flagReason['cancellation_resason'])?>
+                                        </label>
+                                        <textarea name="flag_other_reason" 
+                                        placeholder="<?=
+                                        $escaper->escapeHtml(__("Write a reason to flag this product"))?>"
+                                        class="wk-full-width wk-flag-other-reason required-entry"></textarea>
+                                        </div>                                        
+                                    <?php }
+                                    ?>                                    
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <span class="error"></span>  <br> 
+                                <span class="errormail"></span>                            
+                                <input type="submit" value="<?= $escaper->escapeHtml(__('Submit')) ?>"
+                                 id="flagbtn" class="wk-btn clickflag"/>
+                                <span class="wk-product-flag-clear"></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div tabindex="0" data-role="focusable-end"></div>
+                </aside>
+            </div>
+        </div>
+    </div>    
+<?php endif;
+$url = $escaper->escapeUrl($block->getUnsubscribeUrl());
+?>
+<script>   
+    window.unsubscribeUrl  = <?= /* @noEscape */  $viewModel->getJsonSerialize($url); ?>;   
+</script>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_Recurring/js/unsubscribe":  <?= /* @noEscape */ $block->getJsLayout();?>
+        }
+    }
+</script>

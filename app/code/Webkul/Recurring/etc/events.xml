@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="controller_action_predispatch_adminhtml_system_config_save">
+        <observer name="recurring_config_save_observer" instance="Webkul\Recurring\Observer\PreDispatchConfigSaveObserver"/>
+    </event>
+    <event name="sales_model_service_quote_submit_success">
+    	<observer name="webkul_recurring_sales_model_service_quote_submit_before" instance="Webkul\Recurring\Observer\QuoteSubmitBeforeObserver" />
+	</event>
+    <!-- Order cancel after -->
+    <event name="order_cancel_after">
+        <observer name="webkul_recurring_sales_order_cancel_after" instance="Webkul\Recurring\Observer\SalesOrderCancelAfter" />
+    </event>
+    <!-- Order Place after -->
+    <event name="checkout_submit_all_after">
+        <observer name="webkul_recurring_sales_order_place_after" instance="Webkul\Recurring\Observer\SalesOrderPlaceAfter" />
+    </event>
+    <event name="payment_method_is_active">
+        <observer name="webkul_recurring_payment_method_is_active_observer" instance="Webkul\Recurring\Observer\PaymentMethodAvailable" />
+    </event>
+</config>

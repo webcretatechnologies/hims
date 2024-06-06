@@ -1,0 +1,275 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+.admin__page-nav.wk-config-tab-class._collapsed._show ._collapsible strong:before {
+    content: "";
+    background: url(../images/configtab/logo.png) no-repeat scroll 0 0 transparent;
+    width: 100%;
+    height: 26px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+.admin__page-nav.wk-config-tab-class._collapsed._show ._collapsible strong {
+    font-size: 0;
+}
+
+#recurring_general_settings {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.recurring-version {
+    padding:10px;
+    background-color:#f8f8f8;
+    border:1px solid #ddd;
+    margin-bottom:7px;
+    margin-top: 45px;
+}
+.payment-information{
+    margin-top:60px;
+}
+.wk_label{
+    font-size: 1.7rem;  
+    font-weight: 600;
+}
+.wk_table{
+    margin-top: 25px;
+}
+.wk_span{
+    border:1px solid gainsboro
+}
+.admin__control-table #item1 .action-delete{
+    display: none;
+}
+#recurring_cancellation_reasons .value{
+    width:60% !important;
+}
+.display-none{
+    display: none;
+}
+.manage-subscription{
+    cursor: pointer;
+}
+.wk-subscription{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+/* #container{
+    padding: 20px;
+} */
+.date-range{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.wk-range-label{
+    font-weight: bold;
+    margin-bottom:10px
+}
+.active-subscription{
+    height: auto;
+    border: 1px solid #F2F2F2;    
+    position: relative;
+    width: 250px;
+    background: #0CBA71;
+    border-radius: 8px;
+}
+.active-trails{
+    height: auto;
+    border: 1px solid #F2F2F2;    
+    position: relative;
+    width: 250px;
+    background: #1979C3;
+    border-radius: 8px;  
+}
+.avg-subscription{
+    height: auto;
+    border: 1px solid #F2F2F2;    
+    position: relative;
+    width: 250px;
+    background: #8064A1;
+    border-radius: 8px;  
+}
+.new-subscription{
+    height: auto;
+    border: 1px solid #F2F2F2;    
+    position: relative;
+    width: 250px;
+    background: #F16E0F;
+    border-radius: 8px; 
+}
+.number-of-active-subscriptions, .percent-of-active-subscriptions{
+    display: flex;
+    width: 50%;
+    margin-left: 20px;
+    align-items: center;
+}
+.active-subscription-label{
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    font-size: 1.5rem;
+}
+.active-number-percent{
+    display: flex;
+    flex-direction: row;
+    margin-top :10px;
+    margin-bottom :10px
+}
+.total-active-subscriptions{
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+}
+.percent-active-subscription{
+    color: white;
+    font-size: 2rem;  
+} 
+.upper-arrow{
+    position: absolute;
+width: 0px;
+height: 40px;
+left: 367px;
+top: 72px;
+
+/* Gray 6 */
+background: #F2F2F2;
+/* Gray 6 */
+border: 3px solid #F2F2F2;
+} 
+.revenue-label{    
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 25px;
+    /* identical to box height */
+
+    /* Gray 1 */
+    color: #333333;
+}
+.revenue{
+    margin-top:25px;
+    border: 1px solid #CCCCCC;
+    margin-bottom: 30px;
+}
+.revenue-amount{
+    font-family: 'Open Sans';
+font-style: normal;
+font-weight: 700;
+font-size: 25px;
+line-height: 46px;
+letter-spacing: 0.1em;
+
+/* Blue 1 */
+color: #2F80ED;
+}
+.right-container{
+    padding:15px;
+    width: 45%;;
+}
+.left-container{
+    padding:15px;
+}
+.left-container{
+    display: flex;
+    justify-content: space-between;    
+    flex-direction: row;
+}
+.top-block{
+    display: flex;  
+    flex-direction: row-reverse;
+}
+.top-blocks{
+    display: flex;  
+    flex-direction: row;
+}
+.left-container-result{    
+    margin-left: 70px;
+}
+.current-subscription-status{
+    width: 30%;
+    border: 1px solid lightgray;
+    height: auto;
+}
+.subscription-status{
+    padding: 15px;
+}
+.status{
+    height: auto;
+    background-color: #d3d3d347;
+    margin-top: 20px;
+}
+.churn-rate{
+    border: 1px solid lightgray;
+    height: auto;
+    width: 69%;  
+}
+.subscription-churn{
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+.rate-percent{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+    letter-spacing: 0.1em;
+    
+    /* Blue 1 */
+    color: #ed2f38;
+}
+.churn-date-range{
+    margin-left: 300px;
+    padding: 15px;
+}
+.reload-btn{
+    background-color: #eb5202;
+    border-color: #eb5202;
+    color: white;
+}
+.subs-date-range{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 20px;
+}
+.end-date, .from-date{
+    margin-right: 10px;
+}
+.period{
+    width: 150px;
+}
+#period{
+    width: 140px;
+    height: 2.9rem;
+}
+.input-text{
+    line-height:2.4rem;
+}
+.arrow{
+    position: absolute;
+width: 0px;
+height: 40px;
+left: 822px;
+top: 72px;
+
+/* Gray 6 */
+background: #F2F2F2;
+/* Gray 6 */
+border: 3px solid #F2F2F2;
+}
+#revenue-container, #subscription-status, #churn-rate-container{
+    width: 100%
+}
+#plans_tabs_plans_content, #planButton{
+    display: none;
+}

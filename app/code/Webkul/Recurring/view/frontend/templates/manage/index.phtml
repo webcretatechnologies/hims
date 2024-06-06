@@ -1,0 +1,83 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+$viewModel = $block->getData('view_model')->getRecurringHelper();
+$canCancel = $viewModel->canCancelTheSubscription();
+?>
+<div class="grid">
+    <?php if ($block->getCollection()->getSize()) { ?>
+        <table cellspacing="0" class="data table border recurring-table">
+                <thead>
+                    <tr>
+                        <th><span><?= $escaper->escapeHtml(__('ID')) ?></span></th>
+                        <th><span><?= $escaper->escapeHtml(__('Order Id')) ?></span></th>
+                        <th class="wk-rc-name">
+                            <span><?= $escaper->escapeHtml(__('Next Billing Date')) ?></span>
+                        </th>
+                        <th class="wk-rc-id">
+                            <span><?= $escaper->escapeHtml(__('Reference Transaction Id')) ?></span>
+                        </th>
+                        <th class="wk-rc-name"><span><?= $escaper->escapeHtml(__('Product Name')) ?></span></th>
+                        <th><span><?= $escaper->escapeHtml(__('Subscription Type')) ?></span></th>
+                        <th><span><?= $escaper->escapeHtml(__('Status')) ?></span></th>
+                        <th><span>&nbsp;<?= $escaper->escapeHtml(__('Action')) ?></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($block->getCollection() as $model) { ?>
+                        <tr>
+                        <td>
+                            <?= $escaper->escapeHtml($model->getId()); ?>
+                        </td>
+                        <td>
+                            <?= $escaper->escapeHtml($block->getOrderId($model->getOrderId())); ?>
+                        </td>
+                        <td>         
+                            <?= /* @noEscape */$block->getFormattedDate($model->getValidTill()) ?>
+                        </td>
+                        <td>
+                            <?= /* @noEscape */($model->getRefProfileId()) ? $model->getRefProfileId() : "-" ; ?>
+                        </td>
+                        <td>
+                            <?= /* @noEscape */($block->getProductName($model->getProductId()))
+                                ? $block->getProductName($model->getProductId())
+                                : $model->getProductName(); ?>
+                        </td>
+                        <td>
+                            <?= $escaper->escapeHtml($block->getTypeName($model->getPlanId())); ?>
+                        </td>
+                        <td>
+                            <?= $escaper->escapeHtml($block->getStatus($model->getStatus())); ?>
+                        </td>
+                        <td>
+                            <a href="<?= $escaper->escapeHtml($block->getRowUrl($model->getId())); ?>">
+                                <?= $escaper->escapeHtml(__("View")) ?>
+                            </a><?php if ($model->getStatus()):
+                                if ($canCancel): ?>|
+                                <a id="unSubscribe" name="unSubscribe" 
+                                data-id='<?= $escaper->escapeHtml($model->getId())?>'>
+                                    <span><span><?= $escaper->escapeHtml(__("UnSubscribe")) ?></span></span>
+                                </a>
+                            <?php endif; ?>
+                            <?php else: ?>|
+                                    <span><span><?= $escaper->escapeHtml(__("UnSubscribed")) ?></span></span>
+                            <?php endif; ?>
+                        </td>
+                        </tr>
+                    <?php }  ?>
+                </tbody>
+        </table>
+        <?php $block->getPagerHtml(); ?>
+    <?php } else { ?>
+        <div class="message info empty">
+            <span><?= $escaper->escapeHtml(__("You have Placed No Subscriptions")) ?></span>
+        </div>
+    <?php } ?>
+</div>

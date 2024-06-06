@@ -1,0 +1,80 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 4.0.5 --------------------------------------
+    + Implemented latest PayPal API.
+    - Fixed minor bugs.
+    
+-------------------------------- Version 4.0.4 --------------------------------------
+    + Compatible with magento 2.4.* and php 8.2.
+    - Fixed bugs.
+    
+-------------------------------- Version 4.0.3 --------------------------------------
+    + Admin can allow customer to cancel and hold the subscription.
+    + Admin can manage the subscription labels.
+    + Can send Email for subscription status.
+    + Admin can add subscription cancellation reason for cusotomer.
+    + Admin can add the terms for the child products of the configurable product.
+    + Admin can check the subscription reports: Subscrtion revenue, active subscriptions, new
+    subscriptions, subscriptions average, churn rate.
+    + Customer can choose the subscription cacellation reason to cancel the subscription.
+    + Customer can check the recent transactions related subscriptions.   
+
+-------------------------------- Version 4.0.2 --------------------------------------
+    + Compatible with magento 2.4.6 and php 8.2.
+    - Fixed bugs.
+    
+-------------------------------- Version 4.0.1 --------------------------------------
+    + Compatible with magento 2.4.5 and php 8.1.
+    - Fixed bugs.
+
+-------------------------------- Version 4.0.0-p2 --------------------------------------
+    - Fixed setup upgrade command issue.
+    - Fixed multishipping address issue.
+    - Fixed other minor bugs.
+
+-------------------------------- Version 4.0.0-p1 --------------------------------------
+    - Fixed calendar UI issue on subscription popup.
+    - Minor Bugs fixed.
+
+-------------------------------- Version 4.0.0 --------------------------------------
+    + Compatible with Magento 2.4.x.
+
+-------------------------------- Version 3.0.2-p3 --------------------------------------
+    - Fixed Order Status issue in order history comments .
+
+-------------------------------- Version 3.0.2-p2 --------------------------------------
+    - Fixed Paypal order Notification Status issue.
+    
+-------------------------------- Version 3.0.2-p1 --------------------------------------
+    - Fixed issue with multiple subscription of stripe.
+    - Fixed Paypal Credentials issues.
+    - Minor Bugs fixed.
+    
+-------------------------------- Version 3.0.2 --------------------------------------
+    + Implemented new stripe checkout process and webhook creation from configuration
+    - Minor Bugs fixed
+
+-------------------------------- Version 3.0.1 --------------------------------------
+    + Added db_schema_whitelist.json
+    - Minor Bugs fixed
+
+-------------------------------- Version 3.0.0 --------------------------------------
+    + Implemented discount feature on subscriptions for paypal recurring
+    - Minor Bugs fixed
+
+-------------------------------- Version 2.1.1 --------------------------------------
+    + It support online Stripe Recurring Payment.
+    - Minor Bug fixed
+    
+-------------------------------- Version 2.1.0 --------------------------------------
+    + Compatible with Magento 2.3
+
+-------------------------------- Version 2.0.0 --------------------------------------
+    + Admin can enable the Recurring Module From Configuration.
+    + It support online Recurring Payment with paypal.
+    + It support Offline Recurring Payment.
+	+ Admin can set subscription Amount and subscription Initial Fee product wise.
+    + Admin can create Subscription Terms/Duration Type.

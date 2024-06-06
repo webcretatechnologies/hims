@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">subscriptions_form.subscriptions_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Subscription Information</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="Magento\Customer\Block\Adminhtml\Edit\BackButton"/>
+            <button name="unsubscribe" class="Webkul\Recurring\Block\Adminhtml\Subscriptions\UnsubscribeButton"/>
+        </buttons>
+        <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+        <deps>
+            <dep>subscriptions_form.subscriptions_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="subscriptions_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">subscriptions_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="subscriptions_info">
+        <settings>
+            <collapsible>false</collapsible>
+            <label translate="true">Subscription Information</label>
+        </settings>
+       
+        <container name="subscription_container" >
+            <htmlContent name="subscriptions_edit_tab_view_content">
+                <block class="Webkul\Recurring\Block\Adminhtml\Subscriptions\Tab\View\SubscriptionsInfo" name="subscriptions_info" template="Webkul_Recurring::subscriptions/view/subscriptions_info.phtml"/>
+            </htmlContent>
+        </container>
+       
+    </fieldset>
+    <fieldset name="subscription_order">
+        <settings>
+            <collapsible>false</collapsible>
+            <label translate="true">Orders</label>
+        </settings>
+        <insertListing name="recurring_order_information" >
+            <settings>
+                <dataLinks>
+                    <exports>false</exports>
+                    <imports>true</imports>
+                </dataLinks>
+                <autoRender>true</autoRender>
+                <selectionsProvider>recurring_order_information.recurring_order_information.columns.ids</selectionsProvider>
+                <dataScope>recurring_order_information</dataScope>
+                <ns>recurring_order_information</ns>
+            </settings>
+        </insertListing>
+    </fieldset>
+</form>

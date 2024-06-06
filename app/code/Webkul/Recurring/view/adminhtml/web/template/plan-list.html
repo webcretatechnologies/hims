@@ -1,0 +1,226 @@
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<html>
+    <div id='wkplanlist' class="field wkplanlist required">
+		
+		<div class="wk_mp_option-box" data-bind="visible:notConfigurableProduct()">			
+			<table class="data-grid" id="price_table">
+				<thead>
+					<tr class="wk_mp_headcus ul_first headings">					
+						<th class="data-grid-th"><input type="checkbox" class="input-text wkmasscheck" ></th>			
+						<th class="data-grid-th"><span data-bind="i18n: 'Duration Title'"></span></th>
+						<th class="data-grid-th"><span data-bind="i18n: 'Duration(Billing cycle)'"></span></th>									
+						<!-- ko if : storeId  -->
+						<th class="data-grid-th" data-bind="visible: storeId"><span data-bind="i18n: 'Initial Fee'"></span></th>
+						<th class="data-grid-th"><span data-bind="i18n: 'Discount Type'"></span></th>	
+						<th class="data-grid-th" data-bind="visible: storeId"><span data-bind="i18n: 'Subscription Charge'"></span></th>
+						<!-- /ko  -->
+					</tr>
+				</thead>
+				<tbody class="wk_mp_headcus wk-mp-pricebody" data-bind = "foreach : allPlanList">
+						<tr class="wk-pricebody">
+							<td>
+								<div class="control">
+									<input data-form-part="product_form" class="input-text wkrmcolor " data-bind="
+									value : entity_id,
+									attr: {
+										name : 'plans[' + durationId + '][id]'
+									}
+									" type="hidden"  >
+									<!-- ko if : status != '' -->
+									<input data-form-part="product_form" class="input-text wkcheckbox wkrmcolor" data-bind="
+									value : entity_id,
+									attr: {
+										name : 'plans[' + durationId + '][selected]'
+									}
+									" type="checkbox" checked >
+									<!-- /ko -->
+									<!-- ko if: status == '' -->
+									<input data-form-part="product_form" class="input-text wkcheckbox wkrmcolor" data-bind="
+									value : entity_id,
+									attr: {
+										name : 'plans[' + durationId + '][selected]'
+									}
+									" type="checkbox"  >
+									<!-- /ko -->
+								</div>
+							</td>
+							<td>
+								<div class="control">
+									<span data-bind="
+									text : durationTitle " > </span>
+									<input data-form-part="product_form" class="input-text admin__control-text plan_name wkrmcolor" data-bind="
+									value : durationTitle,
+									attr: {
+										name : 'plans[' + durationId + '][name]'
+									}
+									" type="hidden" >
+								</div>
+							</td>							
+							<td>
+								<div class="control ">
+									<span data-bind="
+									text : duration " > </span>
+								</div>
+							</td>
+												
+							<!-- ko if : $parent.storeId  -->
+							<td >
+								<div  class="control repeat-each">
+									<!-- ko if : status != '' -->
+									<span class="wksymbol" data-bind="text : symbol"></span>
+									<input data-form-part="product_form" class="input-text admin__control-text plan_initial_fee wkrmcolor" data-bind="
+									value : initial_fee,
+									attr: {
+										name : 'plans[' + durationId + '][initial_fee]', 
+										plan_id : durationId
+									}
+									" type="text" >
+									<!-- /ko -->
+									<!-- ko if: status == '' -->
+									<span class="wksymbol" data-bind="text : symbol"></span>
+									<input data-form-part="product_form" class="input-text admin__control-text plan_initial_fee wkrmcolor" disabled data-bind="
+									value : initial_fee,
+									attr: {
+										name : 'plans[' + durationId + '][initial_fee]', 
+										plan_id : durationId
+									}
+									" type="text" >
+									<!-- /ko -->
+								</div>
+							</td>	
+							<td>
+								<div class="control  repeat-each">
+									<!-- ko if : status != '' -->
+									<select data-form-part="product_form" class="admin__control-select discount_type wkrmcolor" data-bind="value : discount_type,
+									attr: {
+										name : 'plans[' + durationId + '][discount_type]'
+									}">
+									<option value="" data-bind="i18n: 'Select'"></option>
+									<option value="1" data-bind="i18n: 'Product Price'"></option>
+									<option value="2" data-bind="i18n: 'Fixed Amount'"></option>
+									<option value="3" data-bind="i18n: 'Percentage Discount'"></option>								 
+									</select>
+									<!-- /ko -->
+									<!-- ko if: status == '' -->
+									<select data-form-part="product_form" class="admin__control-select discount_type wkrmcolor" data-bind="value : discount_type,
+									attr: {
+										name : 'plans[' + durationId + '][discount_type]'
+									}">
+									<option value="" data-bind="i18n: 'Select'"></option>
+									<option value="1" data-bind="i18n: 'Product Price'"></option>
+									<option value="2" data-bind="i18n: 'Fixed Amount'"></option>
+									<option value="3" data-bind="i18n: 'Percentage Discount'"></option>								 
+									</select>
+									<!-- /ko -->
+								</div>
+							</td>
+							<td>
+								<div  class="control repeat-each">
+									<!-- ko if : status != '' -->
+									<span class="wksymbol" data-bind="text : symbol"></span>
+									<input data-form-part="product_form" class="input-text admin__control-text plan_subscription_charge wkrmcolor" data-bind="
+									value : subscription_charge,
+									attr: {
+										name : 'plans[' + durationId + '][subscription_charge]', 
+										plan_id : durationId
+									}
+									" type="text" >
+									<!-- /ko -->
+									<!-- ko if: status == '' -->
+									<span class="wksymbol" data-bind="text : symbol"></span>
+									<input data-form-part="product_form"disabled  class="input-text admin__control-text plan_subscription_charge wkrmcolor" data-bind="
+									value : subscription_charge,
+									attr: {
+										name : 'plans[' + durationId + '][subscription_charge]', 
+										plan_id : durationId
+									}
+									" type="text" >
+									<!-- /ko -->							
+								</div>
+							</td>
+							<!-- /ko -->
+						</tr>
+					</tbody>
+			</table>
+		</div>
+		<div class="wk_mp_option-box" data-bind="visible:isConfigurableProduct()">
+			<table class="data-grid" id="price_table">
+				<thead>
+					<tr class="wk_mp_headcus ul_first headings">				
+							
+						<th class="data-grid-th"><span data-bind="i18n: 'Image'"></span></th>
+						<th class="data-grid-th"><span data-bind="i18n: 'Name'"></span></th>	
+						<th class="data-grid-th"><span data-bind="i18n: 'Sku'"></span></th>
+						<th class="data-grid-th"><span data-bind="i18n: 'Price'"></span></th>	
+						<th class="data-grid-th" ><span data-bind="i18n: 'Status'"></span></th>
+						<th class="data-grid-th" ><span data-bind="i18n: 'Attributes'"></span></th>
+						<th class="data-grid-th" ><span data-bind="i18n: 'Subscription Info'"></span></th>
+						<th class="data-grid-th" ><span data-bind="i18n: 'Action'"></span></th>
+					</tr>
+				</thead>
+				
+				<tbody class="wk_mp_headcus wk-mp-pricebody" data-bind = "foreach : chlidProductsMatrix">
+						<tr class="wk-pricebody">
+							<td>
+								<div class="control">
+									<img class="profile-pic-post" data-bind="attr: {'src': image}" style="width:100px;height:100px"></img>									
+								</div>
+							</td>
+							<td>
+								<div class="control">
+									<span data-bind="
+									text : name " > </span>									
+								</div>
+							</td>							
+							<td>
+								<div class="control ">
+									<span data-bind="
+									text : sku " > </span>
+								</div>
+							</td>
+							<td>
+								<div class="control ">
+									<span data-bind="
+									text : price " > </span>
+								</div>
+							</td>
+							<td>
+								<div class="control ">
+									<span data-bind="
+									text : status " > </span>
+								</div>
+							</td>
+							<td>
+								<div class="control" data-bind = "foreach : options">
+									<span data-bind="
+									text : attribute_label +' : '+ label +', '" > </span>
+								</div>
+							</td>
+							<td>
+							
+									<ul data-bind="foreach: $data.subscriptionInfo">
+										
+											<span data-bind="i18n: 'Plan : '"></span>  <span data-bind="text: plan"></span> <br>			
+											<span data-bind="i18n: 'Initial Fees : '"></span>  <span data-bind="text: initialFee"></span> <br>
+											<span data-bind="i18n: 'Subscripton Charge : '"></span>  <span data-bind="text: charge"></span>
+									
+									</ul>
+							  
+							</td>
+							<td>							
+								<a id="manage-subscription" class="manage-subscription" data-bind="click: function(data,e) { $parent.openPlanModel($data, event) }, attr: {title: 'Manage Subscription' }, i18n: 'Manage Subscription'"></a>
+							</td>
+						</tr>
+					</tbody>
+			</table>			
+		</div>
+	</div>
+</html>

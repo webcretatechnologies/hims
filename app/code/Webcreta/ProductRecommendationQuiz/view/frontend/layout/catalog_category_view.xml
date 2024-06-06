@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Webcreta\ProductRecommendationQuiz\Block\GetCurrentCategory" name="custom.block" template="Webcreta_ProductRecommendationQuiz::test.phtml" />
+            <block class="Webcreta\ProductRecommendationQuiz\Block\GetCurrentCategory" name="custom.block" template="Webcreta_ProductRecommendationQuiz::currentCategory.phtml" />
         </referenceContainer>
     </body>
 </page>

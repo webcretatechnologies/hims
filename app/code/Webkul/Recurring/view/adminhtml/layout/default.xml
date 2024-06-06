@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Webkul_Recurring::css/configtab.css"/>
+    </head>
+    <body>
+        <referenceContainer name="root">
+            <block class="Webkul\Recurring\Block\Adminhtml\Logo" name="webkul_recurring_logo" template="Webkul_Recurring::logo.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

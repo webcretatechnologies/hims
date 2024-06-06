@@ -1,0 +1,21 @@
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<div>
+    
+    <!-- ko if: sbscriptionInfo().length -->
+    <ul data-bind="foreach: sbscriptionInfo class="inline-list">
+        <li> 
+            <span data-bind="i18n: 'Plan : '"></span>  <span data-bind="text: plan"></span> <br>
+            <span data-bind="i18n: 'Initial Fees : '"></span>  <span data-bind="text: intialFee"></span> <br>
+            <span data-bind="i18n: 'Subscripton Charge : '"></span>  <span data-bind="text: subscription_charge"></span>
+        </li>
+    </ul>
+    <!--/ko -->
+</div>

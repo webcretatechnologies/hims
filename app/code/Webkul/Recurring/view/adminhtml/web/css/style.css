@@ -1,0 +1,22 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+.repeat-each{
+    width: 155px !important;
+}
+.repeat-slt, .repeat-txt{
+    width: 45% !important;
+    display: inline-block !important;
+}#planButton {
+    float: right;
+}.plan_initial_fee,.plan_subscription_charge{
+        width: 90%;
+}.wksymbol {
+    width: 5%;
+}

@@ -1,0 +1,68 @@
+{
+    "recurring_product_plans": {
+        "column": {
+            "entity_id": true,
+            "name": true,
+            "description": true,
+            "type": true,
+            "product_id": true,
+            "store_id": true,
+            "website_id": true,
+            "status": true,
+            "initial_fee": true,
+            "subscription_charge": true,
+            "sort_order": true,
+            "created_time": true,
+            "update_time": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "recurring_terms": {
+        "column": {
+            "entity_id": true,
+            "title": true,
+            "duration": true,
+            "status": true,
+            "sort_order": true,
+            "created_time": true,
+            "update_time": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "recurring_subscriptions": {
+        "column": {
+            "entity_id": true,
+            "order_id": true,
+            "product_id": true,
+            "product_name": true,
+            "customer_id": true,
+            "customer_name": true,
+            "plan_id": true,
+            "ref_profile_id": true,
+            "stripe_customer_id": true,
+            "start_date": true,
+            "status": true,
+            "discount_managed": true,
+            "extra": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "recurring_subscriptions_mapping": {
+        "column": {
+            "entity_id": true,
+            "subscription_id": true,
+            "order_id": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

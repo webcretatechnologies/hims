@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_load_after">
+        <observer name="set_additional_options" instance="Webkul\Recurring\Observer\SetAdditionalOptions"/>
+    </event>
+    <!-- execute when an item added in quote for first time -->
+    <event name="sales_quote_add_item">
+        <observer name="webkul_recurring_sales_quote_add_item" instance="Webkul\Recurring\Observer\SalesQuoteAddItem" />
+    </event>
+</config>

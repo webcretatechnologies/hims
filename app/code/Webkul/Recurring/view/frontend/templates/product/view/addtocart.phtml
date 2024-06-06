@@ -1,0 +1,266 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+?>
+<?php
+$_product               = $block->getProduct();
+if ($_product->isSaleable()) {
+    $viewModel              = $block->getViewModel();
+    $recurringHelper        = $viewModel->getRecurringHelper();
+    $recurringData          = $recurringHelper->getRecurring($_product->getId());
+    $configData             = $recurringHelper->getConfigData();
+    $enabled                = $configData['enable'];
+    $withoutSubscription    = $recurringHelper->getConfig("subscription_labels/without_subscription");
+    $withSubscription       = $recurringHelper->getConfig("subscription_labels/with_subscription");
+    if ($enabled) {
+        $enabled            = $recurringData['subscription'] ? $recurringData['subscription'] : $enabled;
+        $enabled            = (!$_product->getData('subscription')) ? $_product->getData('subscription') : $enabled;
+    }
+    $subscriptionOnly = $_product->getData('subscriptionOnlyProduct');
+    $onlyForSubscription =  (!$subscriptionOnly) ? $subscriptionOnly : true;
+    $allSubscriptionData    = $recurringHelper->getSubscriptionContent();
+    $isCustomerloggedIn     = $recurringHelper->getIsCustomerLoggedIn();
+    $disableClass           = 'disabled';
+    if ($isCustomerloggedIn) {
+        $disableClass = '';
+    }
+    $currencySymbol = $recurringHelper->getCurrencySymbol();
+    ?>
+
+    <div class="box-tocart">
+        <div class="fieldset">
+        <?php
+        if ($enabled) {
+            if (count($allSubscriptionData)) {
+                if ($onlyForSubscription) { ?>
+                    <div class="control">                                        
+                        <span class="only-subscribe-span">
+                        <?= $escaper->escapeHtml($withSubscription); ?> </span>
+                    </div>
+                <?php } else { ?>
+                    <div class="subscription-div">
+                        <div class="oneTimePurchase">
+                            <input type="radio" id="one-time-purchase" name="subscribe" 
+                            value='0' title="<?= $escaper->escapeHtml($withoutSubscription) ?>" checked /> 
+                            <label for="one-time-purchase" class='one-time-purchase'>
+                            <?= $escaper->escapeHtml($withoutSubscription); ?></label>
+                        </div>
+                        <div class="subscriptionPurchase">                        
+                            <input type="radio" id="product-subscribe-button" name="subscribe" 
+                            value='1' title="<?= $escaper->escapeHtml(__('Subscribe')) ?>" 
+                            /> <label for="product-subscribe-button" class="subscribe-span">
+                            <?= $escaper->escapeHtml($withSubscription); ?> </label>
+                        </div>
+                    </div>
+                <?php  }
+                ?>
+                <input type="radio" id="only-subscribe" name="subscribe" 
+                        value='0'>   
+                    <div id="config_subscription_form">
+                        <span class="error-msg"></span>
+                    </div>
+                    <div class="subscribe-form display-none">
+                        
+                        <div id="subscription_form" class="subscription-form">
+                            <div class="subscription-plan-qty">
+                                <div class="subscription-plan">
+                                    <label for="subscription_plan">
+                                    <?=$escaper->escapeHtml(__("Select Subscription Plan"))?></label>
+                                    <select id="product-plan" class="select"
+                                    name="product-plans" <?=$escaper->escapeHtml($disableClass)?>>
+                                    </select>
+                                </div>
+                                <div class="subscription-qty">
+                                    <label for="subscription_qty"><?=$escaper->escapeHtml(__("Qty"))?></label>
+                                    <input class="subscription_qty" type="number" name="subscription_qty"
+                                <?=$escaper->escapeHtml($disableClass)?> value="1" />
+                                </div>
+                            </div>
+                            <div class="subscription-start-end-date">
+                                <div class="start-date">
+                                    <label for="start_date">
+                                    <?=$escaper->escapeHtml(__("Select Start Date"))?></label>
+                                    <input id="wk_start_date" class="wk-start-date wk-terminput-text"
+                                    type="text" placeholder="Select Start Date"
+                                <?=$escaper->escapeHtml($disableClass)?>>
+                                    <button type="button"
+                                    class="ui-datepicker-trigger v-middle" >
+                                    <span><?= $escaper->escapeHtml(__("Select Date"));?></span></button>
+                                </div>
+                                <div class="end-date">
+                                    <label for="end_date">
+                                    <?=$escaper->escapeHtml(__("Select End Date"))?></label>
+                                    <input class="wk-end-date wk-terminput-text"
+                                    type="text" placeholder="Select End Date" name="end_date" disabled >
+                                    <button type="button"
+                                    class="ui-datepicker-trigger v-middle"
+                                <?=$escaper->escapeHtml($disableClass)?>>
+                                    <span><?= $escaper->escapeHtml(__("Select Date"));?></span></button>
+                                </div>
+                            </div>
+                            <div class="trails display-none">
+                                <div class="free-trail">
+                                    <div class="trailDay">
+                                        <label for="free_trail">
+                                        <?=$escaper->escapeHtml(__("Free Trail : "))?>
+                                        </label> 
+                                        <span class="trailDays"></span>                                        
+                                    </div>
+                                    <div class='subscriptionCharge'>
+                                        <span class="subscriptionCharge"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="subcription-fee-and-charge">
+                            <div class ="left-container">
+                                <div class="subscripption-initial-fee">
+                                    <label for="subscripption_fee">
+                                    <?=$escaper->escapeHtml(__('Initial Fee : '))?></label>
+                                    <span class="subscripption_fee">
+                                    <?=$escaper->escapeHtml(($currencySymbol).('00.00'))?></span>
+                                </div>
+                                <div class="subscripption-charge">
+                                    <label for="subscripption_charge">
+                                    <?=$escaper->escapeHtml(__('Subscription Charges : '))?></label>
+                                    <span class="subscripption_charge">
+                                    <?=$escaper->escapeHtml(($currencySymbol).('00.00'))?></span>
+                                </div>
+                            </div>                            
+                            <div class="right-container">   
+                        <?php if ($isCustomerloggedIn) { ?>                              
+                                <button type="button" class="action primary subscribe-now">
+                                    <span class="wk-select"><?=$escaper->escapeHtml(__('Subscribe Now'))?></span>
+                                </button>
+                            <?php } else {
+                                $url = $escaper->escapeUrl(
+                                    $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])
+                                );
+                                $encodeUrl = $viewModel->getUrlEncoder()->encode($url);
+                                $url = $escaper->escapeUrl(
+                                    $block->getUrl('customer/account/login', ['referer' => $encodeUrl])
+                                );
+                            ?>
+                                <button data-url="<?= $escaper->escapeHtml($url) ?>" type="button"
+                                        title="<?= $escaper->escapeHtml(__('Subscribe')) ?>"
+                                        class="action primary login-to-subscribe"
+                                        id="login-to-subscribe">
+                                    <span>
+                                        <?= $escaper->escapeHtml(__('Login To Subscribe')) ?>
+                                    </span>
+                                </button>
+                            <?php } ?>
+                            </div>
+                        </div>
+                        <?php if ($isCustomerloggedIn) { ?> 
+                            <?php if (isset($configData['description'])) { ?>
+                                <div class="subscription-description">
+                                    <span class="description">
+                                        <?= $escaper->escapeHtml(strip_tags($configData['description']))?>
+                                    </span>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                
+                <?php
+            }
+        }
+        ?>  
+            <?php if ($block->shouldRenderQuantity()): ?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= $escaper->escapeHtml(__('Qty')) ?></span></label>
+                    <div class="control">
+                        <input type="number"
+                            name="qty"
+                            id="qty"
+                            value="<?= $escaper->escapeHtml($block->getProductDefaultQty() * 1) ?>"
+                            title="<?= $escaper->escapeHtml(__('Qty')) ?>"
+                            class="input-text qty"
+                            <?php $qtyValidator = $viewModel->getJsonSerialize($block->getQuantityValidators())?>
+                            data-validate="<?= $escaper->escapeHtml($qtyValidator) ?>"
+                            />
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="actions">            
+                <button type="submit"
+                        title="<?= $escaper->escapeHtml(__('Add to Cart')) ?>"
+                        class="action primary tocart"
+                        id="product-addtocart-button">
+                    <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+                </button>
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </div>
+    </div>
+   
+    <input type="hidden" name="plan_id" id="plan_id" >
+    <input type="hidden" name="term_id" id="term_id">
+    <input type="hidden" name="start_date" id="start_date">
+    <input type="hidden" name="end_date" id="end_date">
+    <input type="hidden" name="initial_fee" id="initial_fee">
+    <input type="hidden" name="subscription_charge" id="subscription_charge">
+    <input type="hidden" name="free_trail_status" id="free_trail_status">
+    <input type="hidden" name="free_trail_days" id="free_trail_days">
+    <input type="hidden" class="current-term required-entry" name="subscriptiontype">
+    <?php
+    if ($block->isRedirectToCartEnabled()): ?>
+        <script type="text/x-magento-init">
+            {
+                "#product_addtocart_form": {
+                    "Magento_Catalog/product/view/validation": {
+                        "radioCheckboxClosest": ".nested"
+                    }
+                }
+            }
+        </script>
+            <?php else: ?>
+        <script type="text/x-magento-init">
+            {
+                "#product_addtocart_form": {
+                    "Magento_Catalog/js/validate-product": {}
+                }
+            }
+        </script>
+    <?php endif;
+    
+            $formData = [
+            'isCustomerloggedIn' => $isCustomerloggedIn,
+            'getPlan'     => $escaper->escapeUrl($block->getUrl('recurring/plan/getplandata')),
+            'getPlanData' => $escaper->escapeUrl($block->getUrl('recurring/plan/productplan')),
+            'currencySymbol' => $currencySymbol,
+            'onlyForSubscription' => $onlyForSubscription,
+            'currentProductId'   =>  $_product->getId(),
+            'currentProductPrice' => $_product->getPrice(),
+            'currentProductId'   =>  $_product->getId(),
+            'getAssociatedProduct' => $escaper->escapeUrl($block->getUrl('recurring/plan/getassociateproduct')),
+            'productType'   => $_product->getTypeId(),
+            ];
+            $serializedFormData = $viewModel->getJsonSerialize($formData);
+            ?>
+    <script>
+        window.subscriptionData = <?= /* @noEscape */ $serializedFormData; ?>;   
+    </script>
+
+    <div id="subscription-component" data-bind="scope:'subscription-content'" class="field">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <script type="text/x-magento-init">
+        {
+            "#subscription-component": {
+                "Magento_Ui/js/core/app":  <?= /* @noEscape */ $block->getJsLayout();?>
+            }
+        }
+        </script>
+    </div>
+<?php } ?>

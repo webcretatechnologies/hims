@@ -1,0 +1,78 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$product = $block->getProduct($block->request->getParam('id'));
+
+$viewBlock =  $block->getLayout()
+->createBlock(\Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Variations\Config\Matrix::class);
+$productMatrix = $viewBlock->getProductMatrix();
+$blockData = $block->getPlansData();
+$configProductPlanData = $block->getConfigProductPlanData();
+if (!empty($configProductPlanData)) {
+    $savedConfigPlan = $configProductPlanData[0];
+    $planData = $configProductPlanData[1];
+}
+
+$helper = $block->getRecurringHelper();
+$recurrScope = $helper->getConfig('general_settings/price_scope');
+$storeId = 0;
+if ($recurrScope == 0) {
+    $storeId = (int)$block->getRequest()->getParam('store', 0);
+}
+$formData = [
+    'allPlansData' => $blockData,
+    'savedConfigPlan' => $savedConfigPlan,
+    'allPlanList' => $planData,
+    'storeId'     => $storeId,
+    'productMatrix' => $productMatrix
+];
+$serializedFormData = $block->getJsonSerialize($formData);
+?>
+<script>
+    window.planData = <?= /* @noEscape */ $serializedFormData; ?>;   
+   
+</script>
+<div id="plans_tabs_plans_content"
+     data-ui-id="adminhtml-plans-edit-tabs-0-tab-content-plan"
+     aria-labelledby="plans_tabs_plans"
+     class="ui-tabs-panel ui-widget-content ui-corner-bottom"
+     role="tabpanel" aria-expanded="true" aria-hidden="false">
+    <div class="entry-edit form-inline">
+                <button id="planButton" class="action-basic">
+                    <span>
+                        <?php if (isset($blockData['selected']) && $blockData['selected'] == ""):?>
+                            <?= $escaper->escapeHtml(__("Create Configuration")); ?>
+                        <?php else:?>
+                            <?= $escaper->escapeHtml(__("Edit Configuration")); ?>
+                        <?php endif; ?>
+                    </span>
+                </button>
+            <div id="planlist-component" data-bind="scope:'planlist-content'" class="field">
+                <!-- ko template: getTemplate() --><!-- /ko --> 
+                <!-- ko template: "Webkul_Recurring/config-product/plan-list" --><!-- /ko -->              
+            </div>  
+                 
+    </div> 
+</div>
+<script type="text/x-magento-init">
+    {
+        "#planlist-component": {
+            "Magento_Ui/js/core/app": {
+            "components": {
+                    "planlist-content": {
+                        "component": "Webkul_Recurring/js/plan-list"                       
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+

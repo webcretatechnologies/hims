@@ -1,0 +1,26 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+?>
+<?php
+$subscriptionFlag = 0;
+$quote = $block->getQuote();
+$cartData = $quote->getAllVisibleItems();
+foreach ($cartData as $item) {
+    if ($additionalOptionsQuote = $item->getOptionByCode('custom_additional_options')) {
+        $subscriptionFlag = 1;
+    }
+}
+?>
+<?php if (!$subscriptionFlag): ?>
+    <a class="action multicheckout" href="<?= $escaper->escapeUrl($block->getCheckoutUrl()) ?>">
+        <span><?= $escaper->escapeHtml(__('Check Out with Multiple Addresses')) ?></span>
+    </a>
+<?php endif; ?>

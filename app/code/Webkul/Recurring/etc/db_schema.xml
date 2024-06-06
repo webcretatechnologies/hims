@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!-- create table to same plans product and store wise. -->
+    <table name="recurring_product_plans" resource="default" engine="innodb" comment="Subscription plans for products">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Entity Id is a plan id"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" default="" comment="Name of the plan"/>
+        <column xsi:type="varchar" name="discount_type" nullable="true" length="255" comment="discount_type of the plan"/>
+        <column xsi:type="varchar" name="type"  nullable="false" default="" length="255" comment="term or duration ID"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="product ID"/>
+        <column xsi:type="int" name="parent_product_id" padding="10" unsigned="true" nullable="false"
+        identity="false" default="0" comment="parent product id for configurable product"/>
+        <column xsi:type="int" name="store_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="store ID"/>
+        <column xsi:type="int" name="website_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="website ID"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false"
+                identity="false" default="0" comment="plan status"/>
+        <column xsi:type="decimal" name="initial_fee" precision="12" scale="2" unsigned="true" nullable="false"
+                default="0" comment="initial fee of the plan"/>
+        <column xsi:type="decimal" name="subscription_charge" precision="12" scale="2" unsigned="true" nullable="false"
+                default="0" comment="charge of the plan"/>
+        <column xsi:type="smallint" name="sort_order" padding="5" unsigned="true" nullable="false"
+                identity="false" default="0" comment="sort order"/>     
+        <column xsi:type="timestamp" name="created_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <!-- Create table 'recurring_terms' this is a duration type information ( duration ). -->
+    <table name="recurring_terms" resource="default" engine="innodb" comment="Subscription plans Terms duration">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Entity Id is a Term ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="225" default="" comment="title of the Duration"/>
+        <column xsi:type="int" name="duration" nullable="true" padding="5" comment="duration of the term"/>
+        <column xsi:type="varchar" name="duration_type" nullable="false" length="225"
+                default="" comment="plan duration type"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="plan status"/>
+        <column xsi:type="smallint" name="sort_order" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="sort order"/>
+        <column xsi:type="text" name="initial_fee" nullable="false" comment="Initial Fee"/>
+        <column xsi:type="smallint" name="initial_fee_status" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Initial fee status"/>
+        <column xsi:type="smallint" name="free_trail_status" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="free trail status"/>
+        <column xsi:type="text" name="free_trail_days" nullable="false" comment="Free trail days number"/>
+        <column xsi:type="timestamp" name="created_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <!-- Create table 'recurring_subscriptions' this contains all subsciptions. -->
+    <table name="recurring_subscriptions" resource="default" engine="innodb" comment="All Subscriptions">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Subscription ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Order ID of Subscription"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Product ID of Subscription"/>
+        <column xsi:type="varchar" name="product_name" nullable="false" length="255" default="" comment="Product Name"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Customer ID of Subscription"/>
+        <column xsi:type="varchar" name="customer_name" nullable="false" length="255" default="" comment="Customer Name"/>
+        <column xsi:type="varchar" name="plan_id" length="255" nullable="false"
+                default="" comment="Plan ID for subscription"/>
+        <column xsi:type="varchar" name="ref_profile_id" nullable="false"  length="255" default="" comment="Reference Transaction Id for online subscription"/>
+        <column xsi:type="varchar" name="stripe_customer_id" nullable="false" length="255" default="" comment="Reference Stripe Customer Id for online subscription"/>
+        <column xsi:type="varchar" name="subscription_item_id" nullable="false" length="255" default="" comment="Reference Stripe Customer Id for online subscription"/>
+        
+        <column xsi:type="varchar" name="start_date" length="255" nullable="false" default=""
+                comment="Start Time"/>
+        <column xsi:type="varchar" name="end_date" length="255" nullable="false" default=""
+        comment="End date of subscription"/>
+        <column xsi:type="varchar" name="valid_till" length="255" nullable="false" default=""
+        comment="Subscription valid till"/>
+        <column xsi:type="varchar" name="payment_code" length="255" nullable="false" default=""
+        comment="Payment method code for subscription"/>        
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false"
+                identity="false" default="0" comment="subscription status"/>
+        <column xsi:type="smallint" name="discount_managed" padding="5" unsigned="true" nullable="false"
+                identity="false" default="0" comment="is discount removed for next payments"/>
+        <column xsi:type="text" name="extra" nullable="false" comment="Extra plan + term"/>   
+        <column xsi:type="varchar" name="cancellation_resason" length="255" nullable="false" default="" comment="Subscription cancellation reason"/>             
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <!-- Create table 'recurring_subscriptions_mapping' this contains all subsciptions mapping with parent subscriptions to 
+         have track . -->
+    <table name="recurring_subscriptions_mapping" resource="default" engine="innodb" comment="All Subscriptions Mappings">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Subscription mapping ID"/>
+        <column xsi:type="int" name="subscription_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Subscription ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false"
+                identity="false" default="0" comment="Order ID of Subscription"/>
+                
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="sales_order" resource="default" engine="innodb" >
+        <column xsi:type="text" name="initial_fee" nullable="false" comment="Initial Fee"/>
+    
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="quote" resource="default" engine="innodb" >
+        <column xsi:type="text" name="initial_fee" nullable="false" comment="Initial Fee"/>
+        <column xsi:type="int" name="is_recurring" unsigned="true" nullable="true" default="0" comment="Is Recurring"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>
