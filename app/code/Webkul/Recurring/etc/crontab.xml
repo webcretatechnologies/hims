@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<config>
+	<group id="default">
+        <job name="recurring_cron_job" instance="\Webkul\Recurring\Model\Cron" method="recurringOrder">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+        <job instance="Webkul\Recurring\Cron\SubscriptionExpiryMail" method="execute" name="subscription_expiry_mail_cron">
+			<schedule>0 0 * * *</schedule>
+		</job>
+
+    </group>
+</config>

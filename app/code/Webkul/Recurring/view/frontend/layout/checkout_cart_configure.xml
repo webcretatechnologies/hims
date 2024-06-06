@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="catalog_product_view"/>
+    <head>
+        <css src="Webkul_Recurring::css/subscribe/button.css" />
+    </head>
+    <body>
+        <referenceBlock name="product.info.addtocart">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Webkul_Recurring::cart/item/configure/updatecart.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="view_model" xsi:type="object">Webkul\Recurring\ViewModel\Recurring</argument>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="subscription-content" xsi:type="array">
+                            <item name="component" xsi:type="string">Webkul_Recurring/js/subscription</item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="product.info.addtocart.additional">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Webkul_Recurring::cart/item/configure/updatecart.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="view_model" xsi:type="object">Webkul\Recurring\ViewModel\Recurring</argument>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="subscription-content" xsi:type="array">
+                            <item name="component" xsi:type="string">Webkul_Recurring/js/configurable-product/update-cart-subscription</item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

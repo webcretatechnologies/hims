@@ -1,0 +1,48 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+
+<!--@subject New Subscription Notification  @-->
+<!--@vars {
+"var customerName|raw":"Customer Name",
+"var refProfileId|raw":"Profile Id",
+"var orderItems|raw":"Item info"
+} @-->
+
+<table cellspacing="0" cellpadding="0" style="width: 50%; margin: 0 auto">
+    <tr class="email-intro">
+        <td style="padding: 10px">
+            <p class="greeting">{{trans "Dear "}}{{var customerName|raw}},</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td style="padding: 10px">{{trans "Thanks for visiting us."}}</td>
+    </tr>
+    <tr class="email-summary">
+        <td style="padding: 10px">{{trans "Your subscription with Transaction Id: "}}{{var refProfileId|raw}}{{trans ", has been activated."}}</td>
+    </tr>  
+    <tr>
+        <td>
+            <table class="email-items">
+                <thead>
+                    <tr>
+                        <th class="item-info">{{trans "Item"}}</th>
+                        <th class="item-info">{{trans "Sku"}}</th>
+                        <th class="item-qty">{{trans "Qty"}}</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {{var orderItems|raw}}
+                </tbody>
+            </table>
+        </td>
+    </tr>  
+</table>

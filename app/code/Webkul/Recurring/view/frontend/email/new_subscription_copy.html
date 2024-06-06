@@ -1,0 +1,38 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<!--@subject Order Placed Notification To Admin  @-->
+<!--@vars {
+"var adminname":"Admin Name",
+"var incid":"Increment Id",
+"var createdat":"Created Date"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "%admin_name," admin_name=$adminname}}</p>
+            <p>
+                {{trans "I would like to inform you that a new subscription has been ordered from the store."}}
+            </p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <h1>{{trans 'Order <span class="no-link">#%increment_id</span>' increment_id=$incid |raw}}</h1>
+            <p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$createdat |raw}}</p>
+        </td>
+    </tr>    
+</table>
+
+{{template config_path="design/email/footer_template"}}

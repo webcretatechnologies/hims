@@ -1,0 +1,296 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$paramData = $block->getParmasDetail();
+list($revenue, $activeSubs, $totalAvgSubs, $totalNewSubs) = $block->getFilterData();
+$periodList = $block->getPeriodValues();
+$revenuePeriodList = $block->getRevenuePeriodValues();
+$filter = $paramData['period'] ?? 'monthly';
+$filterDateFrom = $paramData['from'] ?? '';
+$filterDateTo = $paramData['to'] ?? '';
+$revenueAction = $paramData['revenue-action-select'] ?? '';
+
+$currencySymbol = $block->getHelper()->getCurrencySymbol();
+$totalChurnRate = 0;
+list($dataset, $labels)= $block->getDataForSubscriptionType();
+list($datasets, $label)= $block->getDataForActiveSubscription();
+list($churnData, $churnLabel, $totalChurnRate) = $block->getDataForChurnRate();
+?>
+
+ <form action="<?= $escaper->escapeUrl($block
+    ->getUrl('recurring/reports/index', ["_secure" => $block->getRequest()->isSecure()])) ?>" 
+    enctype="multipart/form-data" method="get"
+    data-role="form-earning-validate" data-mage-init='{"validation":{}}' id="show-report">
+    <div class="wk-mp-design">       
+            <div 
+                class="wk-mp-page-title legend" id="wk-mp-earning-form">               
+                <button class="button reload-btn"
+                title="<?= $escaper->escapeHtml(__('Reload Data')) ?>" 
+                type="submit" id="save-btn">
+                    <span><span><?= $escaper->escapeHtml(__('Reload Data')) ?></span></span>
+                </button>
+            </div>
+
+            <div class='subs-date-range'>
+                <div class="end-date">
+                    <label class="label"><?= $escaper->escapeHtml(__('To')) ?>:</label>
+                    <div class="control">
+                        <input type="text" name="to" id="to-date" 
+                        class="input-text" value="<?= $escaper->escapeHtml($filterDateTo)?>" />
+                    </div>
+                </div>
+                <div class="from-date">
+                    <label class="label"><?= $escaper->escapeHtml(__('From')) ?>:</label>
+                    <div class="control">
+                        <input type="text" name="from" id="from-date" 
+                        class="input-text" value="<?= $escaper->escapeHtml($filterDateFrom)?>" />
+                    </div>
+                </div>
+                <div class="period">
+                    <label class="required" for="period"><?= $escaper->escapeHtml(__('Date Range')) ?> </label>
+                    <div class="control">
+                        <select name="period" id="period">
+                                <?php foreach ($periodList as $period): ?>
+                                    <option value="<?= $escaper->escapeHtml($period['value'])?>" 
+                                    <?php if ($filter == $period['value']): ?>
+                                         <?= 'selected="selected"';?>
+                                    <?php endif; ?>>
+                                    <?= $escaper->escapeHtml(__($period['label']))?></option>
+                                <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>                
+               </div>
+            </div>
+            <div class="wk-subscription">
+                <div class="active-subscription">
+                    <div class="active-subscription-label"> 
+                        <label class="active-subscription-label">
+                            <?=$escaper->escapeHtml(__('Subscription Revenue')) ?>
+                        </label>
+                    </div>    
+                    <div class="active-number-percent">
+                        <div class="number-of-active-subscriptions">
+                            <label class="total-active-subscriptions">
+                            <?=$escaper->escapeHtml(($currencySymbol.$revenue['totalRevenue']))
+                            ?>
+                            </label>
+                        </div>
+                        <div class="percent-of-active-subscriptions">
+                            <label class="percent-active-subscription">
+                                <?=$escaper->escapeHtml((abs($revenue['revenuePercent']).'%'))?>
+                                <?php if ($revenue['revenuePercent'] > 0 && $revenue['revenuePercent'] !=0) {
+                                    ?><span>&#8593;</span>
+                                <?php } elseif ($revenue['revenuePercent'] < 0 && $revenue['revenuePercent'] !=0) { ?>
+                                    <span>&#8595;</span>
+                               <?php }?>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="active-trails"> 
+                    <div class="active-subscription-label">
+                        <label class="active-subscription-label">
+                            <?=$escaper->escapeHtml(__('Active Subscription')) ?>
+                        </label>
+                    </div>
+                    <div class="active-number-percent">
+                        <div class="number-of-active-subscriptions">
+                            <label class="total-active-subscriptions">                                
+                                    <?=$escaper->escapeHtml($activeSubs['activeSubs'])
+                                    ?>                                                 
+                            </label>
+                        </div>
+                        <div class="percent-of-active-subscriptions">
+                            <label class="percent-active-subscription">
+                                <?=$escaper->escapeHtml((abs($activeSubs['activeSubsPercent']).'%'))?>
+                                <?php if ($activeSubs['activeSubsPercent'] > 0
+                                && $activeSubs['activeSubsPercent'] !=0) {?><span>&#8593;</span>
+                                <?php } elseif ($activeSubs['activeSubsPercent'] < 0
+                                && $activeSubs['activeSubsPercent'] !=0) { ?>
+                                    <span>&#8595;</span>
+                               <?php }?>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="avg-subscription">
+                    <div class="active-subscription-label"> 
+                        <label class="active-subscription-label">
+                            <?=$escaper->escapeHtml(__('Average Subscription Value')) ?>
+                        </label>
+                    </div>    
+                    <div class="active-number-percent">
+                        <div class="number-of-active-subscriptions">
+                            <label class="total-active-subscriptions">
+                                <?=$escaper->escapeHtml(($totalAvgSubs['avgSubs']))?>                            
+                            </label>
+                        </div>
+                        <div class="percent-of-active-subscriptions">
+                            <label class="percent-active-subscription">
+                                <?=$escaper->escapeHtml((abs($totalAvgSubs['avgSubsPercent']).'%'))?>
+                                <?php if ($totalAvgSubs['avgSubsPercent'] > 0
+                                && $totalAvgSubs['avgSubsPercent'] !=0) {?><span>&#8593;</span>
+                                <?php } elseif ($totalAvgSubs['avgSubsPercent'] < 0
+                                && $totalAvgSubs['avgSubsPercent'] !=0) { ?>
+                                    <span>&#8595;</span>
+                               <?php }?>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="new-subscription">
+                    <div class="active-subscription-label"> 
+                        <label class="active-subscription-label">
+                            <?=$escaper->escapeHtml(__('New Subscriptions')) ?>
+                        </label>
+                    </div>    
+                    <div class="active-number-percent">
+                        <div class="number-of-active-subscriptions">
+                            <label class="total-active-subscriptions">
+                                <?=$escaper->escapeHtml(($totalNewSubs['newSubs']))?>
+                            </label>
+                        </div>
+                        <div class="percent-of-active-subscriptions">
+                            <label class="percent-active-subscription">
+                            <?=$escaper->escapeHtml((abs($totalNewSubs['newSubsPercent']).'%'))?>
+                                <?php if ($totalNewSubs['newSubsPercent'] > 0
+                                && $totalNewSubs['newSubsPercent'] !=0) {?><span>&#8593;</span>
+                                <?php } elseif ($totalNewSubs['newSubsPercent'] < 0
+                                && $totalNewSubs['newSubsPercent'] !=0) { ?>
+                                    <span>&#8595;</span>
+                               <?php }?>                                
+                            </label>
+                        </div>                       
+
+
+                    </div>
+                </div>    
+            </div>
+            <div class="revenue">
+                <div class="top-block"> 
+                    <div class="left-container">
+                            <div class="left-container-result">
+                                <div>
+                                    <label class="revenue-label">
+                                        <?=$escaper->escapeHtml(__('Display Result'))?>
+                                    </label>  
+                                </div>
+                                <div> 
+                                <select class="selectmenu recurring-select" 
+                                name="revenue-action-select" id="revenue-action-select">
+                                    <?php foreach ($revenuePeriodList as $period): ?>
+                                        <option value="<?= $escaper->escapeHtml($period['value'])?>" 
+                                        <?php if ($revenueAction == $period['value']):?>
+                                                <?= 'selected="selected"'; ?>
+                                        <?php endif; ?>>
+                                        <?= $escaper->escapeHtml(__($period['label']))?></option>
+                                    <?php endforeach; ?> 
+                                </select> 
+                                </div>
+                            </div>
+                            <div class="left-container-result">
+                                <div>
+                                    <label class="revenue-label"><?=$escaper->escapeHtml(__('Website'))?></label>
+                                </div>
+                                <div>
+                                    <select class="selectmenu recurring-select" name='action-select'>
+                                        <option value='today'>
+                                            <?=$escaper->escapeHtml(__('All Website'))?>
+                                        </option>                                        
+                                    </select> 
+                                </div>
+                            </div>
+                            <div class="left-container-result">
+                                <div>
+                                    <label class="revenue-label"><?=$escaper->escapeHtml(__('Date Range'))?></label> 
+                                </div>
+                                <div>
+                                    <select class="selectmenu recurring-select" name='date-range'>
+                                        <option value='today'>
+                                            <?=$escaper->escapeHtml(__('Overall'))?>
+                                        </option>                                        
+                                    </select>
+                                </div>
+                            </div>
+                    </div>                        
+                </div>
+                <div id="revenue-container">
+                    <canvas id="canvas"></canvas>
+                </div>
+
+            </div>
+            <div class="subscription-churn">
+                <div class="current-subscription-status">
+                    <div class="subscription-status">
+                        <label class="revenue-label">
+                            <?=$escaper->escapeHtml(__('Current Subscription Status'))?>
+                        </label>
+                        <div class="status">
+                        <div id="subscription-status">
+                            <canvas id="doughnut"></canvas>
+                        </div> 
+                        </div>
+                    </div>
+                    
+                </div>
+            <div class="churn-rate">
+                <div class="top-blocks">
+                    <div class="right-container">
+                            <div>
+                                <label class="revenue-label">
+                                    <?=$escaper->escapeHtml(__('Customer Churn Rate'))?>
+                                </label>       
+                            </div>
+                            <div>
+                                <label class="rate-percent">
+                                    <?=$escaper->escapeHtml((round($totalChurnRate, 2).'%'))?>
+                                </label> 
+                            </div>
+                        </div>
+                    <div class='churn-date-range'>
+                        <div class='wk-range-label'>
+                            <lable><?=$escaper->escapeHtml(__('Date Range'))?> </lable>
+                        </div>
+                        <div class="action-select-wrap">        
+                            <select class="selectmenu recurring-select" name='action-select'>
+                                <option value='today'>
+                                    <?=$escaper->escapeHtml(__('OverAll'))?>
+                                </option>                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="churn-rate-container">
+                    <canvas id="churn-rate"></canvas>
+                </div>
+            </div>
+        </div>       
+    </div>
+</form>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_Recurring/js/reports/date-range": {},
+            "recurringReports": {
+                  "lineCharLabels": <?= /* @noEscape */ $labels; ?>,
+                  "lineCharDatasets": <?= /* @noEscape */ $block->arrayToJson($dataset); ?>,
+                  "doughnutChartLabels": <?= /* @noEscape */ $label; ?>,
+                  "doughnutChartDatasets": <?= /* @noEscape */ $block->arrayToJson($datasets); ?>,
+                  "churnRateLabels": <?= /* @noEscape */ $churnLabel; ?>,
+                  "churnRateDatasets": <?= /* @noEscape */ $block->arrayToJson($churnData); ?>
+                }
+        }
+    }
+</script>
+
+
+

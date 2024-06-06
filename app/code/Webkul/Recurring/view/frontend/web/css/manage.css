@@ -1,0 +1,155 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ .limiter, .pages{
+    display: inline-block;
+}
+.webkul th {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #514943;
+    border-color: #8a837f #8a837f #8a837f transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 0.1rem;
+    color: #fff;
+    font-weight: 600;
+    padding: 7px;
+    padding-left: 1em;
+    text-align: left;
+    vertical-align:middle;
+}
+.admin__table-secondary th{
+    color: #676056;
+    font-weight: 400;
+}.admin__table-secondary tbody tr:nth-child(odd) th, .admin__table-secondary tbody tr:nth-child(odd) td{
+    background-color: #f1f1f1;
+}.wk-mp-btn{
+    float: right;
+    margin : 5px;
+}.wk-mp-fieldset .limiter {
+    float: right;
+}
+#total_qty{
+    width: 20%;
+    display: none;
+}
+.save-qty{
+    display: none;
+}
+#flag-form{
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+.flag-reason{
+    margin-bottom: 15px !important;
+}
+.modal-footer{
+    text-align: left !important;
+    padding-top: unset !important;
+}
+.wk-btn{
+    width: 80px;
+    height: 35px;
+}
+.error{
+    margin-bottom:5px
+}
+.subscriptions-information, .wk-mp-fieldset{
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+    border: 1px solid #80808040;
+}
+.wk-re-fieldset{
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+}
+.recurring-table{
+    font-size: 11px;
+}
+.recent{
+    font-weight: 400;
+    font-size: 3rem;
+}
+.trnsaction-grid{
+    margin-top: 15px;
+}
+.lable{
+    font-weight: 600;
+    margin-top: 15px;
+}
+.wk-row-action{
+    margin-top:20px
+}
+.fade{
+    opacity:0.4
+}
+.display-none{
+    display: none;
+}
+.wk-flag-form{
+    display:flex;
+    flex-direction: column;
+}
+.clickflag{
+    width:150px;
+    height: 35px;
+    background-color:#006bb4;
+    color: white;
+    border: #006bb4;
+}
+.customer-address{
+    padding: 30px;
+}
+.ship-here{
+    float: right;
+    margin-top: 10px;
+}
+.change-billing-address, .change-shipping-address{
+    cursor: pointer;
+}
+.footer-button{
+    display: none;
+}
+.shippingModal, .billingModal {
+    display: none;
+}
+.wk-flagreasons{
+    margin-bottom: 5px;
+}
+.bold{
+    font-weight: bold;
+}
+a span{
+    cursor: pointer;
+}
+.recurring-block-content{
+    display: flex; 
+    justify-content: space-between;
+}
+.recurring-unsubscribe, #resume, #hold {
+    background: unset !important;
+    color: unset !important;
+}
+table td {
+    overflow-wrap: anywhere;
+}
+.wk-rc-name {
+    width: 14%;
+}
+.wk-rc-id {
+    width: 19%;
+}
+@media screen and (max-width: 500px){
+    .grid {
+        overflow-x: scroll;
+    }
+}

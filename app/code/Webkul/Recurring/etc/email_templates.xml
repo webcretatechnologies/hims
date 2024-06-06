@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited 
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+
+    <template id="recurring_email_new_subscription_template" label="New Subscription" file="new_subscription.html" type="html" module="Webkul_Recurring" area="frontend"/>
+
+    <template id="recurring_email_subscription_cancelled_template" label="Subscription Cancelled" file="cancel_subscription.html" type="html" module="Webkul_Recurring" area="frontend"/>
+
+    <template id="recurring_email_subscription_expiry_template" label="Expiry" file="expiry.html" type="html" module="Webkul_Recurring" area="frontend"/>
+
+    <template id="recurring_email_failed_transaction_template" label="Failed Transaction" file="failed_transaction.html" type="html" module="Webkul_Recurring" area="frontend"/>
+
+    <template id="recurring_email_copy_on_new_subscription" label="" file="new_subscription_copy.html" type="html" module="Webkul_Recurring" area="frontend"/>
+</config>

@@ -1,0 +1,97 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$model = $block->getSubscriptions();
+$orderId = $model->getOrderId();
+$order = $block->getOrder($orderId);
+?>
+<div class="fieldset-wrapper subscriptions-information">
+    <table class="admin__table-secondary">
+        <tbody>
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Amount to be Billied :')) ?></th>
+            <td> 
+                <?= /* @noEscape */ $block->getSubscriptionCharge() ?>
+            </td>
+        </tr>
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Initial Fee :')) ?></th>
+            <td> 
+                <?= /* @noEscape */ $block->getInitialFee() ?>
+            </td>
+        </tr>
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Next Billing Date :')) ?></th>
+            <td>         
+                    <?= $escaper->escapeHtml($block->getValidTill()) ?>
+            </td>
+        </tr>
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Last Billing Date :')) ?></th>
+            <td>
+            <?= $escaper->escapeHtml($block->getStartDate()) ?>
+            </td>
+        </tr> 
+        <tr>
+            <th><?= $escaper->escapeHtml(__('Payment Method :')) ?></th>
+            <td>         
+            <?= $escaper->escapeHtml($order->getPayment()->getMethodInstance()->getTitle()); ?>
+            </td>
+        </tr>       
+        </tbody>
+    </table>
+</div>
+<fieldset class="fieldset webkul info">
+    <label class="recent"><?=$escaper->escapeHtml(__('Recent Transaction'))?><hr></label>
+    <div class="trnsaction-grid">
+    <?php if ($block->getGridChildCollection()->getSize()) { ?>
+        <table cellspacing="0" class="data table">
+            <thead>
+                <tr class="wk-content">
+                    <th><span><?= $escaper->escapeHtml(__('Reference Transaction Id')) ?></span></th>
+                    <th><span><?= $escaper->escapeHtml(__('Subscription Type')) ?></span>
+                    </th>                           
+                    <th><span><?= $escaper->escapeHtml(__('Date')) ?></span></th>                            
+                    <th><span><?= $escaper->escapeHtml(__('Amount')) ?></span></th>                           
+                    <th><span><?= $escaper->escapeHtml(__('Status')) ?></span></th>                            
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($block->getGridChildCollection() as $model) { ?>
+                    <tr class="wk-row-view">
+                    <td  class="wk-check-first-td">
+                        <?= /* @noEscape */($model->getRefProfileId()) ? $model->getRefProfileId() : "-"; ?>
+                    </td>
+                    <td  class="wk-check-last-td">
+                        <?= $escaper->escapeHtml($block->getTypeName($model->getPlanId())); ?>
+                    </td>
+                    <td>         
+                        <?= /* @noEscape */$block->getFormattedDate($model->getCreatedAt()) ?>
+                    </td>
+                    <td>
+                    <?= /* @noEscape */$block->getSubscriptionCharge() ?>
+                    </td>
+                    <td  class="wk-check-last-td">
+                        <?= $escaper->escapeHtml($block->getStatus($model->getStatus())); ?>
+                    </td>                            
+                    </tr>
+                <?php }  ?>
+            </tbody>
+        </table>
+        <?php $block->getPagerHtml(); ?>
+    <?php } else { ?>
+        <div class="message info empty">
+            <span><?= $escaper->escapeHtml(__("No recent transaction")) ?></span>
+        </div>
+    <?php } ?>
+       
+    </div>
+</fieldset>

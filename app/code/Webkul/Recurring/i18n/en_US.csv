@@ -1,0 +1,313 @@
+"PayPal Express","PayPal Express"
+Reasons,Reasons
+"Sort Order","Sort Order"
+Visibility,Visibility
+"Add Reason","Add Reason"
+"Read error!","Read error!"
+Author,Author
+Webkul,Webkul
+Version,Version
+"User Guide","User Guide"
+"Click Here","Click Here"
+"Store Extension","Store Extension"
+Ticket/Customisations,Ticket/Customisations
+Services,Services
+"View In details","View In details"
+"Subscription Id","Subscription Id"
+"Initial Order Id","Initial Order Id"
+Product,Product
+"Reference Transaction Id","Reference Transaction Id"
+"Created At","Created At"
+"Start Date","Start Date"
+"Recurring Profile","Recurring Profile"
+Save,Save
+"Manage Subscription Type","Manage Subscription Type"
+"Add New Subscription Type","Add New Subscription Type"
+"Initial Fee","Initial Fee"
+Id,Id
+"Order Id","Order Id"
+"New Subscription","New Subscription"
+"Active Subscription","Active Subscription"
+UnSubscribed,UnSubscribed
+Revenue,Revenue
+"Churn Rate","Churn Rate"
+Weekly,Weekly
+Monthly,Monthly
+Yearly,Yearly
+"Subscription Revenue","Subscription Revenue"
+Subscribed,Subscribed
+Unsubscribe,Unsubscribe
+"Generate Webhooks","Generate Webhooks"
+"Rule Name","Rule Name"
+Description,Description
+"Description ..","Description .."
+Plans,Plans
+"New Duration Type","New Duration Type"
+"Duration Type","Duration Type"
+"Subscription Type(s) Can't be Deleted.","Subscription Type(s) Can't be Deleted."
+"Subscription Type(s) deleted successfully.","Subscription Type(s) deleted successfully."
+"Duration Type(s) Disabled successfully.","Duration Type(s) Disabled successfully."
+"Duration Type(s) Enabled successfully.","Duration Type(s) Enabled successfully."
+"This Duration already available","This Duration already available"
+"Record Saved Successfully","Record Saved Successfully"
+"Record not Saved Successfully. Try again!","Record not Saved Successfully. Try again!"
+"Subscription Report","Subscription Report"
+"Subscription Details","Subscription Details"
+"All Subscriptions","All Subscriptions"
+"Subscription(s) already Unsubscribed","Subscription(s) already Unsubscribed"
+"Invalid profile status for cancel action.","Invalid profile status for cancel action."
+"Future Date Subscription(s).","Future Date Subscription(s)."
+"Subscription(s) Unsubscribed successfully.","Subscription(s) Unsubscribed successfully."
+"This record no longer exists.","This record no longer exists."
+"Something went wrong.","Something went wrong."
+"This subscription is Unsubscribed Successfully.","This subscription is Unsubscribed Successfully."
+"WebHooks Generated Successfully","WebHooks Generated Successfully"
+"Invalid Request Check Credentials","Invalid Request Check Credentials"
+"WebHooks Already Generated","WebHooks Already Generated"
+"Something went wrong with the payment.","Something went wrong with the payment."
+"Cannot create an invoice.","Cannot create an invoice."
+"Cannot create an invoice without products.","Cannot create an invoice without products."
+"My Subscriptions","My Subscriptions"
+"Illegal Access.","Illegal Access."
+"This record is in Hold Successfully.","This record is in Hold Successfully."
+"This record is Resumed Successfully.","This record is Resumed Successfully."
+"View Subscription","View Subscription"
+"Something went wrong","Something went wrong"
+New,New
+Subscription,Subscription
+"Something happened while creating your order.","Something happened while creating your order."
+"Order cancelled because stripe payment failed","Order cancelled because stripe payment failed"
+Day,Day
+Week,Week
+Month,Month
+Year,Year
+label,label
+No,No
+Yes,Yes
+Global,Global
+"Store view","Store view"
+Enabled,Enabled
+Disabled,Disabled
+"The data with the ""%1"" ID doesn't exist.","The data with the ""%1"" ID doesn't exist."
+"There was an error capturing the transaction: %1","There was an error capturing the transaction: %1"
+"Initial fee","Initial fee"
+"Free Trails","Free Trails"
+"Number of Trail Days","Number of Trail Days"
+"Start dates and Duration types of all added subscriptions must be same","Start dates and Duration types of all added subscriptions must be same"
+"You can not add other product with subscription product","You can not add other product with subscription product"
+"You can not add subscription product with other product","You can not add subscription product with other product"
+"Start Date is Invalid for the Subscription. Please Add Again","Start Date is Invalid for the Subscription. Please Add Again"
+"Subscription Only Product","Subscription Only Product"
+"Set ""Yes"" if you want to make this product
+                ""Only"" available for Subscription","Set ""Yes"" if you want to make this product
+                ""Only"" available for Subscription"
+Edit,Edit
+View,View
+"Create Configuration","Create Configuration"
+"Edit Configuration","Edit Configuration"
+"Reload Data","Reload Data"
+To,To
+From,From
+"Date Range","Date Range"
+"Avarage Subscription Value","Avarage Subscription Value"
+"New Subscriptions","New Subscriptions"
+"Display Result","Display Result"
+Website,Website
+"All Website","All Website"
+Overall,Overall
+"Current Subscription Status","Current Subscription Status"
+"Customer Churn Rate","Customer Churn Rate"
+OverAll,OverAll
+"Subscription Type :","Subscription Type :"
+"Start Date :","Start Date :"
+"Initial Order Id :","Initial Order Id :"
+"Product Name :","Product Name :"
+"Customer Name :","Customer Name :"
+"Created At :","Created At :"
+"Status :","Status :"
+"Reference Transaction Id :","Reference Transaction Id :"
+"Payment and Shipping information","Payment and Shipping information"
+"Initial Fee :","Initial Fee :"
+"Subscription Charge :","Subscription Charge :"
+"Last Billing Date :","Last Billing Date :"
+"Next Billing Date :","Next Billing Date :"
+"Amount to be Billed :","Amount to be Billed :"
+"Payment Method :","Payment Method :"
+"Billing Address :","Billing Address :"
+"Shipping Address :","Shipping Address :"
+"Reason of Cancellation","Reason of Cancellation"
+"Subscribe and Save","Subscribe and Save"
+"One Time Purchase","One Time Purchase"
+Subscribe,Subscribe
+"Select Subscription Plan","Select Subscription Plan"
+Qty,Qty
+"Select Start Date","Select Start Date"
+"Select Date","Select Date"
+"Select End Date","Select End Date"
+"Free Trial : ","Free Trial : "
+"Initial Fee : ","Initial Fee : "
+"Subscription Charges : ","Subscription Charges : "
+"Update Subscription","Update Subscription"
+"Login To Subscribe","Login To Subscribe"
+"Update Cart","Update Cart"
+"Amount to be Billied :","Amount to be Billied :"
+"Recent Transaction","Recent Transaction"
+"Subscription Type","Subscription Type"
+Date,Date
+Amount,Amount
+Status,Status
+"No recent transaction","No recent transaction"
+ID,ID
+"Next Billing Date","Next Billing Date"
+"Product Name","Product Name"
+Action,Action
+UnSubscribe,UnSubscribe
+"You have Placed No Subscriptions","You have Placed No Subscriptions"
+Quantity,Quantity
+"Subscription Amount","Subscription Amount"
+"Additional Information","Additional Information"
+"Created at","Created at"
+hold,hold
+Hold,Hold
+"Shipping Address","Shipping Address"
+"Billing Address","Billing Address"
+"Do you want to Hold the Subscription?","Do you want to Hold the Subscription?"
+"Do you want to Resume the Subscription?","Do you want to Resume the Subscription?"
+Resume,Resume
+Back,Back
+"Please select a reason for cancellation","Please select a reason for cancellation"
+Close,Close
+"Write a reason to flag this product","Write a reason to flag this product"
+Submit,Submit
+"Check Out with Multiple Addresses","Check Out with Multiple Addresses"
+"Free Trail : ","Free Trail : "
+"Subscribe Now","Subscribe Now"
+"Add to Cart","Add to Cart"
+"Duration Title","Duration Title"
+"Duration(Billing cycle)","Duration(Billing cycle)"
+"Discount Type","Discount Type"
+"Subscription Charge","Subscription Charge"
+Select,Select
+"Product Price","Product Price"
+"Fixed Amount","Fixed Amount"
+"Percentage Discount","Percentage Discount"
+"Plan : ","Plan : "
+"Initial Fees : ","Initial Fees : "
+"Subscripton Charge : ","Subscripton Charge : "
+Image,Image
+Name,Name
+Sku,Sku
+Price,Price
+Attributes,Attributes
+"Subscription Info","Subscription Info"
+"Manage Subscription","Manage Subscription"
+"Dear ","Dear "
+"Thanks for visiting us.","Thanks for visiting us."
+"Your subscription (Transaction Id: ","Your subscription (Transaction Id: "
+"), for the ","), for the "
+" Product has been cancelled."," Product has been cancelled."
+"We would like to inform you that a Your subscription with Transaction Id: ","We would like to inform you that a Your subscription with Transaction Id: "
+", is going to expired on ",", is going to expired on "
+Item,Item
+"Your subscription for the following Product(s)has been failed. Please try again.","Your subscription for the following Product(s)has been failed. Please try again."
+"Your subscription with Transaction Id: ","Your subscription with Transaction Id: "
+", has been activated.",", has been activated."
+"%admin_name,","%admin_name,"
+"I would like to inform you that a new subscription has been ordered from the store.","I would like to inform you that a new subscription has been ordered from the store."
+"Order <span class=""no-link"">#%increment_id</span>","Order <span class=""no-link"">#%increment_id</span>"
+"Placed on <span class=""no-link"">%created_at</span>","Placed on <span class=""no-link"">%created_at</span>"
+"You will be redirected to the PayPal website when you place an order.","You will be redirected to the PayPal website when you place an order."
+"Place Order","Place Order"
+"Acceptance Mark","Acceptance Mark"
+"Subscriptions Types","Subscriptions Types"
+Continue,Continue
+"Maximum of one year interval allowed (1 year, 12 months, 52 weeks or 365 days).","Maximum of one year interval allowed (1 year, 12 months, 52 weeks or 365 days)."
+"Configurable product","Configurable product"
+Attention,Attention
+"You have not selected any card.","You have not selected any card."
+"You need to choose options for your item","You need to choose options for your item"
+Adding...,Adding...
+"Select Subscription plan","Select Subscription plan"
+"Please select a plan.","Please select a plan."
+"Please enter the qty.","Please enter the qty."
+"Please select valid end Date.","Please select valid end Date."
+"Please select start Date.","Please select start Date."
+"Please select end Date.","Please select end Date."
+"Contact number should be between 6 and 15 digits.","Contact number should be between 6 and 15 digits."
+"something went wrong","something went wrong"
+Recurring,Recurring
+"Manage Duration Type","Manage Duration Type"
+"Manage Subscriptions","Manage Subscriptions"
+"Subscriptions Report","Subscriptions Report"
+"Subscription Configuration","Subscription Configuration"
+"General Settings","General Settings"
+"Subscription Price Scope","Subscription Price Scope"
+"Enable Discount on Subscriptions","Enable Discount on Subscriptions"
+"If set as 'Yes', the discount will be applied on the subscription order","If set as 'Yes', the discount will be applied on the subscription order"
+"Allow Multiple Subscriptions in Cart","Allow Multiple Subscriptions in Cart"
+"If set as 'Yes', multiple subscription products can be added to cart at a time, if their 'Start dates' and 'Duration types' are same.","If set as 'Yes', multiple subscription products can be added to cart at a time, if their 'Start dates' and 'Duration types' are same."
+"Allowed payment methods to buy subscription","Allowed payment methods to buy subscription"
+"Manage Customer Control Settings","Manage Customer Control Settings"
+"Allow Customer to Cancel Subscription","Allow Customer to Cancel Subscription"
+"Allow Customer to hold Subscription","Allow Customer to hold Subscription"
+"Allow Customer to Subscribe multiple times for same product","Allow Customer to Subscribe multiple times for same product"
+"Manage Subscription Labels","Manage Subscription Labels"
+"Label for Without Subscription","Label for Without Subscription"
+"Type the name visible on product page for purchasing without Subscription.","Type the name visible on product page for purchasing without Subscription."
+"Label for With Subscription","Label for With Subscription"
+"Type the name visible on product page for purchasing with Subscription.","Type the name visible on product page for purchasing with Subscription."
+"Subscriptions Information Message","Subscriptions Information Message"
+"Add the information regarding Subscription to display on the page.","Add the information regarding Subscription to display on the page."
+"User Email Reminder and Notification Settings","User Email Reminder and Notification Settings"
+"Send Email on Subscription Status","Send Email on Subscription Status"
+"Send Email Copy To","Send Email Copy To"
+"Send Expiry and Renewal reminder mail days","Send Expiry and Renewal reminder mail days"
+"Set email before ""Days"" you want to set for user.","Set email before ""Days"" you want to set for user."
+"Cancellation Reason for Customers","Cancellation Reason for Customers"
+"Add Cancellation reasons for Customers","Add Cancellation reasons for Customers"
+"Webkul Recurring Product Information","Webkul Recurring Product Information"
+"Webkul Recurring PayPal Express Checkout Payment Method","Webkul Recurring PayPal Express Checkout Payment Method"
+"Enable this Solution","Enable this Solution"
+"Sandbox Mode","Sandbox Mode"
+Title,Title
+"Merchant PayPal ID","Merchant PayPal ID"
+"PayPal API User Name","PayPal API User Name"
+"PayPal API Password","PayPal API Password"
+"PayPal Client Id","PayPal Client Id"
+"PayPal Scret Key","PayPal Scret Key"
+"PayPal API Signature","PayPal API Signature"
+"Payment from Applicable Countries","Payment from Applicable Countries"
+"Payment from Specific Countries","Payment from Specific Countries"
+"Webkul Recurring Stripe Payment Method","Webkul Recurring Stripe Payment Method"
+"API Publishable Key","API Publishable Key"
+"API Secret Key","API Secret Key"
+"Set Name Display on Form","Set Name Display on Form"
+"Minimum Order Total","Minimum Order Total"
+"Maximum Order Total","Maximum Order Total"
+"Duration Information","Duration Information"
+Information,Information
+"Subscription Cancelled","Subscription Cancelled"
+Expiry,Expiry
+"Failed Transaction","Failed Transaction"
+"Duration(Billing Cycle)","Duration(Billing Cycle)"
+"Initial Fees","Initial Fees"
+"Initial Fee Amount","Initial Fee Amount"
+"Add Duration Type","Add Duration Type"
+Disable,Disable
+Enable,Enable
+Delete,Delete
+"Do you want to delete selected images?","Do you want to delete selected images?"
+Created,Created
+Modified,Modified
+"Add Subscription Type","Add Subscription Type"
+"Do you want to Unsubscribe selected Subscription?","Do you want to Unsubscribe selected Subscription?"
+"Customer Name","Customer Name"
+"Billed Amount","Billed Amount"
+"Total Revenue","Total Revenue"
+"Total Active Subscription","Total Active Subscription"
+"Subscription Information","Subscription Information"
+Orders,Orders
+"Initial Fee123","Initial Fee123"
+"Custom Fee","Custom Fee"
+"My Subscription","My Subscription"
+"Billing Info","Billing Info"

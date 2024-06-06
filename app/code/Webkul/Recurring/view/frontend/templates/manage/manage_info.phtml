@@ -1,0 +1,155 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$viewId = $block->getRequest()->getParam('id');
+$product  = $block->getProduct();
+$customer = $block->getCustomer();
+$model = $block->getSubscriptions();
+$orderId = $model->getOrderId();
+$order = $block->getOrder($orderId);
+$orderItems = $order->getAllItems();
+$total_qty = 0;
+$result = [];
+foreach ($order->getAllVisibleItems() as $item) {
+    if ($product->getId() == $item->getProductId()) {
+        $total_qty = $total_qty + $item->getQtyOrdered();
+    }
+    if (count($item->getProductOptions())) {
+        $options = $item->getProductOptions();
+        if (isset($options['attributes_info'])) {
+            $result = $options['attributes_info'];
+        }
+    }
+}
+?>
+<fieldset class="fieldset info wk-mp-fieldset">
+    <div class="grid">
+       
+            <table cellspacing="0" class="data table border wk-mp-list-table wk-mp-list-container-table">
+                <thead>
+                    <tr class="wk-content">
+                        <th><span><?= $escaper->escapeHtml(__('Product Name')) ?></span></th>
+                        <th><span><?= $escaper->escapeHtml(__('Quantity')) ?></span></th>
+                        <th><span><?= $escaper->escapeHtml(__('Subscription Type')) ?></span></th>
+                        <th><span><?= $escaper->escapeHtml(__('Subscription Amount'))?>
+                        </span></th>                                              
+                    </tr>
+                </thead>
+                <tbody>  
+                    <tr>                                                
+                        <td> 
+                            <?php if ($product->getName()) {?>
+                            <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>" target='_blank'>
+                                <?= $escaper->escapeHtml(
+                                    ($product->getName()) ? $product->getName() : $model->getProductName()
+                                ) ?>
+                            </a>
+                            <?php } else { ?>
+                                <?= $escaper->escapeHtml($model->getProductName()); ?>
+                            <?php } ?>
+                           
+                            <div class="attribute">
+                                <?php if (count($result)) {
+                                    foreach ($result as $attribute) {?>
+                                        <div class='lable'>
+                                            <?= $escaper->escapeHtml($attribute['label'])?>
+                                        </div>
+                                        <div class='value'>
+                                            <?= $escaper->escapeHtml($attribute['value'])?>
+                                        </div>                                    
+                                <?php }  } ?>
+                            </div>
+                        </td>
+                        <td>
+                            <?= $escaper->escapeHtml($total_qty) ?>
+                        </td>
+                        <td>            
+                            <?= $escaper->escapeHtml($block->getRecurringProductPlans()) ?>
+                        </td>
+                        <td>
+                            <?= /* @noEscape */$block->getSubscriptionCharge() ?>
+                        </td>                                               
+                    </tr>                        
+                </tbody>
+            </table>
+            <?php $block->getPagerHtml(); ?>       
+    </div>
+</fieldset>
+
+<div class="additional_info">
+<label class="recent"><?=$escaper->escapeHtml(__('Additional Information'))?><hr></label>
+    <div class="recurring-block-content">
+        <div class="order-created">
+            <strong class="box-title">
+                <span><?= $escaper->escapeHtml(__('Created at')) ?></span>
+            </strong>
+            <div class="box-content">
+                <?= $escaper->escapeHtml($block->getCreateDate()) ?>
+            </div>
+        </div>
+        <div class="order-created">
+            <strong class="box-title">
+                <span><?= $escaper->escapeHtml(__('Status')) ?></span>
+            </strong>                           
+            <div class="box-content">
+                <?php
+                if ($model->getCancellationReason() == __('hold')) { ?>
+                    <?= $escaper->escapeHtml(__('Hold')) ?> 
+                 <?php } else { ?>
+                    <?= $escaper->escapeHtml($block->getStatus($model->getStatus())) ?>
+                <?php }
+                    ?>            
+            </div>                          
+        </div>
+        <?php if (!$order->getIsVirtual()): ?>          
+            <div class="box box-order-shipping-address">
+                <strong class="box-title"><span>
+                    <?= $escaper->escapeHtml(__('Shipping Address')) ?></span></strong>
+                <div class="box-content">
+                    <address><?= /* @noEscape */ $block->getFormattedAddress($order
+                    ->getShippingAddress()); ?></address>                     
+                </div>               
+                <div class="box-actions">
+                    <a class="action edit" href=<?=$escaper
+                    ->escapeUrl($block->getUrl(
+                        'customer/address/edit',
+                        ['id' => $order->getShippingAddress()->getCustomerAddressId(),'_secure' => $block
+                        ->getRequest()->isSecure()]
+                    )) ?>>
+                        <span>Change Shipping Address</span>
+                    </a>
+                </div>
+            </div> 
+        <?php endif; ?>        
+        <div class="box box-order-billing-address">
+            <strong class="box-title">
+                <span><?= $escaper->escapeHtml(__('Billing Address')) ?></span>
+            </strong>
+            <div class="box-content">
+                <address>
+                <?= /* @noEscape */ $block->getFormattedAddress($order->getBillingAddress());
+                ?>               
+                </address>
+                <div class="box-actions">
+                    <a class="action edit" href=<?=$escaper
+                    ->escapeUrl($block->getUrl(
+                        'customer/address/edit',
+                        ['id' => $order->getBillingAddress()->getCustomerAddressId(),'_secure' => $block
+                        ->getRequest()->isSecure()]
+                    )) ?>>
+                        <span>Change Billing Address</span>
+                    </a>
+                </div>
+            </div>            
+        </div>         
+    </div>
+</div>
+
+

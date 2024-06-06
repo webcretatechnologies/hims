@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Webkul\Recurring\Api\Data\RecurringSubscriptionsMappingInterface" type="Webkul\Recurring\Model\RecurringSubscriptionsMapping" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringProductPlansInterface" type="Webkul\Recurring\Model\RecurringProductPlans" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringSubscriptionsInterface" type="Webkul\Recurring\Model\RecurringSubscriptions" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringTermsInterface" type="Webkul\Recurring\Model\RecurringTerms" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringSubscriptionsMappingRepositoryInterface" type="Webkul\Recurring\Model\RecurringSubscriptionsMappingRepository" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringProductPlansRepositoryInterface" type="Webkul\Recurring\Model\RecurringProductPlansRepository" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringSubscriptionsRepositoryInterface" type="Webkul\Recurring\Model\RecurringSubscriptionsRepository" />
+    <preference for="Webkul\Recurring\Api\Data\RecurringTermsRepositoryInterface" type="Webkul\Recurring\Model\RecurringTermsRepository" />
+    <!-- plugin to manage exception when adding other product with subscription product -->
+     <type name="Magento\Quote\Model\ChangeQuoteControl">
+        <plugin name="recurring_changequotecontrol" type="Webkul\Recurring\Plugin\ChangeQuoteControl" sortOrder="1" disabled="false"/>
+    </type>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="Webkul_Recurring::beforeAddtoCart" type="Webkul\Recurring\Plugin\Cart" sortOrder="1" />
+    </type>
+    <type name="Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="SubscriptionLoginAccountLoginPost" type="Webkul\Recurring\Plugin\Customer\LoginPost" sortOrder="10" disabled="false"/>
+    </type>
+    <type name="Magento\SalesRule\Model\RulesApplier">
+        <plugin name="remove_discount_on_order" type="Webkul\Recurring\Plugin\SalesRule\Model\RulesApplier" sortOrder="1" disabled="false"/>
+    </type>
+    <type name="Webkul\Recurring\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\Recurring\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">recurring</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Webkul\Recurring\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="recurring_plans_list_data_source" xsi:type="string">PlanDataCollection</item>
+                <item name="recurring_subscriptions_list_data_source" xsi:type="string">SubscriptionDataCollection</item>
+                <item name="recurring_duration_list_data_source" xsi:type="string">TermDataCollection</item>
+                <item name="subscriptions_form_data_source" xsi:type="string">SubscriptionFormDataCollection</item>
+                <item name="subscriptions_reports_data_source" xsi:type="string">SubscriptionReportsDataCollection</item>
+                <item name="recurring_subscriptions_mapping_data_source" xsi:type="string">SubscriptionMappingDataCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="PlanDataCollection" type="Webkul\Recurring\Model\ResourceModel\RecurringProductPlans\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_product_plans</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringProductPlans</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SubscriptionMappingDataCollection" type="Webkul\Recurring\Model\ResourceModel\RecurringSubscriptionsMapping\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_subscriptions_mapping</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringSubscriptionsMapping</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SubscriptionReportsDataCollection" type="Webkul\Recurring\Model\ResourceModel\SubscriptionReports\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_subscriptions</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringSubscriptions</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SubscriptionDataCollection" type="Webkul\Recurring\Model\ResourceModel\RecurringSubscriptions\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_subscriptions</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringSubscriptions</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="TermDataCollection" type="Webkul\Recurring\Model\ResourceModel\RecurringTerms\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_terms</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringTerms</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="SubscriptionFormDataCollection" type="Webkul\Recurring\Model\ResourceModel\RecurringProductPlans\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_product_plans</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringProductPlans</argument>
+        </arguments>
+    </virtualType>
+    <type name="Webkul\Recurring\Model\ResourceModel\RecurringSubscriptionsMapping\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_subscriptions_mapping</argument>
+            <argument name="eventPrefix" xsi:type="string">recurring_subscriptions_mapping</argument>
+            <argument name="eventObject"  xsi:type="string">recurring_subscriptions_mapping</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringSubscriptionsMapping</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\Recurring\Model\ResourceModel\RecurringTerms\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_terms</argument>
+            <argument name="eventPrefix" xsi:type="string">recurring_terms</argument>
+            <argument name="eventObject"  xsi:type="string">recurring_terms</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringTerms</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\Recurring\Model\ResourceModel\SubscriptionReports\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_subscriptions</argument>
+            <argument name="eventPrefix" xsi:type="string">recurring_subscriptions</argument>
+            <argument name="eventObject"  xsi:type="string">recurring_subscriptions</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringSubscriptions</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\Recurring\Model\ResourceModel\RecurringProductPlans\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_product_plans</argument>
+            <argument name="eventPrefix" xsi:type="string">recurring_plans</argument>
+            <argument name="eventObject"  xsi:type="string">recurring_plans</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringProductPlans</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\Recurring\Model\ResourceModel\RecurringSubscriptions\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">recurring_subscriptions</argument>
+            <argument name="eventPrefix" xsi:type="string">recurring_subscriptions</argument>
+            <argument name="eventObject"  xsi:type="string">recurring_subscriptions</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\Recurring\Model\ResourceModel\RecurringSubscriptions</argument>
+        </arguments>
+    </type>
+    
+     <!-- API implementation -->
+    <preference for="Webkul\Recurring\Api\WebhookInterface" type="Webkul\Recurring\Model\WebHook" />
+
+    <type name="Webkul\Recurring\Model\WebHook">
+        <arguments>
+            <argument name="webhookEvent" xsi:type="array">
+                <item name="checkout.session.completed" xsi:type="object">Webkul\Recurring\Model\Stripe\Payment\CheckoutCompleted</item>
+                <item name="invoice.payment_succeeded" xsi:type="object">Webkul\Recurring\Model\Stripe\Payment\PaymentSucceeded</item>
+                <item name="invoice.payment_failed" xsi:type="object">Webkul\Recurring\Model\Stripe\Payment\PaymentFailed</item>
+                <item name="charge.dispute.closed" xsi:type="object">Webkul\Recurring\Model\Stripe\Payment\ChargeClosed</item>
+            </argument>
+        </arguments>
+    </type>   
+</config>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <recurringpaypal>
+                <model>Webkul\Recurring\Model\Paypal\PaymentMethod</model>
+                <paypal_app_id backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <api_username backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <api_password backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <api_signature backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <title>Webkul Recurring PayPal Express Checkout Payment Method</title>
+                <payment_action>authorize</payment_action>
+                <active>0</active>
+                <sandbox>1</sandbox>
+            </recurringpaypal>
+        	<recurringstripe>
+                <active>0</active>
+                <sandbox>1</sandbox>
+            	<model>Webkul\Recurring\Model\Stripe\PaymentMethod</model>
+            	<payment_action>authorize</payment_action>
+            	<title>Webkul Recurring Stripe Payment Method</title>
+                <min_order_total>0.50</min_order_total>
+                <shipping_address>0</shipping_address>
+                <billing_address>0</billing_address>
+            </recurringstripe>
+            <recurringorders>
+                <active>1</active>
+                <model>Webkul\Recurring\Model\Payment\RecurringOrder</model>
+                <order_status>pending</order_status>
+                <title>Recurring Orders Payment</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+            </recurringorders>
+        </payment>
+        <recurring>
+            <general_settings>
+                <price_scope>0</price_scope>
+                <enable_discount>0</enable_discount>
+                <enable_multisubscription>0</enable_multisubscription>
+            </general_settings>
+            <subscription_labels>
+                <without_subscription>One Time Purchase</without_subscription>
+                <with_subscription>Subscribe and Save</with_subscription>
+            </subscription_labels>            
+            <email>
+                <email_copy_to>admin@webkul.com</email_copy_to>
+                <reminder_day>4</reminder_day>
+            </email>
+            <cancellation_reasons>
+                <reasons>
+                    <item1>
+                        <cancellation_resason>Other Reasons</cancellation_resason>
+                        <sort_order>1</sort_order>
+                        <visibility>1</visibility>
+                    </item1>
+                </reasons>
+            </cancellation_reasons>
+        </recurring>
+    </default>
+</config>

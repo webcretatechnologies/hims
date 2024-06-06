@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="initial_fee" xsi:type="array">
+                                    <item name="component"  xsi:type="string">Webkul_Recurring/js/view/checkout/cart/totals/initial-fee</item>
+                                    <item name="sortOrder" xsi:type="string">20</item>
+                                    <item name="config" xsi:type="array">
+                                         <item name="template" xsi:type="string">Webkul_Recurring/checkout/cart/totals/initial-fee</item>
+                                        <item name="title" xsi:type="string" translate="true">Initial Fee123</item>
+                                    </item>
+                                </item>
+ 
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="checkout.cart.noitems">
+            <block class="Magento\Framework\View\Element\Template" name="webkul.checkout.cart.failure" template="Webkul_Recurring::success.phtml" after="-"/>
+        </referenceContainer>
+        <referenceBlock name="checkout.cart.methods.multishipping">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Webkul_Recurring::multishipping/checkout/link.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

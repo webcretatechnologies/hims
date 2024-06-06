@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+ <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Webkul_Recurring::css/manage.css" />
+    </head>
+    <body>
+        <referenceContainer name="content" >
+            <block class="Webkul\Recurring\Block\Manage" name="webkul.recurring.manage.unsubscribe" template="Webkul_Recurring::manage/view.phtml" cacheable="false" after="-">	
+            <arguments>
+                <argument name="view_model" xsi:type="object">Webkul\Recurring\ViewModel\Recurring</argument>	                
+            </arguments>
+			</block>
+            <block class="Webkul\Recurring\Block\Manage" name="webkul.recurring.manage" template="Webkul_Recurring::manage/index.phtml" cacheable="false">
+             <arguments>
+                <argument name="view_model" xsi:type="object">Webkul\Recurring\ViewModel\Recurring</argument>	                
+            </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+ </page>

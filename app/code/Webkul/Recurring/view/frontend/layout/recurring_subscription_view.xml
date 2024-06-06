@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+     <head>
+        <css src="Webkul_Recurring::css/manage.css" />      
+    </head>
+    <body>    	
+        <referenceContainer name="content">
+            <block class="Webkul\Recurring\Block\Manage" name="microsite" template="Webkul_Recurring::manage/view.phtml" cacheable="false" after="-">	
+            <arguments>
+                <argument name="view_model" xsi:type="object">Webkul\Recurring\ViewModel\Recurring</argument>	                
+            </arguments>
+			</block>           
+        </referenceContainer>
+        <referenceBlock name="microsite">
+            <block class="Webkul\Recurring\Block\Manage" name="subscription-info" template="Webkul_Recurring::manage/manage_info.phtml" group="microsite_details">
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Subscription Info</argument>					
+                </arguments>
+            </block>
+            <block class="Webkul\Recurring\Block\Manage" name="billing-info" template="Webkul_Recurring::manage/billinng.phtml" group="microsite_details" cacheable="false">				
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Billing Info</argument>					
+                </arguments>
+            </block>            	
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,22 @@
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category   Webkul
+ * @package    Webkul_Recurring
+ * @author     Webkul Software Private Limited
+ * @copyright  Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+ -->
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_Recurring/js/generatewebhook": {
+                "ajax_url": "<?= $escaper->escapeUrl($block->getAjaxUrl()) ?>"
+            }
+        }
+    }
+</script>
+
+<?= $block->getButtonHtml() ?>

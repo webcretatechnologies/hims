@@ -1,0 +1,48 @@
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<!--@subject New Subscription Notification  @-->
+<!--@vars {
+"var customerName|raw":"Customer Name",
+"var refProfileId|raw":"Profile Id",
+"var orderItems|raw":"Item info",
+"var validTill|raw":"Valid till date"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>            
+            <p>
+                {{trans "We would like to inform you that a Your subscription with Transaction Id: "}}{{var refProfileId|raw}}{{trans ", is going to expired on "}}{{var validTill|raw}}
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="email-items">
+                <thead>
+                    <tr>
+                        <th class="item-info">{{trans "Item"}}</th>
+                        <th class="item-info">{{trans "Sku"}}</th>
+                        <th class="item-qty">{{trans "Qty"}}</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {{var orderItems|raw}}
+                </tbody>
+            </table>
+        </td>
+    </tr>    
+</table>
+
+{{template config_path="design/email/footer_template"}}

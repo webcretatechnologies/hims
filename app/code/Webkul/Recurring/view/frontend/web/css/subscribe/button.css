@@ -1,0 +1,161 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Recurring
+ * @author    Webkul Software Private Limited
+ * @copyright Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+.subscribetocart {
+    margin-bottom: 15px;
+    margin-right: 1%;
+    padding: 14px 17px !important;
+    width: 49%;
+    background: #228B22 !important;
+}
+@media only screen and (max-width: 630px){
+    .subscribetocart {
+        width: 99%;
+    }
+}.wk-row{
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    margin: 5px;
+    padding: 2%;
+}.wk-right.select-button{
+    text-align: right;
+}.wk-terminput-text, #product-plan, .subscription_qty{
+    width: 97% !important;
+}.term-plans .modal-header,.term-plans .modal-footer{
+    background: #f0f0f0
+}
+#subscription-component{
+    display: none;
+}
+._has-datepicker ~ .ui-datepicker-trigger:before {
+    color:black;
+}.wkstyle {
+    margin-left: -30px !important;
+}.wkstyle:before{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 2.1rem;
+    line-height: 32px;
+    color: #514943;
+    content: '\e612';
+    font-family: 'luma-icons';
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: normal;
+    overflow: hidden;
+    speak: none;
+    text-align: center;
+}.right-container,.left-container {
+    display: inline-block;
+    width: 49%;
+}
+.right-container {
+    text-align: right;
+}
+.wkrequired{
+    color:red;
+    margin-left: 10px;
+}
+@media screen and (max-width: 500px){
+    .plan-details .right-container, .plan-details .left-container {
+        display: block;
+        width: 100%;
+        text-align: left !important;
+    }
+    .plan-details .wk-right.select-button button {
+        width: 100%;
+    }
+}
+#one-time-purchase, #product-subscribe-button{
+    margin-bottom: 25px;  
+    zoom: 1.3; 
+}
+.subscription-form{    
+    width: 96%;
+    border: 1px solid lightgray;
+    height: auto;
+    padding: 10px; 
+    margin-top: 20px; 
+}
+.subscription-plan-qty{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.subscription-start-end-date{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.subscription-plan, .start-date, .subscription-qty, .end-date{
+    width: 45%;
+}
+.subcription-fee-and-charge, .subscription-description{
+    width: 96%;
+    border: 1px solid lightgray;
+    height: auto;
+    padding: 10px; 
+}
+label{
+    font-weight: 600;
+}
+/* .subscribe-form{
+    display:none;
+} */
+.subscripption_fee, .subscripption_charge{
+    padding-left: 10px;
+}
+.only-subscribe-span{
+    font-weight:bold;
+    font-size: 1.8rem;
+}
+.trails{
+    padding: 10px;   
+    background: #add8e63d;
+    height: auto;
+    /* display: none; */
+}
+.subscribe-span, .one-time-purchase{
+    font-size: 1.8rem !important;
+}
+/* .config-error, #config_subscription_form{
+    display: none;
+} */
+#only-subscribe{
+    display: none;
+}
+input[type="radio"]:checked + label {
+    font-weight: bold;
+}
+.display-none{
+    display: none !important;
+}
+.active{
+    display: block;
+}
+.error-msg{
+    color: red;
+}
+.subscription-div, .free-trail{
+    display:flex;
+    flex-direction: column;
+}
+.error{
+    border-color:palevioletred;
+    animation: shake 0.5s;
+}
+input[type=number]::-webkit-outer-spin-button, 
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: inner-spin-button !important;
+}
+.ui-datepicker {
+    width: 264px!important;
+}
