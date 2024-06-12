@@ -1838,6 +1838,115 @@ a.showcart,a.my-account
 {
     border-bottom: 1px solid #ebebeb;
 }
+.breadcrumbs ul.items
+{
+    max-width: 100%;
+}
+.breadcrumbs,.category-hero-section
+{
+    background-color: #7a73fd !important;
+}
+.category-hero-section h2 
+{
+    font-size: 48px;
+    color: white;
+}
+.white-outline 
+{
+    border: 1px solid white;
+    color: white;
+    border-radius: 50px;
+}
+.white-outline:hover
+{
+    background-color: white;
+    color: #7a73fd;
+}
+.purple-outline
+{
+    border: 1px solid #7a73fd;
+    color: #7a73fd;
+    border-radius: 50px;
+}
+.purple-outline:hover
+{
+    background-color: #7a73fd;
+    color: white;
+}
+.category-hero-slider img 
+{
+    height: 445px;
+    object-fit: cover;
+    border-radius: 12px;
+    width: 100%;
+}
+.our-process-box
+{
+    background-color: #80e9ff;
+    border-radius: 12px;
+}
+.our-process-box ul
+{
+    padding-left: 0px;
+}
+.our-process-box ul li
+{
+    font-size: 16px;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    position: relative;
+    list-style-type: none;
+}
+.our-process-box ul li svg 
+{
+    position: absolute;
+    left: 0;
+}
+.breadcrumbs ul.items
+{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.how-to-start h3
+{
+    color: #7a73fd;
+}
+.how-to-start ul
+{
+    padding-left: 0px;
+}
+.how-to-start ul li 
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.how-to-start ul li .d-block
+{
+    margin-right: 15px;
+}
+.how-to-start ul li .d-flex 
+{
+    width: calc(100% - 61px);
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    font-size: 16px;
+}
+.how-to-start img 
+{
+    width: 100%;
+    max-width: 650px;
+}
+.why-choose-card 
+{
+    background-color: #7a73fd;
+    border-radius: 12px;
+}
+.why-choose-card span
+{
+    color: white;
+    font-size: 18px;
+}
 
 @media (max-width: 992px){
 
@@ -1902,6 +2011,9 @@ a.showcart,a.my-account
     {
         padding: 0px !important;
     }
+    .category-hero-section h2 {
+        font-size: 36px;
+    }
 
 }
 
@@ -1958,6 +2070,28 @@ a.showcart,a.my-account
     .faq-accordion .accordion-button
     {
         font-size: 16px;
+    }
+    .btn {
+        padding: 10px 20px !important;
+    }
+    .category-hero-section h2 {
+        font-size: 30px;
+    }
+    .our-process-box ul li svg {
+        top: 5px;
+    }
+    .why-choose-card h5
+    {
+        font-size: 16px;
+        margin-bottom: 0px;
+    }
+    .why-choose-card span
+    {
+        font-size: 15px;
+    }
+    .why-choose .col-sm-6 
+    {
+        width: 50%;
     }
 
 }
