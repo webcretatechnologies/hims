@@ -1299,10 +1299,10 @@ body
 }
 .primary-btn
 {
-    background-color: #F3C395 !important;
-    color: black !important;
+    background-color: #7a73fd !important;
+    color: white !important;
     border-radius: 10px !important;
-    border-color: #F3C395 !important;
+    border-color: #7a73fd !important;
 }
 .secondary-btn
 {
@@ -1313,12 +1313,13 @@ body
 }
 .secondary-btn:hover 
 {
-    background-color: #F3C395 !important;
-    border-color: #F3C395 !important;
+    background-color: #7a73fd !important;
+    border-color: #7a73fd !important;
+    color: white !important;
 }
 .green-btn
 {
-    background-color: #055346 !important;
+    background-color: #7a73fd !important;
     border-radius: 50px !important;
     color: white !important;
 }
@@ -1328,7 +1329,7 @@ h1.hero-title
 }
 h1.hero-title span 
 {
-    color: #F3C395;
+    color: #7a73fd;
 }
 .py-50
 {
@@ -1351,12 +1352,13 @@ span.hero-rating
 }
 .category-box
 {
-    background-color: #FFE9D3;
+    background-color: #7a73fd;
     border-radius: 12px;
 }
+.category-box h5.category-name,
 .category-box a
 {
-    color: black;
+    color: white;
 }
 .category-box img 
 {
@@ -1368,7 +1370,7 @@ h2.sec-title
 }
 h2.sec-title span
 {
-    color: #055346;
+    color: #7a73fd;
 }
 .category-slider .slider-item img 
 {
@@ -1386,7 +1388,7 @@ h2.sec-title span
 }
 .category-overlay span
 {
-    background-color: #F3C395;
+    background-color: #7a73fd;
     padding: 8px 8px 8px 30px;
     border-radius: 0px 70px 0px 0px;
     width: 80%;
@@ -1398,7 +1400,7 @@ h2.sec-title span
     left: 15px;
     top: 13px;
     width: 3px;
-    background-color: black;
+    background-color: white;
     height: 14px;
     z-index: 2;
 }
@@ -1422,7 +1424,7 @@ h2.sec-title span
 button.slick-arrow
 {
     border-radius: 50%;
-    background-color: #055346 !important;
+    background-color: #7a73fd !important;
     color: white;
     width: 46px !important;
     height: 46px !important;
@@ -1446,13 +1448,13 @@ button.slick-arrow::before
 }
 .services-block
 {
-    background-color: #CDFDF5;
+    background-color: #80e9ff;
     margin-top: 180px;
     margin-bottom: 50px;
 }
 .service-box
 {
-    background-color: #066152;
+    background-color: #7a73fd;
     padding: 25px 25px 25px 60px;
     position: relative;
     border-radius: 0px 12px 12px 0px;
@@ -1464,7 +1466,7 @@ button.slick-arrow::before
     left: -81px;
     font-size: 216px;
     top: 61px;
-    color: #066152;
+    color: #7a73fd;
     text-shadow: 5px 5px 0px #fff, -5px -5px 0px #fff, 5px -5px 0px #fff, 5px -5px 0px #fff;
 }
 .service-bg-img img
@@ -1492,7 +1494,7 @@ button.slick-arrow::before
 }
 .testimonial-slider-block
 {
-    background-color: #CDFDF5;
+    background-color: #80e9ff;
 }
 .testimonial-left
 {
@@ -1563,7 +1565,7 @@ button.slick-arrow::before
 .benifit-box
 {
     padding: 30px 25px;
-    background-color: #FFF7F2;
+    background-color: #eeedff;
     border-radius: 12px;
 }
 .benifit-box span
@@ -1572,7 +1574,7 @@ button.slick-arrow::before
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: #F3C395;
+    background-color: #7a73fd;
     align-items: center;
     justify-content: center;
     margin: auto;
@@ -1580,7 +1582,7 @@ button.slick-arrow::before
 }
 .footer-middle,.footer-bottom
 {
-    background-color:#055346 !important;
+    background-color:#7a73fd !important;
 }
 .footer-contact ul li 
 {
@@ -1621,7 +1623,7 @@ button.slick-arrow::before
 }
 button.subscribe,button.subscribe:hover
 {
-    background-color: #F3C395 !important;
+    background-color: #80e9ff !important;
     border-radius: 30px !important;
     color: black !important;
 }
@@ -1666,7 +1668,7 @@ button.subscribe,button.subscribe:hover
 .faq-accordion .accordion-button
 {
     border: none;
-    background-color: #FFF7F2;
+    background-color: #eeedff;
     padding: 15px;
     border-radius: 10px !important;
     font-size: 20px;
@@ -1674,7 +1676,8 @@ button.subscribe,button.subscribe:hover
 }
 .faq-accordion .accordion-button:not(.collapsed)
 {
-    background-color: #F3C395;
+    background-color: #7a73fd;
+    color: white;
 }
 
 /* Header css */
