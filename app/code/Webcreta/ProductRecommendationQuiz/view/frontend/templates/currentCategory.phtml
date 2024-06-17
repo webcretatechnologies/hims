@@ -1,9 +1,11 @@
 <?php
+$categoryId = $block->getCategoryId();
 
-$categoryAttributeValue = $block->getChooseCategoryQuizValue();
-// print_r($categoryAttributeValue);
+$id  = $this->getRequest()->getParam('id');
 
-$data = $block->getCategoryStatus();
+$categoryAttributeValue = $block->getChooseCategoryQuizValue($id);
+
+$data = $block->getCategoryStatus($id);
 
 $status = isset($data['status']) ? $data['status'] : null;
 
@@ -14,20 +16,22 @@ if ((int) $status !== 0) {
     $questionData = $block->getQuestionData($categoryAttributeValue);
     if (!empty($questionData) && $questionData !== "null") { 
         ?>
-        <form action="#">
-        <div id="quiz-container">
-            <div class="question" data-question-id="">
-                <p></p>
-            </div>
-            <div class="options">
-            </div>
-            <div class="customer_button">
-                <button type="button" id="back-question">Back</button>
-                <button type="button" id="reset-question">Reset</button>
-                <button type="button" id="next-question">Next</button>
-            </div>
+        <div class="flex py-lg-5 py-3 quiz-block">
+            <form action="#">
+                <div id="quiz-container">
+                    <div class="question" data-question-id="">
+                        <p></p>
+                    </div>
+                    <div class="options">
+                    </div>
+                    <div class="customer_button">
+                        <button type="button" id="back-question" class="btn secondary-btn">Back</button>
+                        <button type="button" id="reset-question" class="btn">Reset</button>
+                        <button type="button" id="next-question" class="btn primary-btn">Next</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        </form>
         <?php 
     }
 } else {
@@ -38,15 +42,42 @@ if ((int) $status !== 0) {
 <script>
     require(['jquery'], function ($) {
         $(document).ready(function () {
-           
+
+            $(document).on('click', '.option', function() {
+    // Toggle the 'selected' class on the clicked option
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+        $(this).find('input[type="checkbox"]').prop('checked', false);
+    } else {
+        $(this).addClass('selected');
+        $(this).find('input[type="checkbox"]').prop('checked', true);
+    }
+    
+    // Handle radio button selection
+    var radioButton = $(this).find('input[type="radio"]');
+    if (radioButton.length) {
+        // Uncheck all radio buttons within '.option'
+        $('.option').find('input[type="radio"]').prop('checked', false);
+        
+        // Check the radio button inside the clicked option
+        radioButton.prop('checked', true);
+        
+        // Ensure only one option has the 'selected' class
+        $('.option').removeClass('selected');
+        $(this).addClass('selected');
+    }
+});
+
+            var categoryId = <?php echo json_encode($id); ?>;
+            var id = <?php echo json_encode($id); ?>;
             
             $(".options").on("change", "#fileInput", function(event){
-                console.log("File selected");
+
                 var file = event.target.files[0];
 
                 if (file) {
                     var reader = new FileReader();
-                    console.log(reader);
+
                     reader.onload = function(e) {
                         $('.selected-image').empty();
                         $('#quiz-container .options').append(
@@ -58,19 +89,75 @@ if ((int) $status !== 0) {
                     reader.readAsDataURL(file);
                 }
             });
+            function getCustomerOldData(){
+
+                $.ajax({
+                        url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getoldquestion'); ?>',
+                        method: 'POST',
+                        dataType: 'json',
+                        data: {
+                            categoryAttributeValue: '<?php echo $categoryAttributeValue; ?>',
+                        },
+                        showLoader: true,
+                        success: function(response) {
+
+                            // localStorage.setItem('question_sets-' + id, '');
+                            localStorage.setItem('question_backword' + categoryId,false);
+                            // Assuming this is a typo and you meant 'backword' instead of 'flase'
+                            if (Array.isArray(response.data)) {
+                                var attributeSetId = '<?php echo $categoryAttributeValue ?>';
+
+                                var transformedData = response.data.map(item => ({
+                                    id: item.id,
+                                    currentQuestionId: item.key.toString(),
+                                    selectedOptionId: item.value.toString(),
+                                    attributeSetId: attributeSetId  // Static value as per your example
+                                }));
+                                localStorage.setItem('question_back-' + categoryId, JSON.stringify(transformedData));
+                                var currentQuestiowwnId  = localStorage.getItem('question_back-' + categoryId);
+                                localStorage.setItem('question_sets-' + categoryId, JSON.stringify(transformedData));
+
+                                if (response.data.length > 0) {
+                                    var lastElement = response.data[response.data.length - 1];
+
+                                    // Extract the last key and last value
+                                    var lastKey = lastElement.key;
+                                    var lastValue = Array.isArray(lastElement.value) ? lastElement.value.join(', ') : lastElement.value.toString();
+
+                                    // Extract the id for localStorage key naming
+                                    var id = lastElement.id;
+
+                                    // Store the last key and value in localStorage
+                                    localStorage.setItem('question_id_' + categoryId, lastKey);
+                                    localStorage.setItem('question_value_' + categoryId, lastValue);
+                                } else {
+                                    console.warn("Response.data array is empty");
+                                }
+                            } else {
+                                console.error("Response.data is not an array. Unable to transform data.");
+                            }
+                            fetchQuestionData();
+
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("Error occurred while fetching question data:", error);
+                        }
+
+                    })
+            }
+            
+            getCustomerOldData();
 
             function fetchQuestionData() {
-                var currentQuestionId = localStorage.getItem('question_id');
+                var currentQuestionId = localStorage.getItem('question_id_' + categoryId);
 
-                var selectedOptionId = localStorage.getItem('question_value');
-                console.log("load after get value");
+                var selectedOptionId = localStorage.getItem('question_value_' + categoryId);
                 
-                console.log(currentQuestionId);
-                console.log(selectedOptionId);
-                if(selectedOptionId && selectedOptionId !== 'null' && currentQuestionId !== 'null'){
+                if (currentQuestionId !== 'undefined' && selectedOptionId !== 'undefined' && currentQuestionId !== '' && currentQuestionId !== null){              
+                    
                     var attributeSetId = '<?php echo $categoryAttributeValue ?>';
-                    console.log(attributeSetId);
                     ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId)
+                
                 }else{
                     $.ajax({
                         url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getquestion'); ?>',
@@ -80,10 +167,9 @@ if ((int) $status !== 0) {
                             categoryAttributeValue: '<?php echo $categoryAttributeValue; ?>'
                         },
                         success: function (response) {
-                            console.log(response);
                             if(response.success !== false)
                             {
-                            localStorage.setItem('nextQuestionId', response.data.question_id);
+                            localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
     
                             $('.question').attr('data-question-id', response.data.question_id);
                             $('.question p').text(response.data.question);
@@ -121,13 +207,21 @@ if ((int) $status !== 0) {
                     });
                 }
             }
-            fetchQuestionData();
 
             $('#reset-question').on('click', function () {
-           
-                localStorage.setItem('question_id','');
-                localStorage.setItem('question_value','');
-                localStorage.setItem('question_sets', '');
+                var attributeSetId = '<?php echo $categoryAttributeValue ?>';
+                localStorage.setItem('question_id_' + categoryId,'');
+                localStorage.setItem('question_value_' + categoryId,'');
+                localStorage.setItem('question_sets-' + categoryId, '');
+
+                $.ajax({
+                    url: '<?php echo $block->getUrl('productrecommendationquiz/jump/resetvalue'); ?>',
+                    data: {category_id : attributeSetId},
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (response) {
+                    }
+                })
 
                 window.location.reload();
                 
@@ -136,21 +230,26 @@ if ((int) $status !== 0) {
             $('#next-question').on('click', function (e) {   
                 e.preventDefault();
                 var isValid = true;
+                var selectedOptionId = [];
                 var isRadio = $("input[type=radio]");
-                var isCheckbox = $("input[type=checkbox]");
-                var uncheckedCheckboxes = $("input[type=checkbox]:not(:checked)");
-                if (uncheckedCheckboxes.length > 0) {
-                console.log("i am in a checkbox");
-                    var selectedOptionId = [];
-                    $("input[type=checkbox]:checked").each(function(){
-                        selectedOptionId.push($(this).val());
-                    });
-                    if (selectedOptionId.length === 0 && isCheckbox.length > 0) {
-                        alert('Please select proper value.');
-                        isValid = false;
-                    }
-                }
-                console.log(selectedOptionId);
+                var allCheckboxes = $(".options input[type=checkbox]");
+
+  
+    var uncheckedCheckboxes = $(".options input[type=checkbox]:not(:checked)");
+    var intial = $(".options input[type=checkbox]");
+    console.log(uncheckedCheckboxes.length);
+
+// Check for checked checkboxes
+if (uncheckedCheckboxes.length !== 0 && uncheckedCheckboxes.length == intial.length ) {
+    alert('Please select proper checked value.');
+    isValid = false;
+} else {
+    if (uncheckedCheckboxes.length > 0) {
+        $("input[type=checkbox]:checked").each(function() {
+            selectedOptionId.push($(this).val());
+        });
+    }
+}
                 var selectedRadioValue = $("input[type=radio]:checked").val();
                 if (selectedRadioValue === undefined && isRadio.length > 0) {
                     alert('Please select proper value.');
@@ -158,46 +257,59 @@ if ((int) $status !== 0) {
                 } else {
                     if (isRadio.length > 0) {
                     selectedOptionId = selectedRadioValue;
-                    console.log(selectedOptionId);
                     }
                 }
-                // if (selectedRadioValue !== undefined) {
-                //     var selectedOptionId = $("input[type=radio]:checked").val();
-                // }
-
                 var textValue = $("input[name=text_field]").val();
-                console.log(textValue);
-                if (textValue !== undefined && textValue.trim() !== '') {
-                    if(textValue){
+                var textfield = $("input[name=text_field]");
+                    if (textValue !== undefined && textValue.trim() !== '') {
                         var selectedOptionId = textValue;
                     }else{
-                    alert('Please add proper value.');
-                        isValid = false;
+                        if (textValue === '' && textfield.length > 0) {
+                        alert('Please add proper value.');
+                        isValid = false
+                        };
                     }
-                }
-                if (!isValid) {
-                    return;
-                }
-                var currentQuestionId  = localStorage.getItem('nextQuestionId');
-                localStorage.setItem('question_id',currentQuestionId);
-                localStorage.setItem('question_value',selectedOptionId);
+                    // File Input Validation
+                    var option = $("input[type=file]").val();
+                    if (option === '' && $("input[type=file]").length > 0) {
+                        alert('Please select proper value.');
+                        isValid = false;
+                    } else if (option !== undefined) {
+                        selectedOptionId = option;    
+                    }
 
+                    if (!isValid) {
+                        return;
+                    }
+
+                 var currentQuestionId  = localStorage.getItem('nextQuestionId-' + categoryId);
+                // localStorage.setItem('question_id_' + id,currentQuestionId);
+                // localStorage.setItem('question_value_' + id,selectedOptionId);
     
                 var attributeSetId = '<?php echo $categoryAttributeValue ?>';
 
-                let questionSets = localStorage.getItem('question_sets');
+                // Retrieve the question sets from localStorage
+                // let questionSets = localStorage.getItem('question_sets-' + id);
+                let questionSets = localStorage.getItem('question_back-' + categoryId);
+                    // alert(questionSets);
                 if (questionSets) {
-                    questionSets = JSON.parse(questionSets);
+                    try {
+                        questionSets = JSON.parse(questionSets);
+                    } catch (e) {
+                        console.error("Error parsing JSON from localStorage", e);
+                        questionSets = [];
+                    }
                 } else {
                     questionSets = [];
                 }
 
-                // let lastUsedId = 0;
+                if(questionSets !== null){
                 let lastUsedId = questionSets.length > 0 ? questionSets[questionSets.length - 1].id : 0;
 
-
+                // Generate a new ID
                 const newId = lastUsedId + 1;
 
+                // Add the new question set
                 questionSets.push({
                     id: newId,
                     currentQuestionId: currentQuestionId,
@@ -205,32 +317,35 @@ if ((int) $status !== 0) {
                     attributeSetId: attributeSetId
                 });
 
-                localStorage.setItem('question_sets', JSON.stringify(questionSets));
+                localStorage.setItem('question_sets-' + categoryId, JSON.stringify(questionSets));
+                localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
+                }
 
                 ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId)
                
             });
 
             function ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId){
-              console.log('ajaxCallForGetQuestion');
-              console.log(currentQuestionId);
-              console.log(selectedOptionId);
-              console.log(attributeSetId);
+
+              localStorage.setItem('question_id_' + categoryId,currentQuestionId);
+              localStorage.setItem('question_value_' + categoryId,selectedOptionId);
+
                 $.ajax({
                     url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getnextquestion'); ?>',
                     data: {current_question_id: currentQuestionId, selected_option_id: selectedOptionId, attribute_set_id: attributeSetId},
                     type: 'POST',
                     dataType: 'json',
                     success: function (response) {
-                       
-                        console.log(response);
+
                         if(response && response.success == false){
-                        
-                            $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
+                            $('.customer_button button').hide();
+                        $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                         $('.options').empty();
-                        localStorage.setItem('question_id','');
-                        localStorage.setItem('question_value','');
-                        
+                        localStorage.setItem('question_id_' + categoryId,'');
+                        localStorage.setItem('question_value_' + categoryId,'');
+                        setTimeout(function() {
+                          window.location.reload();
+                        }, 3000);
                         }else if(response.data && response.data.final){
                             var url  = response.data.productUrl;
                             window.location.href = url;
@@ -240,25 +355,29 @@ if ((int) $status !== 0) {
                             //     '<img src="' + response.data.productImage + '" alt="Product Image">'
                             // );
                             // $('.options').empty();
-                            localStorage.setItem('question_id','');
-                            localStorage.setItem('question_value','');
-                                            localStorage.setItem('question_sets', '');
+                            localStorage.setItem('question_id_' + categoryId,'');
+                            localStorage.setItem('question_value_' + categoryId,'');
+                            localStorage.setItem('question_sets-' + categoryId, '');
+                            localStorage.setItem('question_back-' + categoryId, '');
 
 
                         }else if(response.data && response.data.question_id == null || response.data.question_id == ''){
+                            $('.customer_button button').hide();
+
                             $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                             $('.options').empty();
-                            localStorage.setItem('question_id','');
-                            localStorage.setItem('question_value','');
-                        
+                            localStorage.setItem('question_id_' + categoryId,'');
+                            localStorage.setItem('question_value_' + categoryId,'');
+                            setTimeout(function() {
+                              window.location.reload();
+                            }, 3000);
                         }else {
                             if(response.data && response.data.question_id){
-                                localStorage.setItem('nextQuestionId', response.data.question_id);
+                                localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
                                 $('.question p').text(response.data.question);
                                 $('.question').attr('data-question-id', response.data.question_id); 
                                 
                                 $('.options').empty();
-                                console.log(response.data.type);
                                 if (response.data.type === 'text') {
                                     $('.options').append(
                                         '<div class="option">' +
@@ -267,9 +386,11 @@ if ((int) $status !== 0) {
                                     );
                                 } else if (response.data.type === 'multiselect') {
                                     $.each(response.data.options, function (index, option) {
+                                        var selectedValues = response.data.selected_value;
+
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
+                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '" ' + (selectedValues.includes(option.value) ? 'checked' : '') + '>' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
@@ -284,22 +405,28 @@ if ((int) $status !== 0) {
                                    
                                 }
                                 else {
+              
+                                    var selectedValue = response.data.selected_value;
+
+
                                     $.each(response.data.options, function (index, option) {
-                                        if(option.images){
+                                        var isSelected = option.value == selectedValue ? 'checked' : '';
+
+                                        if (option.images) {
                                             $('.options').append(
-                                            '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<img src="' + option.images + '" alt="Option Image">' +
-                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
-                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
-                                            '</div>'
-                                        );
-                                        }else{
+                                                '<div class="option" data-option-id="' + option.value + '">' +
+                                                '<img src="' + option.images + '" alt="Option Image">' +
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '" ' + isSelected + '>' +
+                                                '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                                '</div>'
+                                            );
+                                        } else {
                                             $('.options').append(
-                                            '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
-                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
-                                            '</div>'
-                                        );
+                                                '<div class="option" data-option-id="' + option.value + '">' +
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '" ' + isSelected + '>' +
+                                                '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                                '</div>'
+                                            );
                                         }
                                        
                                     });
@@ -313,23 +440,15 @@ if ((int) $status !== 0) {
                 });
             }
 
-            // function updateQuestionDisplay() {
-            //     var questionSets = JSON.parse(localStorage.getItem('question_sets'));
-            //     console.log(currentIndex);
-
-            //     if (questionSets && questionSets.length > 0) {
-            //         var currentQuestion = questionSets[currentIndex];
-            //         console.log(currentQuestion); 
-            //     }
-            // }
-
             var currentIndex = 1;
 
             $('#back-question').click(function() {
-                console.log("back button click");
+                // backword == true;
+                localStorage.setItem('question_backword' + categoryId,true);
 
-                var questionSets = JSON.parse(localStorage.getItem('question_sets'));
-                console.log(questionSets);
+                var questionSets = JSON.parse(localStorage.getItem('question_back-' + categoryId));
+               
+                // questionSets.pop(); 
                     if (questionSets && questionSets.length > 0) {
                         currentIndex--;
 
@@ -337,15 +456,14 @@ if ((int) $status !== 0) {
                             currentIndex = questionSets.length - 1;
                         }
 
-                        // updateQuestionDisplay();
-                        console.log(questionSets);
                     var previousQuestionSet = questionSets[currentIndex];
                     var currentQuestionId = previousQuestionSet.currentQuestionId;
                     var selectedOptionId = previousQuestionSet.selectedOptionId;
                     var attributeSetId = previousQuestionSet.attributeSetId;
-                    localStorage.setItem('question_value',selectedOptionId);
 
-                    localStorage.setItem('question_id',currentQuestionId);
+                    localStorage.setItem('question_value_' + categoryId,selectedOptionId);
+
+                    localStorage.setItem('question_id_' + categoryId,currentQuestionId);
                     ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId);
                   
                   
@@ -361,16 +479,20 @@ if ((int) $status !== 0) {
                     type: 'POST',
                     dataType: 'json',
                     success: function (response) {
-                        var questionSets = JSON.parse(localStorage.getItem('question_sets'));
+                        var question_backword = localStorage.getItem('question_backword' + categoryId);
+  
+                        if(question_backword === "true"){
+                         var questionSets = JSON.parse(localStorage.getItem('question_back-' + id));
 
-                        questionSets.splice(currentIndex, 1);
-                        localStorage.setItem('question_sets', JSON.stringify(questionSets));
+                         questionSets.splice(currentIndex, 1);
+                         localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
+                        }
                         if(response && response.success == false){
                         
                             $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                             $('.options').empty();
-                            localStorage.setItem('question_id','');
-                            localStorage.setItem('question_value','');
+                            localStorage.setItem('question_id_' + categoryId,'');
+                            localStorage.setItem('question_value_' + categoryId,'');
                         
                         }else if(response.data && response.data.final){
                             $('.question p').text('Product Name: ' + response.data.productName );
@@ -378,23 +500,22 @@ if ((int) $status !== 0) {
                                 '<img src="' + response.data.productImage + '" alt="Product Image">'
                             );
                             $('.options').empty();
-                            localStorage.setItem('question_id','');
-                            localStorage.setItem('question_value','');
+                            localStorage.setItem('question_id_' + categoryId,'');
+                            localStorage.setItem('question_value_' + categoryId,'');
 
                         }else if(response.data && response.data.question_id == null || response.data.question_id == ''){
                             $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                             $('.options').empty();
-                            localStorage.setItem('question_id','');
-                            localStorage.setItem('question_value','');
+                            localStorage.setItem('question_id_' + categoryId,'');
+                            localStorage.setItem('question_value_' + categoryId,'');
                         
                         }else {
                             if(response.data && response.data.question_id){
-                                localStorage.setItem('nextQuestionId', response.data.question_id);
+                                localStorage.setItem('nextQuestionId-' + id, response.data.question_id);
                                 $('.question p').text(response.data.question);
                                 $('.question').attr('data-question-id', response.data.question_id); 
                                 
                                 $('.options').empty();
-                                console.log(response.data.type);
                                 if (response.data.type === 'text') {
                                     var fieldValue = selectedOptionId ? selectedOptionId : '';
                                         $('.options').append(
@@ -453,64 +574,6 @@ if ((int) $status !== 0) {
                     }
                 });
             }
-            
         });
     });
 </script>
-
-<style>
-   .customer_button {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    #quiz-container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-
-    .question {
-        margin-bottom: 20px;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .options {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .option {
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .option:hover {
-        background-color: #e6e6e6;
-    }
-
-    #next-question,#reset-question,#back-question{
-        display: block;
-        margin-top: 20px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    #next-question,#reset-question:hover ,#back-question{
-        background-color: #0056b3;
-    }
-</style>

@@ -4,5 +4,7 @@
      <menu>
           <add id="Webcreta_ProductRecommendationQuiz::productrecommendationquiz" title="Product Quiz" module="Webcreta_ProductRecommendationQuiz" sortOrder="10" resource="Webcreta_ProductRecommendationQuiz::productrecommendationquiz"/>
           <add id="Webcreta_ProductRecommendationQuiz::manageproductrecommendationquiz" title="Manage Product Quiz" module="Webcreta_ProductRecommendationQuiz" sortOrder="20" parent="Webcreta_ProductRecommendationQuiz::productrecommendationquiz" action="productrecommendationquiz/category/index" resource="Webcreta_ProductRecommendationQuiz::manageproductrecommendationquiz"/>
+          <add id="Webcreta_ProductRecommendationQuiz::managecustomerquizdata" title="Manage Customer Quiz data" module="Webcreta_ProductRecommendationQuiz" sortOrder="20" parent="Webcreta_ProductRecommendationQuiz::productrecommendationquiz" action="productrecommendationquiz/customer/index" resource="Webcreta_ProductRecommendationQuiz::manageproductrecommendationquiz"/>
+
      </menu>
 </config>

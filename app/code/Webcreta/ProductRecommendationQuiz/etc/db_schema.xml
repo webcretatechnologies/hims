@@ -29,5 +29,15 @@
       </constraint>
    </table>
 
+ <table name="webcreta_productrecommendation_quizdata" resource="default" engine="innodb" comment="webcreta_productrecommendationquizcategory">
+      <column xsi:type="int" name="id" padding="7" unsigned="false" nullable="false" identity="true" comment="ID" />
+      <column xsi:type="varchar" name="customer_id" nullable="false" comment="attribute category" />
+      <column xsi:type="varchar" name="question_set" nullable="false" comment="attribute status" />
+      <column xsi:type="varchar" name="product" nullable="false" comment="attribute status" />
+      <column xsi:type="varchar" name="category" nullable="false" comment="attribute status" />
+      <constraint xsi:type="primary" referenceId="PRIMARY">
+         <column name="id" />
+      </constraint>
+   </table>
    
 </schema>
