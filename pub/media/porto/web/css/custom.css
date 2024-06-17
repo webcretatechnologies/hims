@@ -1947,6 +1947,90 @@ a.showcart,a.my-account
     color: white;
     font-size: 18px;
 }
+.productrecommendationquiz-index-index .page-main
+{
+    max-width: 100%;
+}
+.productrecommendationquiz-index-index .page-main .column.main
+{
+    width: 100%;
+}
+.quiz-block .question p 
+{
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    line-height: 36px;
+}
+.quiz-block .option:hover {
+    border-color: black;
+}
+.quiz-block .option {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+}
+.quiz-block .option.selected {
+    border: 2px solid #7a73fd;
+}
+.customer_button {
+    display: flex;
+    justify-content: space-between;
+}
+#quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.options {
+    display: flex;
+    flex-direction: column;
+}
+#back-question
+{
+    border-color: #7a73fd !important;
+    color: #7a73fd !important;
+}
+#back-question,#next-question,#reset-question
+{
+    border-radius: 50px !important;
+}
+#back-question:hover
+{
+    color: white !important;
+}
+#reset-question
+{
+    background-color: #80e9ff !important;
+    border-color: #80e9ff !important;
+    color: black !important;
+}
+.quiz-block .option label 
+{
+    font-size: 16px;
+}
+.quiz-block .option input[type="radio"]
+{
+    visibility: hidden;
+    position: absolute;
+}
+.quiz-block .option input[type="checkbox"]
+{
+    position: absolute;
+    top: 37%;
+    right: 15px;
+    width: 18px;
+    height: 18px;
+    margin: 0px;
+    accent-color: #7a73fd;
+}
+.quiz-block .option input
+{
+    border: none;
+}
 
 @media (max-width: 992px){
 

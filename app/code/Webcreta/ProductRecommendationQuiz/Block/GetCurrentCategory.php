@@ -12,6 +12,8 @@ use Magento\Catalog\Model\ResourceModel\Eav\Attribute as EavAttribute;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Eav\AttributeFactory;
 use Webcreta\ProductRecommendationQuiz\Model\ProductRecommendationQuizCategoryFactory;
+use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 
 class GetCurrentCategory extends Template
 {
@@ -25,6 +27,9 @@ class GetCurrentCategory extends Template
     protected $productAttributeRepository;
     protected $attributeFactory;
     protected $productRecommendationQuizCategoryFactory;
+    protected $customerSession;
+	protected $httpContext;
+    private $categoryRepository;
 
     public function __construct(
         Template\Context $context,
@@ -38,6 +43,9 @@ class GetCurrentCategory extends Template
         ProductAttributeRepositoryInterface $productAttributeRepository,
         AttributeFactory $attributeFactory,
         ProductRecommendationQuizCategoryFactory $productRecommendationQuizCategoryFactory,
+        CustomerSession $customerSession,
+        \Magento\Framework\App\Http\Context $httpContext,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = []
     ) {
         $this->layerResolver = $layerResolver;
@@ -50,6 +58,9 @@ class GetCurrentCategory extends Template
         $this->productAttributeRepository = $productAttributeRepository;
         $this->attributeFactory = $attributeFactory;
         $this->productRecommendationQuizCategoryFactory = $productRecommendationQuizCategoryFactory;
+        $this->customerSession = $customerSession;
+        $this->httpContext = $httpContext;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context, $data);
     }
 
@@ -58,11 +69,8 @@ class GetCurrentCategory extends Template
         return $this->layerResolver->get()->getCurrentCategory();
     }
 
-    public function getCategoryStatus()
+    public function getCategoryStatus($id)
     {
-        $currentCategory = $this->getCurrentCategory();
-        $id  = $currentCategory['entity_id'];
-
         $collection = $this->productRecommendationQuizCategoryFactory->create()->getCollection()
         ->addFieldToFilter('category',$id);
     
@@ -70,9 +78,9 @@ class GetCurrentCategory extends Template
         return $data;
     }
     
-    public function getCategoryAttributeValue($attributeCode)
+    public function getCategoryAttributeValue($attributeCode,$id)
     {
-        $currentCategory = $this->getCurrentCategory();
+        $currentCategory = $this->categoryRepository->get($id);
 
         if ($currentCategory) {
             return $currentCategory->getData($attributeCode);
@@ -80,9 +88,9 @@ class GetCurrentCategory extends Template
         return null;
     }
 
-    public function getChooseCategoryQuizValue()
+    public function getChooseCategoryQuizValue($id)
     {
-        return $this->getCategoryAttributeValue('choose_category_quiz');
+        return $this->getCategoryAttributeValue('choose_category_quiz',$id);
     }
 
     public function getQuestionData($yourAttributeSetId)
@@ -177,4 +185,9 @@ class GetCurrentCategory extends Template
         return $optionIds;
 
     }
+
+    public function getCustomerId()
+	{
+    	return $this->httpContext->getValue('customer_id');
+	}
 }

@@ -32,4 +32,20 @@
             </argument>
         </arguments>
     </type>
+
+     <!-- create a admin grid customer quiz data -->
+    <virtualType name="Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuizData\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">webcreta_productrecommendation_quizdata</argument>
+            <argument name="resourceModel" xsi:type="string">Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuizData</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="quizdata" xsi:type="string">Webcreta\ProductRecommendationQuiz\Model\ResourceModel\ProductRecommendationQuizData\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
