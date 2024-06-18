@@ -1,21 +1,22 @@
 <?php 
 $last_segment = $block->getCurrentUrl();
 $categoryId = $block->getCategoryByUrlKey($last_segment);
-$addClass = ''; // Initialize $addClass
+$addClass = '';
+$product = []; // Initialize $product as an empty array
+// $showCategoryContent = false; // Initialize flag to show/hide category content
 if ($categoryId) {
     $product = $block->getProductCollectionByCategoryId($categoryId->getEntityId()); 
-} else {
-    $product = [];
-    $addClass = 'hide-content'; 
+    if (!(count($product) > 0)) {
+        // $showCategoryContent = true; // Set flag to true if there are products
+        $addClass = 'hide-content';
+    }
 }
-
-// $product = $block->getProductCollectionByCategoryId($categoryId->getEntityId()); 
 ?>
 <section class="category-product-slider-sec py-50 <?=$addClass?>">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mb-4">
-                <h2 class="sec-title">We Recommend products for <span>long term solution</span></h2>
+            <?php echo $categoryId->getCategoryHtmlContent(); ?>
             </div>
             <div class="col-lg-12">
                 <div class="category-product-slider">
