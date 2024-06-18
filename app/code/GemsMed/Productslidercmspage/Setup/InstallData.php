@@ -35,5 +35,21 @@ class InstallData implements InstallDataInterface
                 'is_html_allowed_on_front' => true,
             ]
         );
+
+        $eavSetup->addAttribute(
+            \Magento\Catalog\Model\Category::ENTITY,
+            'category_html_content_for_cate_slider',
+            [
+                'type' => 'text',
+                'label' => 'Html-content to show before category slider on cms category page',
+                'input' => 'textarea', // use 'textarea' or 'wysiwyg' for HTML content
+                'required' => false,
+                'sort_order' => 100,
+                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
+                'group' => 'General Information',
+                'is_wysiwyg_enabled' => true, // Enable WYSIWYG editor
+                'is_html_allowed_on_front' => true,
+            ]
+        );
     }
 }
