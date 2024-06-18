@@ -2,39 +2,39 @@
 $last_segment = $block->getCurrentUrl();
 $categoryId = $block->getCategoryByUrlKey($last_segment);
 $addClass = '';
-$getCategoryHtmlContent = false;
 $product = []; 
+$getCategoryHtmlContentForCateSlider = false;
 if ($categoryId) {
-    $product = $block->getProductCollectionByCategoryId($categoryId->getEntityId()); 
-    $getCategoryHtmlContent = ($categoryId->getCategoryHtmlContent()) ? $categoryId->getCategoryHtmlContent() : false;
-    if (!(count($product) > 0)) {
+    // print_r($categoryId->getData());die;
+    $subCategories = $block->getSubcategoriesByParentId($categoryId->getEntityId()); 
+    $getCategoryHtmlContentForCateSlider = ($categoryId->getCategoryHtmlContentForCateSlider()) ? $categoryId->getCategoryHtmlContentForCateSlider() : false;
+    if (!(count($subCategories) > 0)) {
         $addClass = 'hide-content';
     }
 ?>
-<section class="category-product-slider-sec py-50 <?=$addClass?>">
-    <div class="container">
-        <div class="row">
-            <?php if ($getCategoryHtmlContent) { ?>
-                <div class="col-lg-6 mb-4">
-                    <?php echo $getCategoryHtmlContent; ?>
+<section class="sub-category-section py-50 <?=$addClass?>">
+    <div class="container mb-4">
+        <div class="row d-flex align-items-center mb-4">
+            <?php if ($getCategoryHtmlContentForCateSlider) { ?>
+                <div class="col-lg-6 col-md-9">
+                    <?php echo $getCategoryHtmlContentForCateSlider; ?>
                 </div>
             <?php } ?>
+            <div class="col-lg-6 col-md-3 text-md-end text-start">
+                <a href="#" class="btn purple-outline">Take Quiz</a>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12">
-                <div class="category-product-slider">
-                <?php foreach($product as $productData) { ?>
+                <div class="sub-category-slider">
+                <?php foreach($subCategories as $subCategory) { ?>
                     <div class="slider-item px-2">
                         <div class="slider-inner">
                             <div class="d-block mb-3">
-                                <a href="#"><img src="<?php echo '/media/catalog/product'. $productData->getimage(); ?>" /></a>
+                                <a href="#"><img src="<?php echo $subCategory->getImageUrl(); ?>" alt="" /></a>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <div class="d-block">
-                                    <h5 class="pr-name"><?php echo $productData->getName(); ?></h5>
-                                    <p class="pr-tag">Safety info</p>
-                                </div>
-                                <div class="d-block">
-                                    <a href="#" class="btn green-btn">Get Started</a>
-                                </div>
+                                <h5><?php echo $subCategory->getName(); ?></h5>
                             </div>
                         </div>
                     </div>
@@ -52,15 +52,13 @@ if ($categoryId) {
 <script>
     require(['jquery', 'slick'], function($) {
         $(document).ready(function(){
-            $('.category-product-slider').slick({
+            $('.sub-category-slider').slick({
                 slidesToShow: 4, 
                 slidesToScroll: 1,
                 autoplay: true,
-                autoplaySpeed: 3000,
-                arrows: true,
+                autoplaySpeed: 2000,
+                arrows: false,
                 dots: false,
-                prevArrow:'<button type="button" data-role="none" class="slick-prev"></button>',
-                nextArrow:'<button type="button" data-role="none" class="slick-next"></button>',
                 responsive: [
                     {
                         breakpoint: 1024,

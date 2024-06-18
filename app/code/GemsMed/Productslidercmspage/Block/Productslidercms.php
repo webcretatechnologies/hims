@@ -8,6 +8,7 @@ use Magento\Framework\UrlInterface;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Catalog\Model\CategoryFactory;
 
 class Productslidercms extends Template
 {
@@ -15,6 +16,7 @@ class Productslidercms extends Template
     protected $categoryRepository;
     protected $categoryCollectionFactory;
     protected $urlBuilder;
+    protected $categoryFactory;
 
 
     public function __construct(
@@ -23,12 +25,14 @@ class Productslidercms extends Template
         CategoryRepositoryInterface $categoryRepository,
         CategoryCollectionFactory $categoryCollectionFactory,
         ProductCollectionFactory $productCollectionFactory,
+        CategoryFactory $categoryFactory,
         array $data = []
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->categoryRepository = $categoryRepository;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->productCollectionFactory = $productCollectionFactory;
+        $this->categoryFactory = $categoryFactory;
         parent::__construct($context, $data);
     }
 
@@ -59,4 +63,18 @@ class Productslidercms extends Template
         }
         return false;
     }
+
+    public function getSubcategoriesByParentId($parentId)
+    {
+        $category = $this->categoryFactory->create()->load($parentId);
+        $subcategories = $category->getChildrenCategories();
+
+        // Load additional attributes (like image) for subcategories
+        foreach ($subcategories as $subcategory) {
+            $subcategory->load($subcategory->getId());
+        }
+        
+        return $subcategories;
+    }
+
 }
