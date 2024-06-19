@@ -1,4 +1,6 @@
 <?php
+$id  = $this->getRequest()->getParam('id');
+
 $categoryId = $block->getCategoryId();
 
 $id  = $this->getRequest()->getParam('id');
@@ -14,8 +16,8 @@ $status = isset($data['status']) ? $data['status'] : null;
 
 if ((int) $status !== 0) {
     $questionData = $block->getQuestionData($categoryAttributeValue);
-    if (!empty($questionData) && $questionData !== "null") { 
-        ?>
+    if (!empty($questionData) && $questionData !== "null") {
+?>
         <div class="flex py-lg-5 py-3 quiz-block">
             <form action="#">
                 <div id="quiz-container">
@@ -32,7 +34,7 @@ if ((int) $status !== 0) {
                 </div>
             </form>
         </div>
-        <?php 
+<?php
     }
 } else {
 }
@@ -40,38 +42,33 @@ if ((int) $status !== 0) {
 
 
 <script>
-    require(['jquery'], function ($) {
-        $(document).ready(function () {
-
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            
             $(document).on('click', '.option', function() {
-    // Toggle the 'selected' class on the clicked option
-    if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-        $(this).find('input[type="checkbox"]').prop('checked', false);
-    } else {
-        $(this).addClass('selected');
-        $(this).find('input[type="checkbox"]').prop('checked', true);
-    }
-    
-    // Handle radio button selection
-    var radioButton = $(this).find('input[type="radio"]');
-    if (radioButton.length) {
-        // Uncheck all radio buttons within '.option'
-        $('.option').find('input[type="radio"]').prop('checked', false);
-        
-        // Check the radio button inside the clicked option
-        radioButton.prop('checked', true);
-        
-        // Ensure only one option has the 'selected' class
-        $('.option').removeClass('selected');
-        $(this).addClass('selected');
-    }
-});
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $(this).find('input[type="checkbox"]').prop('checked', false);
+                } else {
+                    $(this).addClass('selected');
+                    $(this).find('input[type="checkbox"]').prop('checked', true);
+                }
+
+                var radioButton = $(this).find('input[type="radio"]');
+                if (radioButton.length) {
+                    $('.option').find('input[type="radio"]').prop('checked', false);
+
+                    radioButton.prop('checked', true);
+
+                    $('.option').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
 
             var categoryId = <?php echo json_encode($id); ?>;
             var id = <?php echo json_encode($id); ?>;
-            
-            $(".options").on("change", "#fileInput", function(event){
+
+            $(".options").on("change", "#fileInput", function(event) {
 
                 var file = event.target.files[0];
 
@@ -89,76 +86,77 @@ if ((int) $status !== 0) {
                     reader.readAsDataURL(file);
                 }
             });
-            function getCustomerOldData(){
+
+            function getCustomerOldData() {
 
                 $.ajax({
-                        url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getoldquestion'); ?>',
-                        method: 'POST',
-                        dataType: 'json',
-                        data: {
-                            categoryAttributeValue: '<?php echo $categoryAttributeValue; ?>',
-                        },
-                        showLoader: true,
-                        success: function(response) {
+                    url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getoldquestion'); ?>',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        categoryAttributeValue: '<?php echo $categoryAttributeValue; ?>',
+                    },
+                    showLoader: true,
+                    success: function(response) {
 
-                            // localStorage.setItem('question_sets-' + id, '');
-                            localStorage.setItem('question_backword' + categoryId,false);
-                            // Assuming this is a typo and you meant 'backword' instead of 'flase'
-                            if (Array.isArray(response.data)) {
-                                var attributeSetId = '<?php echo $categoryAttributeValue ?>';
+                        // localStorage.setItem('question_sets-' + id, '');
+                        localStorage.setItem('question_backword' + categoryId, false);
+                        // Assuming this is a typo and you meant 'backword' instead of 'flase'
+                        if (Array.isArray(response.data)) {
+                            var attributeSetId = '<?php echo $categoryAttributeValue ?>';
 
-                                var transformedData = response.data.map(item => ({
-                                    id: item.id,
-                                    currentQuestionId: item.key.toString(),
-                                    selectedOptionId: item.value.toString(),
-                                    attributeSetId: attributeSetId  // Static value as per your example
-                                }));
-                                localStorage.setItem('question_back-' + categoryId, JSON.stringify(transformedData));
-                                var currentQuestiowwnId  = localStorage.getItem('question_back-' + categoryId);
-                                localStorage.setItem('question_sets-' + categoryId, JSON.stringify(transformedData));
+                            var transformedData = response.data.map(item => ({
+                                id: item.id,
+                                currentQuestionId: item.key.toString(),
+                                selectedOptionId: item.value.toString(),
+                                attributeSetId: attributeSetId // Static value as per your example
+                            }));
+                            localStorage.setItem('question_back-' + categoryId, JSON.stringify(transformedData));
+                            var currentQuestiowwnId = localStorage.getItem('question_back-' + categoryId);
+                            localStorage.setItem('question_sets-' + categoryId, JSON.stringify(transformedData));
 
-                                if (response.data.length > 0) {
-                                    var lastElement = response.data[response.data.length - 1];
+                            if (response.data.length > 0) {
+                                var lastElement = response.data[response.data.length - 1];
 
-                                    // Extract the last key and last value
-                                    var lastKey = lastElement.key;
-                                    var lastValue = Array.isArray(lastElement.value) ? lastElement.value.join(', ') : lastElement.value.toString();
+                                // Extract the last key and last value
+                                var lastKey = lastElement.key;
+                                var lastValue = Array.isArray(lastElement.value) ? lastElement.value.join(', ') : lastElement.value.toString();
 
-                                    // Extract the id for localStorage key naming
-                                    var id = lastElement.id;
+                                // Extract the id for localStorage key naming
+                                var id = lastElement.id;
 
-                                    // Store the last key and value in localStorage
-                                    localStorage.setItem('question_id_' + categoryId, lastKey);
-                                    localStorage.setItem('question_value_' + categoryId, lastValue);
-                                } else {
-                                    console.warn("Response.data array is empty");
-                                }
+                                // Store the last key and value in localStorage
+                                localStorage.setItem('question_id_' + categoryId, lastKey);
+                                localStorage.setItem('question_value_' + categoryId, lastValue);
                             } else {
-                                console.error("Response.data is not an array. Unable to transform data.");
+                                console.warn("Response.data array is empty");
                             }
-                            fetchQuestionData();
-
-                        },
-                        error: function(xhr, status, error) {
-                            console.log("Error occurred while fetching question data:", error);
+                        } else {
+                            console.error("Response.data is not an array. Unable to transform data.");
                         }
+                        fetchQuestionData();
 
-                    })
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("Error occurred while fetching question data:", error);
+                    }
+
+                })
             }
-            
+
             getCustomerOldData();
 
             function fetchQuestionData() {
                 var currentQuestionId = localStorage.getItem('question_id_' + categoryId);
 
                 var selectedOptionId = localStorage.getItem('question_value_' + categoryId);
-                
-                if (currentQuestionId !== 'undefined' && selectedOptionId !== 'undefined' && currentQuestionId !== '' && currentQuestionId !== null){              
-                    
+
+                if (currentQuestionId !== 'undefined' && selectedOptionId !== 'undefined' && currentQuestionId !== '' && currentQuestionId !== null) {
+
                     var attributeSetId = '<?php echo $categoryAttributeValue ?>';
                     ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId)
-                
-                }else{
+
+                } else {
                     $.ajax({
                         url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getquestion'); ?>',
                         method: 'POST',
@@ -166,22 +164,28 @@ if ((int) $status !== 0) {
                         data: {
                             categoryAttributeValue: '<?php echo $categoryAttributeValue; ?>'
                         },
-                        success: function (response) {
-                            if(response.success !== false)
-                            {
-                            localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
-    
-                            $('.question').attr('data-question-id', response.data.question_id);
-                            $('.question p').text(response.data.question);
-                            $('.options').empty();
-                            if (response.data.type === 'text') {
+                        success: function(response) {
+                            if (response.success !== false) {
+                                localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
+
+                                $('.question').attr('data-question-id', response.data.question_id);
+                                $('.question p').text(response.data.question);
+                                $('.options').empty();
+                                if (response.data.type === 'text') {
                                     $('.options').append(
                                         '<div class="option">' +
                                         '<input required type="text" id="text_field" name="text_field">' +
                                         '</div>'
                                     );
+                                }
+                                else if (response.data.type === 'date') {
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input required type="date" id="date" name="date">' +
+                                        '</div>'
+                                    );
                                 } else if (response.data.type === 'multiselect') {
-                                    $.each(response.data.options, function (index, option) {
+                                    $.each(response.data.options, function(index, option) {
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
                                             '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '">' +
@@ -190,7 +194,7 @@ if ((int) $status !== 0) {
                                         );
                                     });
                                 } else {
-                                    $.each(response.data.options, function (index, option) {
+                                    $.each(response.data.options, function(index, option) {
                                         $('.options').append(
                                             '<div class="option" data-option-id="' + option.value + '">' +
                                             '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '">' +
@@ -201,97 +205,105 @@ if ((int) $status !== 0) {
                                 }
                             }
                         },
-                        error: function (xhr, status, error) {
+                        error: function(xhr, status, error) {
                             console.error(error);
                         }
                     });
                 }
             }
 
-            $('#reset-question').on('click', function () {
+            $('#reset-question').on('click', function() {
                 var attributeSetId = '<?php echo $categoryAttributeValue ?>';
-                localStorage.setItem('question_id_' + categoryId,'');
-                localStorage.setItem('question_value_' + categoryId,'');
+                localStorage.setItem('question_id_' + categoryId, '');
+                localStorage.setItem('question_value_' + categoryId, '');
                 localStorage.setItem('question_sets-' + categoryId, '');
 
                 $.ajax({
                     url: '<?php echo $block->getUrl('productrecommendationquiz/jump/resetvalue'); ?>',
-                    data: {category_id : attributeSetId},
+                    data: {
+                        category_id: attributeSetId
+                    },
                     type: 'POST',
                     dataType: 'json',
-                    success: function (response) {
-                    }
+                    success: function(response) {}
                 })
 
                 window.location.reload();
-                
+
             });
 
-            $('#next-question').on('click', function (e) {   
+            $('#next-question').on('click', function(e) {
                 e.preventDefault();
                 var isValid = true;
                 var selectedOptionId = [];
                 var isRadio = $("input[type=radio]");
                 var allCheckboxes = $(".options input[type=checkbox]");
 
-  
-    var uncheckedCheckboxes = $(".options input[type=checkbox]:not(:checked)");
-    var intial = $(".options input[type=checkbox]");
-    console.log(uncheckedCheckboxes.length);
 
-// Check for checked checkboxes
-if (uncheckedCheckboxes.length !== 0 && uncheckedCheckboxes.length == intial.length ) {
-    alert('Please select proper checked value.');
-    isValid = false;
-} else {
-    if (uncheckedCheckboxes.length > 0) {
-        $("input[type=checkbox]:checked").each(function() {
-            selectedOptionId.push($(this).val());
-        });
-    }
-}
+                var uncheckedCheckboxes = $(".options input[type=checkbox]:not(:checked)");
+                var intial = $(".options input[type=checkbox]");
+
+                // Check for checked checkboxes
+                if (uncheckedCheckboxes.length !== 0 && uncheckedCheckboxes.length == intial.length) {
+                    alert('Please select proper checked value.');
+                    isValid = false;
+                } else {
+                    if (uncheckedCheckboxes.length > 0) {
+                        $("input[type=checkbox]:checked").each(function() {
+                            selectedOptionId.push($(this).val());
+                        });
+                    }
+                }
                 var selectedRadioValue = $("input[type=radio]:checked").val();
                 if (selectedRadioValue === undefined && isRadio.length > 0) {
                     alert('Please select proper value.');
                     isValid = false;
                 } else {
                     if (isRadio.length > 0) {
-                    selectedOptionId = selectedRadioValue;
+                        selectedOptionId = selectedRadioValue;
                     }
                 }
                 var textValue = $("input[name=text_field]").val();
                 var textfield = $("input[name=text_field]");
-                    if (textValue !== undefined && textValue.trim() !== '') {
-                        var selectedOptionId = textValue;
-                    }else{
-                        if (textValue === '' && textfield.length > 0) {
+                if (textValue !== undefined && textValue.trim() !== '') {
+                    var selectedOptionId = textValue;
+                } else {
+                    if (textValue === '' && textfield.length > 0) {
                         alert('Please add proper value.');
                         isValid = false
-                        };
-                    }
-                    // File Input Validation
-                    var option = $("input[type=file]").val();
-                    if (option === '' && $("input[type=file]").length > 0) {
-                        alert('Please select proper value.');
-                        isValid = false;
-                    } else if (option !== undefined) {
-                        selectedOptionId = option;    
-                    }
+                    };
+                }
+                // File Input Validation
+                var option = $("input[type=file]").val();
+                if (option === '' && $("input[type=file]").length > 0) {
+                    alert('Please select proper value.');
+                    isValid = false;
+                } else if (option !== undefined) {
+                    selectedOptionId = option;
+                }
 
-                    if (!isValid) {
-                        return;
-                    }
+                var option = $("input[type=date]").val();
+                if (option === '' && $("input[type=date]").length > 0) {
+                    alert('Please select proper value.');
+                    isValid = false;
+                } else if (option !== undefined) {
+                    selectedOptionId = option;
+                }
 
-                 var currentQuestionId  = localStorage.getItem('nextQuestionId-' + categoryId);
+                if (!isValid) {
+                    return;
+                }
+
+                var currentQuestionId = localStorage.getItem('nextQuestionId-' + categoryId);
                 // localStorage.setItem('question_id_' + id,currentQuestionId);
                 // localStorage.setItem('question_value_' + id,selectedOptionId);
-    
+
                 var attributeSetId = '<?php echo $categoryAttributeValue ?>';
 
                 // Retrieve the question sets from localStorage
                 // let questionSets = localStorage.getItem('question_sets-' + id);
                 let questionSets = localStorage.getItem('question_back-' + categoryId);
-                    // alert(questionSets);
+                // alert(questionSets);
                 if (questionSets) {
                     try {
                         questionSets = JSON.parse(questionSets);
@@ -303,51 +315,55 @@ if (uncheckedCheckboxes.length !== 0 && uncheckedCheckboxes.length == intial.len
                     questionSets = [];
                 }
 
-                if(questionSets !== null){
-                let lastUsedId = questionSets.length > 0 ? questionSets[questionSets.length - 1].id : 0;
+                if (questionSets !== null) {
+                    let lastUsedId = questionSets.length > 0 ? questionSets[questionSets.length - 1].id : 0;
 
-                // Generate a new ID
-                const newId = lastUsedId + 1;
+                    // Generate a new ID
+                    const newId = lastUsedId + 1;
 
-                // Add the new question set
-                questionSets.push({
-                    id: newId,
-                    currentQuestionId: currentQuestionId,
-                    selectedOptionId: selectedOptionId,
-                    attributeSetId: attributeSetId
-                });
+                    // Add the new question set
+                    questionSets.push({
+                        id: newId,
+                        currentQuestionId: currentQuestionId,
+                        selectedOptionId: selectedOptionId,
+                        attributeSetId: attributeSetId
+                    });
 
-                localStorage.setItem('question_sets-' + categoryId, JSON.stringify(questionSets));
-                localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
+                    localStorage.setItem('question_sets-' + categoryId, JSON.stringify(questionSets));
+                    localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
                 }
 
                 ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId)
-               
+
             });
 
-            function ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId){
+            function ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId) {
 
-              localStorage.setItem('question_id_' + categoryId,currentQuestionId);
-              localStorage.setItem('question_value_' + categoryId,selectedOptionId);
+                localStorage.setItem('question_id_' + categoryId, currentQuestionId);
+                localStorage.setItem('question_value_' + categoryId, selectedOptionId);
 
                 $.ajax({
                     url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getnextquestion'); ?>',
-                    data: {current_question_id: currentQuestionId, selected_option_id: selectedOptionId, attribute_set_id: attributeSetId},
+                    data: {
+                        current_question_id: currentQuestionId,
+                        selected_option_id: selectedOptionId,
+                        attribute_set_id: attributeSetId
+                    },
                     type: 'POST',
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
 
-                        if(response && response.success == false){
+                        if (response && response.success == false) {
                             $('.customer_button button').hide();
-                        $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
-                        $('.options').empty();
-                        localStorage.setItem('question_id_' + categoryId,'');
-                        localStorage.setItem('question_value_' + categoryId,'');
-                        setTimeout(function() {
-                          window.location.reload();
-                        }, 3000);
-                        }else if(response.data && response.data.final){
-                            var url  = response.data.productUrl;
+                            $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
+                            $('.options').empty();
+                            localStorage.setItem('question_id_' + categoryId, '');
+                            localStorage.setItem('question_value_' + categoryId, '');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000);
+                        } else if (response.data && response.data.final) {
+                            var url = response.data.productUrl;
                             window.location.href = url;
 
                             // $('.question p').text('Product Name: ' + response.data.productName );
@@ -355,86 +371,103 @@ if (uncheckedCheckboxes.length !== 0 && uncheckedCheckboxes.length == intial.len
                             //     '<img src="' + response.data.productImage + '" alt="Product Image">'
                             // );
                             // $('.options').empty();
-                            localStorage.setItem('question_id_' + categoryId,'');
-                            localStorage.setItem('question_value_' + categoryId,'');
+                            localStorage.setItem('question_id_' + categoryId, '');
+                            localStorage.setItem('question_value_' + categoryId, '');
                             localStorage.setItem('question_sets-' + categoryId, '');
                             localStorage.setItem('question_back-' + categoryId, '');
 
 
-                        }else if(response.data && response.data.question_id == null || response.data.question_id == ''){
+                        } else if (response.data && response.data.question_id == null || response.data.question_id == '') {
                             $('.customer_button button').hide();
 
                             $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                             $('.options').empty();
-                            localStorage.setItem('question_id_' + categoryId,'');
-                            localStorage.setItem('question_value_' + categoryId,'');
+                            localStorage.setItem('question_id_' + categoryId, '');
+                            localStorage.setItem('question_value_' + categoryId, '');
                             setTimeout(function() {
-                              window.location.reload();
+                                window.location.reload();
                             }, 3000);
-                        }else {
-                            if(response.data && response.data.question_id){
+                        } else {
+
+                            if (response.data && response.data.question_id) {
                                 localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
                                 $('.question p').text(response.data.question);
-                                $('.question').attr('data-question-id', response.data.question_id); 
-                                
+                                $('.question').attr('data-question-id', response.data.question_id);
+
                                 $('.options').empty();
                                 if (response.data.type === 'text') {
+                                    var selectedValue = response.data.selected_value;
+
                                     $('.options').append(
                                         '<div class="option">' +
-                                        '<input required type="text" id="text_field" name="text_field">' +
+                                        '<input required type="text" id="text_field" name="text_field" value="' + selectedValue + '">' +
+                                        '</div>'
+                                    );
+                                }
+                                else if (response.data.type === 'date') {
+                                    var selectedValue = response.data.selected_value;
+
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input required type="date" id="date" name="date" value="' + selectedValue + '">' +
                                         '</div>'
                                     );
                                 } else if (response.data.type === 'multiselect') {
-                                    $.each(response.data.options, function (index, option) {
-                                        var selectedValues = response.data.selected_value;
+                                    var selectedValue = response.data.selected_value;
+                                    $.each(response.data.options, function(index, option) {
+                                        var isSelected = selectedValue.includes(option.value.toString());
+                                        var optionClass = isSelected ? 'selected' : '';
 
                                         $('.options').append(
-                                            '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '" ' + (selectedValues.includes(option.value) ? 'checked' : '') + '>' +
+                                            '<div class="option ' + optionClass + '" data-option-id="' + option.value + '">' +
+                                            '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '"' +
+                                            (isSelected ? ' checked' : '') + '>' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
                                     });
-                                } 
-                                else if (response.data.type === 'media_image') {
-                                        $('.options').append(
-                                            '<div class="option">' +
-                                            '<input required type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
-                                            '</div>'
-                                        );
-                                   
-                                }
-                                else {
-              
+                                } else if (response.data.type === 'media_image') {
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input required type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
+                                        '</div>'
+                                    );
+
+                                } else {
+
                                     var selectedValue = response.data.selected_value;
 
+                                    $.each(response.data.options, function(index, option) {
 
-                                    $.each(response.data.options, function (index, option) {
-                                        var isSelected = option.value == selectedValue ? 'checked' : '';
+                                        var isSelected = option.value.toString() === selectedValue.toString();
+
+                                        var optionClass = isSelected ? 'selected' : '';
 
                                         if (option.images) {
                                             $('.options').append(
-                                                '<div class="option" data-option-id="' + option.value + '">' +
+                                                '<div class="option ' + optionClass + '" data-option-id="' + option.value + '">' +
                                                 '<img src="' + option.images + '" alt="Option Image">' +
-                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '" ' + isSelected + '>' +
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' +
+                                                (isSelected ? ' checked' : '') + '>' +
                                                 '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                                 '</div>'
                                             );
                                         } else {
                                             $('.options').append(
-                                                '<div class="option" data-option-id="' + option.value + '">' +
-                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '" ' + isSelected + '>' +
+                                                '<div class="option ' + optionClass + '" data-option-id="' + option.value + '">' +
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' +
+                                                (isSelected ? ' checked' : '') + '>' +
                                                 '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                                 '</div>'
                                             );
                                         }
-                                       
+
                                     });
                                 }
                             }
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.log(error);
                     }
                 });
@@ -444,132 +477,148 @@ if (uncheckedCheckboxes.length !== 0 && uncheckedCheckboxes.length == intial.len
 
             $('#back-question').click(function() {
                 // backword == true;
-                localStorage.setItem('question_backword' + categoryId,true);
+                localStorage.setItem('question_backword' + categoryId, true);
 
                 var questionSets = JSON.parse(localStorage.getItem('question_back-' + categoryId));
-               
-                // questionSets.pop(); 
-                    if (questionSets && questionSets.length > 0) {
-                        currentIndex--;
 
-                        if (currentIndex < 1) {
-                            currentIndex = questionSets.length - 1;
-                        }
+                // questionSets.pop(); 
+                if (questionSets && questionSets.length > 0) {
+                    currentIndex--;
+
+                    if (currentIndex < 1) {
+                        currentIndex = questionSets.length - 1;
+                    }
 
                     var previousQuestionSet = questionSets[currentIndex];
                     var currentQuestionId = previousQuestionSet.currentQuestionId;
                     var selectedOptionId = previousQuestionSet.selectedOptionId;
                     var attributeSetId = previousQuestionSet.attributeSetId;
 
-                    localStorage.setItem('question_value_' + categoryId,selectedOptionId);
+                    localStorage.setItem('question_value_' + categoryId, selectedOptionId);
 
-                    localStorage.setItem('question_id_' + categoryId,currentQuestionId);
+                    localStorage.setItem('question_id_' + categoryId, currentQuestionId);
                     ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId);
-                  
-                  
+
+
                 } else {
                     console.log("No question sets found.");
                 }
             });
 
-            function ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId){
+            function ajaxCallForGetBackQuestion(currentQuestionId, selectedOptionId, attributeSetId) {
                 $.ajax({
                     url: '<?php echo $block->getUrl('productrecommendationquiz/jump/getbackquestion'); ?>',
-                    data: {current_question_id: currentQuestionId, selected_option_id: selectedOptionId, attribute_set_id: attributeSetId},
+                    data: {
+                        current_question_id: currentQuestionId,
+                        selected_option_id: selectedOptionId,
+                        attribute_set_id: attributeSetId
+                    },
                     type: 'POST',
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         var question_backword = localStorage.getItem('question_backword' + categoryId);
-  
-                        if(question_backword === "true"){
-                         var questionSets = JSON.parse(localStorage.getItem('question_back-' + id));
 
-                         questionSets.splice(currentIndex, 1);
-                         localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
+                        if (question_backword === "true") {
+                            var questionSets = JSON.parse(localStorage.getItem('question_back-' + id));
+
+                            questionSets.splice(currentIndex, 1);
+                            localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
                         }
-                        if(response && response.success == false){
-                        
+                        if (response && response.success == false) {
+
                             $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                             $('.options').empty();
-                            localStorage.setItem('question_id_' + categoryId,'');
-                            localStorage.setItem('question_value_' + categoryId,'');
-                        
-                        }else if(response.data && response.data.final){
-                            $('.question p').text('Product Name: ' + response.data.productName );
+                            localStorage.setItem('question_id_' + categoryId, '');
+                            localStorage.setItem('question_value_' + categoryId, '');
+
+                        } else if (response.data && response.data.final) {
+                            $('.question p').text('Product Name: ' + response.data.productName);
                             $('.question ').append(
                                 '<img src="' + response.data.productImage + '" alt="Product Image">'
                             );
                             $('.options').empty();
-                            localStorage.setItem('question_id_' + categoryId,'');
-                            localStorage.setItem('question_value_' + categoryId,'');
+                            localStorage.setItem('question_id_' + categoryId, '');
+                            localStorage.setItem('question_value_' + categoryId, '');
 
-                        }else if(response.data && response.data.question_id == null || response.data.question_id == ''){
+                        } else if (response.data && response.data.question_id == null || response.data.question_id == '') {
                             $('.question p').text('Thank you for answering all the questions up to this point. Unfortunately, you are not a candidate for treatment through our platform at this time.');
                             $('.options').empty();
-                            localStorage.setItem('question_id_' + categoryId,'');
-                            localStorage.setItem('question_value_' + categoryId,'');
-                        
-                        }else {
-                            if(response.data && response.data.question_id){
+                            localStorage.setItem('question_id_' + categoryId, '');
+                            localStorage.setItem('question_value_' + categoryId, '');
+
+                        } else {
+                            if (response.data && response.data.question_id) {
                                 localStorage.setItem('nextQuestionId-' + id, response.data.question_id);
                                 $('.question p').text(response.data.question);
-                                $('.question').attr('data-question-id', response.data.question_id); 
-                                
+                                $('.question').attr('data-question-id', response.data.question_id);
+
                                 $('.options').empty();
                                 if (response.data.type === 'text') {
                                     var fieldValue = selectedOptionId ? selectedOptionId : '';
-                                        $('.options').append(
-                                            '<div class="option">' +
-                                            '<input required type="text" id="text_field" name="text_field" value="' + fieldValue + '">' +
-                                            '</div>'
-                                        );
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input required type="text" id="text_field" name="text_field" value="' + fieldValue + '">' +
+                                        '</div>'
+                                    );
+                                }
+                                else if (response.data.type === 'date') {
+                                    var fieldValue = selectedOptionId ? selectedOptionId : '';
+
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input required type="date" id="date" name="date" value="' + fieldValue + '">' +
+                                        '</div>'
+                                    );
                                 } else if (response.data.type === 'multiselect') {
-                                    $.each(response.data.options, function (index, option) {
+                                    $.each(response.data.options, function(index, option) {
+                                        var isSelected = selectedOptionId.includes(option.value);
+                                        var optionClass = isSelected ? 'selected' : '';
+
                                         $('.options').append(
-                                            '<div class="option" data-option-id="' + option.value + '">' +
+                                            '<div class="option ' + optionClass + '" data-option-id="' + option.value + '">' +
                                             '<input required type="checkbox" name="option[]" id="option_' + option.value + '" value="' + option.value + '"' +
-                                            (selectedOptionId.includes(option.value) ? ' checked' : '') + '>' +
+                                            (isSelected ? ' checked' : '') + '>' +
                                             '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                             '</div>'
                                         );
                                     });
-                                } 
-                                else if (response.data.type === 'media_image') {
-                                        $('.options').append(
-                                            '<div class="option">' +
-                                            '<input required type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
-                                            '</div>'
-                                        );
-                                   
-                                }
-                                else {
-                                    $.each(response.data.options, function (index, option) {
-                                        if(option.images){
+                                } else if (response.data.type === 'media_image') {
+                                    $('.options').append(
+                                        '<div class="option">' +
+                                        '<input required type="file" name="option" class="choose_file" id="fileInput" accept="image/*">' + // Input field for uploading image files
+                                        '</div>'
+                                    );
+
+                                } else {
+                                    $.each(response.data.options, function(index, option) {
+                                        var isSelected = option.value === selectedOptionId;
+                                        var optionClass = isSelected ? 'selected' : '';
+
+                                        if (option.images) {
                                             $('.options').append(
-                                            '<div class="option" data-option-id="' + option.value + '">' +
-                                            '<img src="' + option.images + '" alt="Option Image" class = >' +
-                                            '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
-                                                (option.value === selectedOptionId ? ' checked' : '') + '>' +
-                                            '<label for="option_' + option.value + '">' + option.label + '</label>' +
-                                            '</div>'
-                                        );
-                                        }else{
-                                            $('.options').append(
-                                                '<div class="option" data-option-id="' + option.value + '">' +
-                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' + 
-                                                (option.value === selectedOptionId ? ' checked' : '') + '>' +
+                                                '<div class="option ' + optionClass + '" data-option-id="' + option.value + '">' +
+                                                '<img src="' + option.images + '" alt="Option Image">' +
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' +
+                                                (isSelected ? ' checked' : '') + '>' +
                                                 '<label for="option_' + option.value + '">' + option.label + '</label>' +
                                                 '</div>'
                                             );
-
+                                        } else {
+                                            $('.options').append(
+                                                '<div class="option ' + optionClass + '" data-option-id="' + option.value + '">' +
+                                                '<input required type="radio" name="option" id="option_' + option.value + '" value="' + option.value + '"' +
+                                                (isSelected ? ' checked' : '') + '>' +
+                                                '<label for="option_' + option.value + '">' + option.label + '</label>' +
+                                                '</div>'
+                                            );
                                         }
-                                       
+
                                     });
                                 }
                             }
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.log(error);
                     }
                 });

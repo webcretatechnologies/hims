@@ -13,7 +13,7 @@ use Magento\Swatches\Model\ResourceModel\Swatch\CollectionFactory;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Helper\Image;
-use Magento\Catalog\Model\Product\Url as ProductUrl;    
+use Magento\Catalog\Model\Product\Url as ProductUrl;
 use Magento\Customer\Model\Session;
 use Webcreta\ProductRecommendationQuiz\Model\ProductRecommendationQuizDataFactory;
 
@@ -63,35 +63,33 @@ class GetNextQuestion extends Action
     {
         $result = $this->jsonFactory->create();
         $data = $this->getRequest()->getPostValue();
-        $this->logger->debug(print_r($data, true));
-   
+
         if (empty($data)) {
             return $result->setData(['success' => false, 'error' => 'No data received']);
         }
-    
+
         try {
             $current_question_id = isset($data['current_question_id']) ? $data['current_question_id'] : null;
             $selected_option_id = isset($data['selected_option_id']) ? $data['selected_option_id'] : null;
             $attribute_set_id = isset($data['attribute_set_id']) ? $data['attribute_set_id'] : null;
-    
+
             if (!$current_question_id) {
                 return $result->setData(['success' => false, 'error' => 'Invalid request parameters']);
             }
 
             $type = $this->getAttributeType($current_question_id);
             // print_r($type);
-            if($type == 'text'){
+            if ($type == 'text') {
                 $questionData = $this->getLogicandquestionData($current_question_id, $selected_option_id, $attribute_set_id);
-
-            }elseif($type == 'media_image'){
-                // print_r("media_image");
-                $questionData = $this->getNextQuestionData($current_question_id, $selected_option_id, $attribute_set_id);
-
             }
-            else{
+            elseif ($type == 'date') {
+                $questionData = $this->getNextQuestionData($current_question_id, $selected_option_id, $attribute_set_id);
+            } elseif ($type == 'media_image') {
+                $questionData = $this->getNextQuestionData($current_question_id, $selected_option_id, $attribute_set_id);
+            } else {
                 $questionData = $this->getQuestionData($current_question_id, $selected_option_id, $attribute_set_id);
             }
-            
+
             // print_r($questionData->getData());
             // die();
             $customerId = $this->customerSession->getCustomerId();
@@ -102,7 +100,7 @@ class GetNextQuestion extends Action
                 $questionName = $this->getAttributeLabel($next_question_id);
                 $questionOption = $this->getOptionsByQuestionId($next_question_id);
                 $attributeType = $this->getAttributeType($next_question_id);
-            
+
                 // Final question handling
                 if ($next_question_id == 'final_question') {
                     $productId = $questionData['product'];
@@ -111,7 +109,7 @@ class GetNextQuestion extends Action
                     $productPrice = $product->getPrice();
                     $productImageUrl = $this->imageHelper->init($product, 'product_page_image_large')->getUrl();
                     $productUrl = $this->productUrl->getUrl($product);
-            
+
                     $responseData = [
                         "final" => true,
                         "productName" => $productName,
@@ -124,7 +122,7 @@ class GetNextQuestion extends Action
                         ->addFieldToFilter('customer_id', $customerId)
                         ->addFieldToFilter('category', $attribute_set_id)
                         ->getFirstItem();
-            
+
                     $matchedValue = '';
                     if ($existingRecord->getId() && $existingRecord->getQuestionSet()) {
                         $question = $existingRecord->getQuestionSet();
@@ -133,7 +131,7 @@ class GetNextQuestion extends Action
                             $matchedValue = $dataArray[$next_question_id];
                         }
                     }
-            
+
                     $responseData = [
                         'question_id' => $next_question_id,
                         'type' => $attributeType,
@@ -143,30 +141,30 @@ class GetNextQuestion extends Action
                         "final" => false
                     ];
                 }
-            
+
                 // Save or update quiz data
                 $questionSet = json_encode([$current_question_id => $selected_option_id]);
-            
+
                 if ($customerId) {
                     $quizDataModel = $this->productRecommendationQuizDataFactory->create();
                     $existingRecord = $quizDataModel->getCollection()
                         ->addFieldToFilter('customer_id', $customerId)
                         ->addFieldToFilter('category', $attribute_set_id)
                         ->getFirstItem();
-            
+
                     if ($existingRecord->getId() && $existingRecord->getQuestionSet()) {
                         if ($next_question_id == 'final_question') {
                             $existingRecord->setData('product', $productName);
                         } else {
                             $existingRecord->setData('product', "currently not define");
                         }
-            
+
                         $existingQuestionSet = json_decode($existingRecord->getData('question_set'), true);
                         $existingQuestionSet[$current_question_id] = $selected_option_id;
-            
+
                         $questionSet = json_encode($existingQuestionSet);
                         $existingRecord->setData('question_set', $questionSet);
-            
+
                         try {
                             $existingRecord->save();
                         } catch (\Exception $e) {
@@ -177,7 +175,7 @@ class GetNextQuestion extends Action
                         $quizDataModel->setData('question_set', $questionSet);
                         $quizDataModel->setData('category', $attribute_set_id);
                         $quizDataModel->setData('product', "currently not define");
-            
+
                         try {
                             $quizDataModel->save();
                         } catch (\Exception $e) {
@@ -185,10 +183,10 @@ class GetNextQuestion extends Action
                         }
                     }
                 }
-                
+
                 return $result->setData(['success' => true, 'data' => $responseData]);
             }
-            
+
             return $result->setData(['success' => false, 'error' => 'Question data not found']);
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
@@ -196,55 +194,52 @@ class GetNextQuestion extends Action
         }
     }
 
-    protected function getLogicandquestionData($current_question_id, $selected_option_id , $attribute_set_id)
+    protected function getLogicandquestionData($current_question_id, $selected_option_id, $attribute_set_id)
     {
         $questionData = [];
-        
+
         try {
             $quizModel = $this->productRecommendationQuizFactory->create();
             if (!empty($selected_option_id)) {
                 $collection = $quizModel->getCollection()
                     ->addFieldToFilter('question_id', $current_question_id)
                     ->addFieldToFilter('attribute_set_id', $attribute_set_id);
-        
+
                 $options = $collection->getItems();
                 foreach ($options as $option) {
                     $value = $option->getOptionId();
-                     
+
                     $conditionString = "$selected_option_id $value";
                     $condition = eval("return $conditionString;");
-                     
+
                     if ($condition) {
                         $questionData = $option->getData();
                         break;
                     }
                 }
-            }else{
+            } else {
                 $collection = $quizModel->getCollection()
-                ->addFieldToFilter('question_id', $current_question_id)
-                ->addFieldToFilter('attribute_set_id', $attribute_set_id);
-    
+                    ->addFieldToFilter('question_id', $current_question_id)
+                    ->addFieldToFilter('attribute_set_id', $attribute_set_id);
+
                 $questionData = $collection->getData();
             }
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
-        
+
         return $questionData;
     }
-    
+
     protected function getQuestionData($current_question_id, $selected_option_id, $attribute_set_id)
     {
         if (is_array($selected_option_id)) {
-            $selected_option_id = implode(',' , $selected_option_id);
+            $selected_option_id = implode(',', $selected_option_id);
         }
 
         try {
             $quizModel = $this->productRecommendationQuizFactory->create();
             if (!empty($selected_option_id)) {
-    
-                $this->logger->debug(print_r("selected option value ", true));
-                $this->logger->debug(print_r($selected_option_id, true));
 
                 $collection = $quizModel->getCollection()
                     ->addFieldToFilter('attribute_set_id', $attribute_set_id)
@@ -252,17 +247,16 @@ class GetNextQuestion extends Action
                     ->addFieldToFilter('option_id', $selected_option_id);
             } else {
                 $collection = $quizModel->getCollection()
-                    ->addFieldToFilter('attribute_set_id', $attribute_set_id)                             
+                    ->addFieldToFilter('attribute_set_id', $attribute_set_id)
                     ->addFieldToFilter('question_id', $current_question_id);
             }
 
             if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
             } else {
-                $questionData=null;
+                $questionData = null;
                 $this->logger->debug("No data found for question ID: $current_question_id and option ID: $selected_option_id");
             }
-
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
@@ -275,20 +269,19 @@ class GetNextQuestion extends Action
 
         try {
             $quizModel = $this->productRecommendationQuizFactory->create();
-           
-                $collection = $quizModel->getCollection()
-                    ->addFieldToFilter('attribute_set_id', $attribute_set_id)                             
-                    ->addFieldToFilter('question_id', $current_question_id);
-            
-// print_r($collection->getData());
+
+            $collection = $quizModel->getCollection()
+                ->addFieldToFilter('attribute_set_id', $attribute_set_id)
+                ->addFieldToFilter('question_id', $current_question_id);
+
+            // print_r($collection->getData());
 
             if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
             } else {
-                $questionData=null;
+                $questionData = null;
                 $this->logger->debug("No data found for question ID: $current_question_id and option ID: $selected_option_id");
             }
-
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
@@ -312,7 +305,7 @@ class GetNextQuestion extends Action
         $options = [];
         try {
             $attributeModel = $this->eavAttribute->loadByCode(Product::ENTITY, $questionId);
-    
+
             if ($attributeModel && $attributeModel->getId()) {
                 $additionalData = $attributeModel->getAdditionalData();
                 if (!empty($additionalData)) {
@@ -349,7 +342,7 @@ class GetNextQuestion extends Action
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
-    
+
         return $options;
     }
 
@@ -364,5 +357,4 @@ class GetNextQuestion extends Action
             return null;
         }
     }
-    
 }
