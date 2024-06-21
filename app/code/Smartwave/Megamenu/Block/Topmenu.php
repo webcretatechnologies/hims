@@ -244,7 +244,11 @@ class Topmenu extends \Magento\Framework\View\Element\Template
                 if(count($children) > 0) {
                     $html .= '<div class="open-children-toggle"></div>';
                 }
-                $html .= '<a href="'.$this->_categoryHelper->getCategoryUrl($category).'" class="level-top" title="'.$category->getName().'">';
+
+                $url = $this->_categoryHelper->getCategoryUrl($category);
+                $modifiedUrl = str_replace('.html', '', $url);
+
+                $html .= '<a href="'.$modifiedUrl.'" class="level-top" title="'.$category->getName().'">';
                 if ($sw_menu_icon_img)
                     $html .= '<img class="menu-thumb-icon" src="' . $sw_menu_icon_img . '" alt="'.$category->getName().'"/>';
                 elseif($sw_menu_font_icon)
