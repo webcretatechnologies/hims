@@ -52,8 +52,23 @@
           <?php echo $this->getChildHtml("minicart"); ?>
           <div class="header-contact">
             <?php echo $this->getChildHtml("custom_block"); ?>
-            <a href="<?php echo $_helper->getBaseLinkUrl(). 'customer/account/' ?>" class="my-account m-l-xs mr-1 mr-lg-2" title="My Account"><i class="porto-icon-user-2"></i></a>
+            <a id="profile-dropdown-toggle" class="my-account m-l-xs mr-1 mr-lg-2"><i class="porto-icon-user-2"></i></a>
             <!-- <a href="<?php echo $_helper->getBaseLinkUrl(). 'wishlist' ?>" class="wishlist mr-1 mr-lg-2 pr-lg-1" title="Wishlist"><i class="porto-icon-wishlist-2"></i></a> -->
+              <?php
+              /** @var \Magento\Customer\Model\Session $customerSession */
+              $customerSession = $block->getLayout()->createBlock(\Magento\Customer\Block\Account\AuthorizationLink::class)->isLoggedIn();
+              ?>
+              <div id="profile-popup" style="display: none;">
+                  <div class="profile-popup-content">
+                      <?php if ($customerSession): ?>
+                        <a href="<?php echo $_helper->getBaseLinkUrl(). 'customer/account/' ?>" class="profile-link"><?php echo __('My Profile'); ?></a>
+                        <hr>
+                        <a href="<?php echo $block->getUrl('customer/account/logout'); ?>" class="logout-link"><?php echo __('Logout'); ?></a>
+                      <?php else: ?>
+                        <a href="<?php echo $block->getUrl('customer/account/login'); ?>" class="login-link"><?php echo __('Log In'); ?></a>
+                      <?php endif; ?>
+                  </div>
+              </div>
           </div>
         </div>
       </div>
@@ -125,6 +140,29 @@
         $('[data-action="close-nav"]').on('click', function() {
             $('html').removeClass('nav-open');
         });
+
+        $('[data-action="close-nav"]').on('click', function() {
+            $('html').removeClass('nav-open');
+        });
+
+    // Open profile popup
+    $('.my-account').on('click', function(event) {
+        event.preventDefault();
+        var $popup = $('#profile-popup');
+        if ($popup.is(':visible')) {
+            $popup.hide();
+        } else {
+            $popup.show();
+        }
+    });
+
+    // Close profile popup when clicking outside
+    $(document).mouseup(function(e) {
+        var $popup = $('#profile-popup');
+        if (!$popup.is(e.target) && $popup.has(e.target).length === 0) {
+            $popup.hide();
+        }
+    });
     });
   });
 </script>
