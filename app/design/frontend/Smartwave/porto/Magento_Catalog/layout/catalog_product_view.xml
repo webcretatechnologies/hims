@@ -5,8 +5,23 @@
  * See COPYING.txt for license details.
  */
 -->
-<page layout="2columns-right" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page layout="custom_full_width" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" as="description" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info">
+            <arguments>
+                <argument name="at_call" xsi:type="string">getDescription</argument>
+                <argument name="at_code" xsi:type="string">description</argument>
+                <argument name="css_class" xsi:type="string">description container custom-class</argument>
+                <argument name="at_label" xsi:type="string">none</argument>
+                <argument name="title" translate="true" xsi:type="string">Details</argument>
+                <argument name="sort_order" xsi:type="string">10</argument>
+            </arguments>
+        </block>
+        <!-- <block class="Magento\Catalog\Block\Product\View" name="product.info.review" template="Magento_Catalog::product/view/review.phtml" after="product.info.stock.sku">
+            <arguments>
+                <argument name="css_class" xsi:type="string">your-custom-class</argument>
+            </arguments>
+        </block> -->
         <move element="product.category.name" destination="product.info.main" before="-"/>
          <referenceBlock name="page.main.title">
             <block class="GemsMed\CategoryName\Block\CategoryList" name="product.category.name" template="GemsMed_CategoryName::categoryNamebeforeproductname.phtml" before="-"/>
@@ -14,12 +29,12 @@
         <referenceContainer name="sidebar.additional">
             <block class="Smartwave\Porto\Block\Template" name="product_view_custom_block" before="-" template="Magento_Catalog::product/view/custom_block.phtml"/>
         </referenceContainer>
-        <move element="product.info.review" destination="product.info.main" before="product.info.price"/>
-        <move element="catalog.product.related" destination="sidebar.additional" after="product_view_custom_block"/>
+        <!-- <move element="product.info.review" destination="product.info.main" before="product.info.price"/> -->
+        <!-- <move element="catalog.product.related" destination="columns" after="product.info.review"/> -->
         <move element="product.info.overview" destination="product.info.main" after="product.info.price"/>
         <move element="product.info.stock.sku" destination="product.info.main" after="product.info.price"/>
-        <referenceContainer name="content.aside">
-            <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.move.related" template="Magento_Catalog::product/list/items.phtml" ifconfig="porto_settings/product/move_related">
+       <referenceContainer name="content.aside">
+            <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" template="Magento_Catalog::product/list/newitems.phtml">
                 <arguments>
                     <argument name="type" xsi:type="string">related</argument>
                     <argument name="view_model" xsi:type="object">Magento\Catalog\ViewModel\Product\Listing\PreparePostData</argument>
@@ -30,6 +45,18 @@
                            template="Magento_Catalog::product/list/addto/compare.phtml"/>
                 </block>
             </block>
+            <block class="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" template="Magento_Catalog::product/list/items.phtml">
+                <arguments>
+                    <argument name="type" xsi:type="string">upsell</argument>
+                    <argument name="view_model" xsi:type="object">Magento\Catalog\ViewModel\Product\Listing\PreparePostData</argument>
+                </arguments>
+                <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="upsell.product.addto" as="addto">
+                    <block class="Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare"
+                           name="upsell.product.addto.compare" as="compare"
+                           template="Magento_Catalog::product/list/addto/compare.phtml"/>
+                </block>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View\Additional" name="product.info.additional" as="product_additional_data"/>
         </referenceContainer>
         <referenceContainer name="after.body.start">
             <block class="Magento\Catalog\Block\Product\View" name="product_custom" template="Magento_Catalog::product/view/product_custom.phtml" before="-"/>
@@ -54,5 +81,15 @@
         <referenceContainer name="columns">
             <block class="Smartwave\Porto\Block\Template" name="side_popup" after="-" template="Magento_Catalog::product/view/side_popup.phtml"/>
         </referenceContainer>
+        
+        <referenceContainer name="customer_benefits_block">
+            <block class="Magento\Cms\Block\Widget\Block" name="customer_benefits_block_widget" template="widget/static_block/default.phtml">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">customer_benefits_block</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <move element="customer_benefits_block_widget" destination="footer-container" before="-" />
+        <move element="catalog.product.related" destination="related.product" after="product.info.details.after.wrapper"/>
     </body>
 </page>
