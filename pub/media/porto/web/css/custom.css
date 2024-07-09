@@ -1299,7 +1299,7 @@ body
 }
 .primary-btn
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     color: white !important;
     border-radius: 8px !important;
     border: none !important;
@@ -1313,13 +1313,13 @@ body
 }
 .secondary-btn:hover 
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     border-color: #7a73fd !important;
     color: white !important;
 }
 .green-btn
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     border-radius: 50px !important;
     color: white !important;
 }
@@ -1329,7 +1329,7 @@ h1.hero-title
 }
 h1.hero-title span 
 {
-    color: #8585ff;
+    color: #0d6eed;
 }
 .py-50
 {
@@ -1352,17 +1352,8 @@ span.hero-rating
 }
 .category-box
 {
-    border: 1px solid #7a73fd;
+    border: 3px solid #0d6eed;
     border-radius: 12px;
-}
-.category-box:hover
-{
-    background: linear-gradient(to right, #ADA6FF, #8585ff);
-}
-.category-box h5.category-name,
-.category-box a
-{
-    color: black;
 }
 .category-box img 
 {
@@ -1374,7 +1365,7 @@ h2.sec-title
 }
 h2.sec-title span
 {
-    color: #8585ff;
+    color: #0d6eed;
 }
 .category-slider .slider-item img 
 {
@@ -1392,7 +1383,7 @@ h2.sec-title span
 }
 .category-overlay span
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     padding: 8px 8px 8px 30px;
     border-radius: 0px 70px 0px 0px;
     width: 80%;
@@ -1428,7 +1419,7 @@ h2.sec-title span
 button.slick-arrow
 {
     border-radius: 50%;
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     color: white;
     width: 40px !important;
     height: 40px !important;
@@ -1452,13 +1443,13 @@ button.slick-arrow::before
 }
 .services-block
 {
-    background-color: #dedeff;
+    background-color: #FAFAFF;
     margin-top: 180px;
     margin-bottom: 50px;
 }
 .service-box
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     padding: 25px 25px 25px 60px;
     position: relative;
     border-radius: 0px 12px 12px 0px;
@@ -1470,7 +1461,7 @@ button.slick-arrow::before
     left: -81px;
     font-size: 216px;
     top: 61px;
-    color: #8585ff;
+    color: #0d6eed;
     text-shadow: 5px 5px 0px #fff, -5px -5px 0px #fff, 5px -5px 0px #fff, 5px -5px 0px #fff;
 }
 .service-bg-img img
@@ -1498,7 +1489,7 @@ button.slick-arrow::before
 }
 .testimonial-slider-block
 {
-    background-color: #dedeff;
+    background-color: #FAFAFF;
 }
 .testimonial-left
 {
@@ -1569,7 +1560,7 @@ button.slick-arrow::before
 .benifit-box
 {
     padding: 30px 25px;
-    background-color: #dedeff;
+    background-color: #FAFAFF;
     border-radius: 12px;
 }
 .benifit-box span
@@ -1578,7 +1569,7 @@ button.slick-arrow::before
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     align-items: center;
     justify-content: center;
     margin: auto;
@@ -1586,7 +1577,7 @@ button.slick-arrow::before
 }
 .footer-middle,.footer-bottom
 {
-    background-color:#8585ff !important;
+    background-color:#0d6eed !important;
 }
 .footer-contact ul li 
 {
@@ -1625,9 +1616,9 @@ button.slick-arrow::before
 {
     padding-bottom: 10px;
 }
-button.subscribe,button.subscribe:hover
+button.subscribe
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     border-radius: 30px !important;
     color: white !important;
     border: 1px solid white !important;
@@ -1650,6 +1641,7 @@ button.subscribe,button.subscribe:hover
     position: absolute;
     right: 0;
     width: auto;
+    border-width: 2px !important;
 }
 .columns .column.main
 {
@@ -1681,7 +1673,7 @@ button.subscribe,button.subscribe:hover
 }
 .faq-accordion .accordion-button:not(.collapsed)
 {
-    background-color: #7a73fd;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     color: white;
 }
 
@@ -1851,7 +1843,7 @@ a.showcart,a.my-account
 }
 .breadcrumbs,.category-hero-section
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff);
+    background: linear-gradient(to right, #5193ea, #0d6eed);
 }
 .category-hero-section h2 
 {
@@ -1863,22 +1855,18 @@ a.showcart,a.my-account
     border: 1px solid white;
     color: white;
     border-radius: 50px;
+    color: white !important;
 }
 .white-outline:hover
 {
     background-color: white;
-    color: #7a73fd;
+    color: #0d6eed !important;
 }
 .purple-outline
 {
-    border: 1px solid #7a73fd;
-    color: #7a73fd;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
+    color:white;
     border-radius: 50px;
-}
-.purple-outline:hover
-{
-    background-color: #7a73fd;
-    color: white;
 }
 .category-hero-slider img 
 {
@@ -1889,7 +1877,7 @@ a.showcart,a.my-account
 }
 .our-process-box
 {
-    background-color: #dedeff;
+    background-color: #FAFAFF;
     border-radius: 12px;
 }
 .our-process-box ul
@@ -1916,7 +1904,7 @@ a.showcart,a.my-account
 }
 .how-to-start h3
 {
-    color: #7a73fd;
+    color: #0d6eed;
 }
 .how-to-start ul
 {
@@ -1946,7 +1934,7 @@ a.showcart,a.my-account
 }
 .why-choose-card 
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff);
+    background: linear-gradient(to right, #5193ea, #0d6eed);
     border-radius: 12px;
 }
 .why-choose-card span
@@ -2068,7 +2056,7 @@ a.showcart,a.my-account
 button.subscribe-now,button.login-to-subscribe
 {
     border-radius: 8px;
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     color: white !important;
     border: none !important;
 }
@@ -2114,7 +2102,7 @@ button.subscribe-now,button.login-to-subscribe
 }
 .review-form-actions button 
 {
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     border:none !important;
     border-radius: 8px;
 }
@@ -2167,7 +2155,7 @@ button.subscribe-now,button.login-to-subscribe
 {
     border-radius: 50%;
     font-size: 20px !important;
-    background: linear-gradient(to right, #ADA6FF, #8585ff) !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     width: 40px !important;
     height: 40px !important;
 }
@@ -2204,6 +2192,23 @@ button.subscribe-now,button.login-to-subscribe
 .newsletter .block-title a img 
 {
     width: 180px;
+}
+.primary-btn:hover,
+.green-btn:hover,
+button.subscribe-now:hover, button.login-to-subscribe:hover,
+button.subscribe:hover,
+.review-form-actions button:hover,
+.purple-outline:hover
+{
+    background: linear-gradient(to right, #0d6eed, #0d6eed) !important;
+}
+.category-box a 
+{
+    color: black;
+}
+.purple-outline:hover 
+{
+    color: white !important;
 }
 
 
