@@ -38,10 +38,8 @@ class ResetValue extends Action
     {
         $result = $this->jsonFactory->create();
         $categoryId = $this->getRequest()->getPostValue('category_id');
-        $this->logger->debug('Category ID: ' . $categoryId);
     
         $customerId = $this->customerSession->getCustomerId();
-        $this->logger->debug('Customer ID: ' . $customerId);
     
         $collection = $this->productRecommendationQuizDataFactory->create()->getCollection();
         $collection->addFieldToFilter('category', $categoryId)

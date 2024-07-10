@@ -38,10 +38,8 @@ class GetOldQuestion extends Action
     {
         $result = $this->jsonFactory->create();
         $categoryId = $this->getRequest()->getPostValue('categoryAttributeValue');
-        $this->logger->debug('Category ID: ' . $categoryId);
     
         $customerId = $this->customerSession->getCustomerId();
-        $this->logger->debug('Customer ID: ' . $customerId);
     
         $collection = $this->productRecommendationQuizDataFactory->create()->getCollection();
         $collection->addFieldToFilter('category', $categoryId)
@@ -60,16 +58,15 @@ class GetOldQuestion extends Action
                 
                 // Iterate through the $set array and re-index it
                 $index = 1;
-    foreach ($set as $key => $value) {
-        $modifiedSet[] = [
-            'id' => $index,
-            'key' => $key,
-            'value' => $value
-        ];
-        $index++;
-    }
+                foreach ($set as $key => $value) {
+                    $modifiedSet[] = [
+                        'id' => $index,
+                        'key' => $key,
+                        'value' => $value
+                    ];
+                    $index++;
+                }
             
-                // print_r($modifiedSet);
                 $result->setData([
                     'success' => 'question_set field set to null',
                     'data' => $modifiedSet
