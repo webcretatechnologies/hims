@@ -26,5 +26,11 @@
         <referenceBlock name="catalog.compare.sidebar" remove="true"/>
         <referenceBlock name="wishlist_sidebar" remove="true"/>
         <referenceBlock name="sidebar.additional" remove="true"/>
+        
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+        <referenceBlock name="category.product.addto.compare" remove="true"/>
+        <referenceBlock name="catalogsearch.product.addto.compare" remove="true"/>
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceBlock name="related.product.addto.compare" remove="true" />
     </body>
 </page>
