@@ -10,6 +10,11 @@
          <script src="bootstrap/js/bootstrap.bundle.min.js"/>
     </head>
     <body>
+        <!-- Downloadable product link -->
+        <referenceBlock name="customer-account-navigation-downloadable-products-link" remove="true"/>
+        <!-- Wish list link -->
+        <referenceBlock name="customer-account-navigation-wish-list-link" remove="true"/>
+        <referenceBlock name="customer-account-navigation-my-credit-cards-link" remove="true"/>
         <referenceBlock name="logo">
             <arguments>
                 <argument name="logo_img_width" xsi:type="number">111</argument>
@@ -20,5 +25,6 @@
         <referenceBlock name="report.bugs" remove="true"/>
         <referenceBlock name="catalog.compare.sidebar" remove="true"/>
         <referenceBlock name="wishlist_sidebar" remove="true"/>
+        <referenceBlock name="sidebar.additional" remove="true"/>
     </body>
 </page>
