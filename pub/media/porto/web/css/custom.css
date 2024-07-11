@@ -302,7 +302,7 @@ html .btn-v-dark {color: #fff !important;background-color: #222529 !important;bo
 /*minicart*/
 .minicart-items-wrapper{max-height:250px}
 
-.minicart-wrapper .block-minicart { padding: 10px 15px 5px;font-size: .8125rem;line-height: 1.5;font-weight: 700;}
+.minicart-wrapper .block-minicart { padding: 10px 15px 5px;font-size: .8125rem;line-height: 1.5;font-weight: 700;border-radius: 8px;}
 .minicart-wrapper .block-minicart li {padding: 15px 10px;border-bottom: 1px solid #e7e7e7;line-height: 24px;}
 .minicart-wrapper .block-minicart .total-count {display: flex;padding: 12px 10px;border-bottom: solid 1px #e7e7e7;color: #222529;text-transform: uppercase;}
 .minicart-wrapper .block-minicart .total-count .actions {margin-left: auto;}
@@ -2238,7 +2238,10 @@ button.subscribe:hover,
     padding: 25px;
 }
 .block-customer-login input,form.form-create-account input,
-.form-shipping-address input ,.form.form-discount input
+.form-shipping-address input ,.form-shipping-address select,.form.form-discount input,
+.checkout-billing-address input,.checkout-billing-address select,
+.form.form-edit-account input,.form-address-edit input,.form-address-edit select,
+.limiter select,.form.contact input
 {
     border-radius: 8px;
 }
@@ -2283,7 +2286,9 @@ form.form-create-account button.submit,
 .cart-summary button.checkout,.form.form-cart button.update,
 button.action-show-popup,button.continue,
 button.action-select-shipping-item,button.checkout,.form.form-discount button.action-apply,
-.checkout-success a.continue
+.checkout-success a.continue,.form-edit-account button.save,.form-newsletter-manage button.save,
+.form-address-edit button.save,button.add,a.print,.order-details-items a.back,
+button.submit
 {
     background: linear-gradient(to right, #5193ea, #0d6eed) !important;
     border-radius: 8px !important;
@@ -2296,7 +2301,10 @@ form.form-create-account button.submit:hover,
 .form.form-cart button.update:hover,
 button.apply:hover,button.action-show-popup:hover,button.continue,
 button.action-select-shipping-item,button.checkout:hover,
-.form.form-discount button.action-apply:hover,.checkout-success a.continue:hover
+.form.form-discount button.action-apply:hover,.checkout-success a.continue:hover,
+.form-edit-account button.save:hover,.form-newsletter-manage button.save:hover,
+.form-address-edit button.save:hover,button.add:hover,a.print:hover,
+.order-details-items a.back:hover,button.submit:hover
 {
     background: linear-gradient(to right, #0d6eed, #0d6eed) !important;
 }
@@ -2379,7 +2387,8 @@ li.checkout-payment-method
 {
     width: 100% !important;
 }
-.form-shipping-address .field-tooltip.toggle
+.form-shipping-address .field-tooltip.toggle,
+.checkout-billing-address .field-tooltip.toggle
 {
     display: none;
 }
@@ -2420,6 +2429,144 @@ button.action-cancel
 .checkout-success .actions-toolbar .primary
 {
     float: unset !important;
+}
+.sidebar .sidebar-content
+{
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    border-radius: 8px;
+}
+.block-collapsible-nav .item.current strong,
+.block-collapsible-nav .item,.block-collapsible-nav .item a
+{
+    width: 100%;
+}
+.block-collapsible-nav .item:first-child
+{
+    border-top: 0px;
+}
+.block-collapsible-nav .item:last-child a,
+.block-collapsible-nav .item:last-child strong
+{
+    border-bottom: 0px;
+}
+.block-collapsible-nav .item > strong:before,
+.block-collapsible-nav .item a:before,
+.account .data.table .col.actions .action:after,
+.block .box-actions .action:after,
+form .fieldset > .legend
+{
+    display: none;
+}
+.block-collapsible-nav .item.current strong,
+.block-collapsible-nav .item a:hover
+{
+    color: #0d6eed !important;
+}
+.block-collapsible-nav .item a,
+.block-collapsible-nav .item.current strong
+{
+    padding-left: 0px;
+}
+.block.block-collapsible-nav
+{
+    margin-bottom: 0px;
+}
+.account .page-main .page-title-wrapper .page-title
+{
+    color: #0d6eed;
+}
+.box .box-title
+{
+    border-radius: 8px 8px 0px 0px;
+}
+.box .box-actions
+{
+    border-radius: 0px 0px 8px 8px;
+}
+.orders-recent,.additional-addresses,.orders-history
+{
+    border: 1px solid #e7e7e7;
+}
+a.edit,a.change-password,a.view,a.order
+{
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
+    color: white !important;
+    border-radius: 6px !important;
+    border: none !important;
+    padding: 8px 12px;
+    display: inline-flex;
+}
+.block .block-title
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.form.form-edit-account,.form.form-newsletter-manage,
+.form-address-edit
+{
+    border: 1px solid #e7e7e7;
+    padding: 0px 15px 15px 15px;
+    border-radius: 8px;
+}
+.action.delete
+{
+    background-color: #d10029;
+    color: white !important;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+}
+.order-status 
+{
+    background-color: #fff582;
+    border: 2px solid #fff582 !important;
+}
+.order-links .item strong,.order-links .item a
+{
+    padding: 10px 25px 10px 25px !important;
+}
+.order-links .item strong
+{
+    border-radius: 8px 8px 0px 0px;
+}
+.order-details-items
+{
+    border-radius: 0px 8px 8px 8px;
+}
+.order-details-items a.back,a.print
+{
+    padding: 8px 12px;
+}
+.recurring-table
+{
+    font-size: unset !important;
+}
+.recurring-table tbody tr td:last-child a 
+{
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
+    color: white !important;
+    border-radius: 6px !important;
+    border: none !important;
+    padding: 8px 12px;
+    display: inline-flex;
+}
+body.account table td
+{
+    overflow-wrap: normal;
+}
+body.account .grid 
+{
+    overflow-x: auto;
+}
+.contact-info i
+{
+    background-color: #0d6eed !important;
+}
+.contacts-title 
+{
+    color: black !important;
 }
 
 @media (max-width: 1075px){
@@ -2502,6 +2649,15 @@ h1.hero-title {
     .catalog-product-view .product-info-main
     {
         padding-left: 0px;
+    }
+    body.account .columns .column.main
+    {
+        order: 2;
+    }
+    body.account .columns .sidebar-main
+    {
+        order: 1;
+        margin-bottom: 30px;
     }
 
 }
