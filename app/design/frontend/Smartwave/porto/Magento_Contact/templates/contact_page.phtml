@@ -1,6 +1,15 @@
 <?php
     $contacts_config = $this->helper('Smartwave\Porto\Helper\Data')->getConfig('porto_settings/contacts');
     $_infoblock = $contacts_config['infoblock'];
+?>
+<div class="row">
+    <div class="col-md-8"><?php echo $this->getChildHtml('contactForm')?></div>
+    <div class="col-md-4 contact-info">
+        <div class="contacts-title"><b><?php echo __('Contact') ?> <?php echo __('Details') ?></b></div>
+        <?php echo $_infoblock; ?>
+    </div>
+</div>
+<?php
     $_customblock = $contacts_config['customblock'];
     
     if($_customblock) {
@@ -13,10 +22,3 @@
         }
     }
 ?>
-<div class="row">
-    <div class="col-md-8"><?php echo $this->getChildHtml('contactForm')?></div>
-    <div class="col-md-4 contact-info">
-        <div class="contacts-title"><?php echo __('Contact') ?> <b><?php echo __('Details') ?></b></div>
-        <?php echo $_infoblock; ?>
-    </div>
-</div>
