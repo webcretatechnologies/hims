@@ -28,7 +28,7 @@
            <block class="GemsMed\CategoryName\Block\CategoryList" name="category_cart_widget" template="GemsMed_CategoryName::categoryName.phtml" />
         </referenceContainer>
         <referenceContainer name="category_slider">
-            <block class="GemsMed\CategoryName\Block\CategoryList" name="category_slider_widget" template="GemsMed_CategoryName::category_list.phtml" />
+            <block class="Hims\CustomImage\Block\CategoryList" name="category_slider_widget" template="Hims_CustomImage::category_list.phtml" />
         </referenceContainer>
          <referenceContainer name="service_block_after_category_slider">
             <block class="Magento\Cms\Block\Widget\Block" name="service_block_after_category_slider_widget" template="widget/static_block/default.phtml">

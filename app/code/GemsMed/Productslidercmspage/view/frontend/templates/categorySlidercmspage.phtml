@@ -5,7 +5,6 @@ $addClass = '';
 $product = []; 
 $getCategoryHtmlContentForCateSlider = false;
 if ($categoryId) {
-    // print_r($categoryId->getData());die;
     $subCategories = $block->getSubcategoriesByParentId($categoryId->getEntityId()); 
     $getCategoryHtmlContentForCateSlider = ($categoryId->getCategoryHtmlContentForCateSlider()) ? $categoryId->getCategoryHtmlContentForCateSlider() : false;
     if (!(count($subCategories) > 0)) {

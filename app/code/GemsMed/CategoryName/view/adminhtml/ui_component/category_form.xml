@@ -17,5 +17,15 @@
                 </item>
             </argument>
         </field>
+        <field name="cms_page_identifier">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="dataType" xsi:type="string">varchar</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Cms Page Identifier Name</item>
+                </item>
+            </argument>
+        </field>
     </fieldset>
 </form>
