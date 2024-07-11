@@ -11,7 +11,7 @@
     </head>
     <body>
         <referenceContainer name="columns">
-            <block class="Smartwave\Porto\Block\Template" name="google_map" template="Magento_Contact::google_map.phtml" before="-"/>
+            <block class="Smartwave\Porto\Block\Template" name="google_map" template="Magento_Contact::google_map.phtml" after="contactPage"/>
         </referenceContainer>
         <referenceContainer name="content">
             <block class="Smartwave\Porto\Block\Template" name="contactPage" template="Magento_Contact::contact_page.phtml">
