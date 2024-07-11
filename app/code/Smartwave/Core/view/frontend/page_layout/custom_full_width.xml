@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page_layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="product-full-width"/>
+    <container name="page.wrapper" htmlTag="div" htmlClass="page-wrapper">
+        <container name="main.content" as="main" label="Main Content Container" htmlTag="main" htmlClass="container" />
+        <container name="product.info.details.after.wrapper" after="product.attributes.pagebuilder.wrapper" before="product.info.details.wrapper" htmlTag="div" htmlClass="page-main-details">
+            <container name="product.info.details.after.wrapper.columns" htmlTag="div" htmlClass="columns container">
+            </container>
+        </container>
+        <container name="related.product" as="reladed-product" label="Related product container" htmlTag="div" htmlClass="container" />
+    </container>
+</page_layout>
