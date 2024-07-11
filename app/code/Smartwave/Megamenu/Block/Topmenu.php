@@ -159,7 +159,16 @@ class Topmenu extends \Magento\Framework\View\Element\Template
                     if($level == 1 && $sw_menu_icon_img) {
                         $html .= '<div class="menu-thumb-img"><a class="menu-thumb-link" href="'.$this->_categoryHelper->getCategoryUrl($child).'"><img src="' . $sw_menu_icon_img . '" alt="'.$child->getName().'"/></a></div>';
                     }
-                    $html .= '<a href="'.$this->_categoryHelper->getCategoryUrl($child).'" title="'.$child->getName().'">';
+
+                    $cms_page_identifier = $cat_model->getData('cms_page_identifier');
+                    $entity_id = $cat_model->getData('entity_id');
+                    if ($cms_page_identifier && $entity_id) {
+                        $url = $cms_page_identifier . '/' . $entity_id;
+                    } else {
+                       $url= $this->_categoryHelper->getCategoryUrl($child);
+                    }
+
+                    $html .= '<a href="'.$url.'" title="'.$child->getName().'">';
                     if ($level > 1 && $sw_menu_icon_img)
                         $html .= '<img class="menu-thumb-icon" src="' . $sw_menu_icon_img . '" alt="'.$child->getName().'"/>';
                     elseif($sw_menu_font_icon)
@@ -196,7 +205,6 @@ class Topmenu extends \Magento\Framework\View\Element\Template
             }
 
             $cat_model = $this->getCategoryModel($category->getId());
-
             $sw_menu_hide_item = $cat_model->getData('sw_menu_hide_item');
 
             if(!$sw_menu_hide_item) {
@@ -244,11 +252,17 @@ class Topmenu extends \Magento\Framework\View\Element\Template
                 if(count($children) > 0) {
                     $html .= '<div class="open-children-toggle"></div>';
                 }
+                $cms_page_identifier = '';
 
-                $url = $this->_categoryHelper->getCategoryUrl($category);
-                $modifiedUrl = str_replace('.html', '', $url);
+                $cms_page_identifier = $cat_model->getData('cms_page_identifier');
+                $entity_id = $cat_model->getData('entity_id');
+                if ($cms_page_identifier && $entity_id) {
+                    $url = '/'. $cms_page_identifier . '/' . $entity_id;
+                } else {
+                   $url= $this->_categoryHelper->getCategoryUrl($category);
+                }
 
-                $html .= '<a href="'.$modifiedUrl.'" class="level-top" title="'.$category->getName().'">';
+                $html .= '<a href="'.$url.'" class="level-top" title="'.$category->getName().'">';
                 if ($sw_menu_icon_img)
                     $html .= '<img class="menu-thumb-icon" src="' . $sw_menu_icon_img . '" alt="'.$category->getName().'"/>';
                 elseif($sw_menu_font_icon)

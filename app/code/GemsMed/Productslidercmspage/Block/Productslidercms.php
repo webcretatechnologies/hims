@@ -53,10 +53,10 @@ class Productslidercms extends Template
         return $collection;
     }
 
-    public function getCategoryByUrlKey($urlKey)
+    public function getCategoryByUrlKey($id)
     {
         $categoryCollection = $this->categoryCollectionFactory->create();
-        $categoryCollection->addAttributeToFilter('url_key', $urlKey);
+        $categoryCollection->addAttributeToFilter('entity_id', $id);
         $category = $categoryCollection->getFirstItem();
         if ($category && $category->getId()) {
             return $this->categoryRepository->get($category->getId());

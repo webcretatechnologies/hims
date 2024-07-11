@@ -47,6 +47,20 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'default' => 0,
             ]
         );
+
+        $eavSetup->addAttribute(
+            \Magento\Catalog\Model\Category::ENTITY,
+            'cms_page_identifier',
+            [
+                'type' => 'varchar',
+                'label' => 'Cms Page Identifier',
+                'input' => 'text',
+                'visible' => true,
+                'required' => false,
+                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
+                'group' => 'General Information',
+            ]
+        );
     }
 
 }

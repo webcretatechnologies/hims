@@ -13,11 +13,11 @@
                     <?php foreach ($categoryCollection as $category): ?>
                     <div class="slider-item px-2">
                         <div class="slider-inner">
-                            <a href="#">
-                                <img src="<?php echo $category->getimage(); ?>" alt="" />
+                            <a href="<?php echo $block->getUrl($category['cms_page_identifier'].'/'.$category['category_id']); ?>">
+                                <img src="<?php echo $category['custom_image']; ?>" alt="" />
                                 <div class="category-overlay">
-                                    <h4 class="category-tagline text-white p-3 m-0"><?php echo $category->getdescription(); ?></h4>
-                                    <span class="position-relative d-flex text-white"><?php echo $category->getName(); ?></span>
+                                    <h4 class="category-tagline text-white p-3 m-0"><?php echo $category['description']; ?></h4>
+                                    <span class="position-relative d-flex text-white"><?php echo $category['name']; ?></span>
                                 </div>
                             </a>
                         </div>
