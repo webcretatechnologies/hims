@@ -1314,7 +1314,7 @@ body
 .secondary-btn:hover 
 {
     background: linear-gradient(to right, #5193ea, #0d6eed) !important;
-    border-color: #7a73fd !important;
+    border-color: #5193ea !important;
     color: white !important;
 }
 .green-btn
@@ -1970,7 +1970,7 @@ a.showcart,a.my-account
     position: relative;
 }
 .quiz-block .option.selected {
-    border: 2px solid #7a73fd;
+    border: 2px solid #0d6eed;
 }
 .customer_button {
     display: flex;
@@ -1986,8 +1986,8 @@ a.showcart,a.my-account
 }
 #back-question
 {
-    border-color: #7a73fd !important;
-    color: #7a73fd !important;
+    border-color: #0d6eed !important;
+    color: #0d6eed !important;
 }
 #back-question,#next-question,#reset-question
 {
@@ -1999,9 +1999,9 @@ a.showcart,a.my-account
 }
 #reset-question
 {
-    background-color: #80e9ff !important;
-    border-color: #80e9ff !important;
-    color: black !important;
+    background-color: black !important;
+    border-color: black !important;
+    color: white !important;
 }
 .quiz-block .option label 
 {
@@ -2132,11 +2132,12 @@ button.subscribe-now,button.login-to-subscribe
     z-index: 1000;
     width: 85px; /* Adjust as necessary */
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
 .profile-popup-content a {
     display: block;
     text-decoration: none;
-    color: #0088cc;
+    color: #0d6eed;
 }
 .profile-popup-content hr {
     margin: 10px 0; /* Adjust margin as necessary */
@@ -2210,7 +2211,216 @@ button.subscribe:hover,
 {
     color: white !important;
 }
-
+.testimonial-slider
+{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+.card-img img 
+{
+    height: 280px;
+    object-fit: contain;
+}
+.cate-name span
+{
+    background-color: #F6F6F6;
+    border-radius: 50px;
+    padding: 5px 15px;
+}
+.product-full-width-section
+{
+    width: 100%;
+}
+.block-customer-login 
+{
+    border: 1px solid lightgray;
+    border-radius: 12px;
+    padding: 25px;
+}
+.block-customer-login input,form.form-create-account input,
+.form-shipping-address input ,.form.form-discount input
+{
+    border-radius: 8px;
+}
+.block-customer-login button.login,
+.block-customer-login a.create,
+a.btn-go-shop
+{
+    border-radius: 8px !important;
+    padding: 15px 25px !important;
+    line-height: 30px !important;
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
+    text-transform: capitalize !important;
+}
+.block-customer-login button.login:hover,
+.block-customer-login a.create:hover,
+a.a.btn-go-shop:hover
+{
+    background: linear-gradient(to right, #0d6eed, #0d6eed) !important;
+}
+.block-customer-login .actions-toolbar .primary,
+.block-customer-login .actions-toolbar .secondary
+{
+    float: left !important;
+}
+.block-customer-login .actions-toolbar .primary
+{
+    margin-right: 15px !important;
+    margin-bottom: 0px !important;
+}
+form.form-create-account
+{
+    border: 1px solid lightgray;
+    border-radius: 12px;
+    margin-top: 50px !important;
+}
+form.form-create-account .actions-toolbar
+{
+    max-width: 100% !important;
+}
+form.form-create-account button.submit,
+.block-minicart .block-content > .actions > .primary .action.primary,
+.cart-summary button.checkout,.form.form-cart button.update,
+button.action-show-popup,button.continue,
+button.action-select-shipping-item,button.checkout,.form.form-discount button.action-apply,
+.checkout-success a.continue
+{
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
+    border-radius: 8px !important;
+    text-transform: capitalize !important;
+    color: white !important;
+}
+form.form-create-account button.submit:hover,
+.block-minicart .block-content > .actions > .primary .action.primary:hover,
+.cart-summary button.checkout:hover,
+.form.form-cart button.update:hover,
+button.apply:hover,button.action-show-popup:hover,button.continue,
+button.action-select-shipping-item,button.checkout:hover,
+.form.form-discount button.action-apply:hover,.checkout-success a.continue:hover
+{
+    background: linear-gradient(to right, #0d6eed, #0d6eed) !important;
+}
+.page-main > .page-title-wrapper .page-title
+{
+    color: black !important;
+}
+.minicart-items .product-item-details strong.product-item-name a
+{
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+a.action-towishlist
+{
+    display: none;
+}
+.cart.table-wrapper
+{
+    padding: 15px;
+    border: 1px solid lightgray;
+    border-radius: 12px;
+}
+.cart-summary,.opc-block-summary
+{
+    border-radius: 12px !important;
+}
+.cart-discount .actions-toolbar button.action
+{
+    background: linear-gradient(to right, #5193ea, #0d6eed) !important;
+    border-radius: 0px 8px 8px 0px !important;
+    text-transform: capitalize !important;
+    color: white !important;
+    height: 43px;
+}
+#discount-coupon-form #coupon_code
+{
+    border-radius: 8px 0px 0px 8px;
+}
+.opc-progress-bar-item._active:before,
+.opc-progress-bar-item._active > span:before,
+.opc-wrapper .shipping-address-item.selected-item:after
+{
+    background: #0d6eed !important;
+}
+.opc-progress-bar-item > span:after,
+.opc-progress-bar-item._complete > span
+{
+    color: #0d6eed !important;
+}
+.opc-wrapper .shipping-address-item.selected-item
+{
+    border-color: #0d6eed !important;
+    border-radius: 8px;
+}
+li.checkout-shipping-address,li.checkout-shipping-method,
+li.checkout-payment-method
+{
+    padding: 15px;
+    border: 1px solid lightgray;
+    border-radius: 12px;
+    margin-top: 25px !important;
+}
+.shipping-address-item
+{
+    padding-right: 15px !important;
+}
+.shipping-address-items
+{
+    margin-top: 15px;
+}
+.opc-summary-wrapper
+{
+    margin-top: 25px !important;
+}
+.form-shipping-address
+{
+    max-width: 100% !important;
+}
+.control._with-tooltip input 
+{
+    width: 100% !important;
+}
+.form-shipping-address .field-tooltip.toggle
+{
+    display: none;
+}
+button.action-save-address
+{
+    height: 45px !important;
+    margin-right: 10px !important;
+}
+#co-payment-form hr 
+{
+    display: none;
+}
+.field-select-billing select 
+{
+    border-radius: 8px;
+    padding-right: 30px !important;
+}
+button.action-update
+{
+    height: 45px !important;
+    margin-left: 15px !important;
+}
+button.action-cancel
+{
+    margin-top: 0px !important;
+}
+.opc-block-shipping-information .shipping-information
+{
+    border-radius: 12px !important;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 2px solid #e7e7e7;
+}
+.checkout-success,.checkout-success .actions-toolbar
+{
+    text-align: center !important;
+}
+.checkout-success .actions-toolbar .primary
+{
+    float: unset !important;
+}
 
 @media (max-width: 1075px){
 h1.hero-title {
