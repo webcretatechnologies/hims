@@ -34,7 +34,7 @@ class CategoryList extends Template
         $collection->addAttributeToSelect(['is_featured', 'cms_page_identifier', 'image', 'name','description','custom_image','url_key']); // Select specific attributes
         $collection->addIsActiveFilter();
         $collection->addFieldToFilter('entity_id', ['neq' => 2]);
-        $collection->addFieldToFilter('is_featured', ['eq' => 0]);
+        $collection->addFieldToFilter('is_featured', ['eq' => 1]);
 
         $categoriesData = [];
         foreach ($collection as $category) {
