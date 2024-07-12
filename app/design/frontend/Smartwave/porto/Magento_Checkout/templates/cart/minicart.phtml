@@ -15,13 +15,9 @@ $popup_design = $_portohelper->getConfig('porto_design/header/header_minicart_po
 <div data-block="minicart" class="minicart-wrapper cart-design-<?php echo $cart_design ? $cart_design: '1'?><?php if($popup_design == '2'):?> minicart-offcanvas<?php endif;?>">
     <a class="action showcart" href="<?php echo $block->getShoppingCartUrl(); ?>"
        data-bind="scope: 'minicart_content'">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7.5 7.67001V6.70001C7.5 4.45001 9.31 2.24001 11.56 2.03001C14.24 1.77001 16.5 3.88001 16.5 6.51001V7.89001" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M8.99983 22H14.9998C19.0198 22 19.7398 20.39 19.9498 18.43L20.6998 12.43C20.9698 9.99 20.2698 8 15.9998 8H7.99983C3.72983 8 3.02983 9.99 3.29983 12.43L4.04983 18.43C4.25983 20.39 4.97983 22 8.99983 22Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M15.4955 12H15.5045" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M8.49451 12H8.50349" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.8346 21.0007C18.5396 21.0007 17.5013 22.039 17.5013 23.334C17.5013 23.9528 17.7471 24.5463 18.1847 24.9839C18.6223 25.4215 19.2158 25.6673 19.8346 25.6673C20.4535 25.6673 21.047 25.4215 21.4846 24.9839C21.9221 24.5463 22.168 23.9528 22.168 23.334C22.168 22.7151 21.9221 22.1217 21.4846 21.6841C21.047 21.2465 20.4535 21.0007 19.8346 21.0007ZM1.16797 2.33398V4.66732H3.5013L7.7013 13.5223L6.11464 16.3807C5.93964 16.7073 5.83464 17.0923 5.83464 17.5007C5.83464 18.1195 6.08047 18.713 6.51805 19.1506C6.95564 19.5882 7.54913 19.834 8.16797 19.834H22.168V17.5007H8.65797C8.58061 17.5007 8.50643 17.4699 8.45173 17.4152C8.39703 17.3605 8.3663 17.2863 8.3663 17.209C8.3663 17.1507 8.37797 17.104 8.4013 17.069L9.4513 15.1673H18.143C19.018 15.1673 19.788 14.6773 20.1846 13.9657L24.3613 6.41732C24.443 6.23065 24.5013 6.03232 24.5013 5.83398C24.5013 5.52457 24.3784 5.22782 24.1596 5.00903C23.9408 4.79023 23.6441 4.66732 23.3346 4.66732H6.07964L4.98297 2.33398M8.16797 21.0007C6.87297 21.0007 5.83464 22.039 5.83464 23.334C5.83464 23.9528 6.08047 24.5463 6.51805 24.9839C6.95564 25.4215 7.54913 25.6673 8.16797 25.6673C8.78681 25.6673 9.3803 25.4215 9.81788 24.9839C10.2555 24.5463 10.5013 23.9528 10.5013 23.334C10.5013 22.7151 10.2555 22.1217 9.81788 21.6841C9.3803 21.2465 8.78681 21.0007 8.16797 21.0007Z" fill="black"/>
         </svg>
-
         <span class="text"><?php echo __('Cart'); ?></span>
         <span class="counter qty empty"
               data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">
