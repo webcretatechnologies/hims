@@ -52,12 +52,13 @@ class GetQuestion extends Action
         $questionName = $this->quizHelper->getAttributeLabel($questionId);
         $questionOption = $this->quizHelper->getOptionsByQuestionId($questionId);
         $inputType = $this->quizHelper->getAttributeType($questionId);
-
+        $groupId = $this->quizHelper->getGroupId($questionId);
         $responseData = [
             'question_id' => $questionId,
             'question' => $questionName,
             'options' => $questionOption,
-            'type' => $inputType
+            'type' => $inputType,
+            'group_id' => $groupId
         ];
 
       

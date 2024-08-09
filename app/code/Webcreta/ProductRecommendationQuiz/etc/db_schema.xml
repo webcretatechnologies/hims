@@ -10,6 +10,7 @@
       <column xsi:type="varchar" name="default_id"   nullable="false" comment="sort_order_id" />
       <column xsi:type="varchar" name="question_id"   nullable="false" comment="question_id" />
       <!-- <column xsi:type="varchar" name="sort_order_id"   nullable="false" comment="sort_order_id" /> -->
+      <column xsi:type="varchar" name="group_id"   nullable="false" comment="group_id" />
       <!-- <column xsi:type="varchar" name="question_set"   nullable="false" comment="question_id" /> -->
       <!-- <column xsi:type="varchar" name="condition_id" nullable="false"  comment="condition_id" /> -->
       <column xsi:type="varchar" name="option_id" nullable="false"  comment="option_id" />

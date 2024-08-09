@@ -166,22 +166,22 @@ class Data extends AbstractHelper
         }
     }
 
-    public function getLogicandquestionData($current_question_id, $selected_option_id, $attribute_set_id)
+    public function getLogicandquestionData($currentQuestionId, $selectedOptionId, $attributeSetId)
     {
         $questionData = [];
 
         try {
             $quizModel = $this->productRecommendationQuizFactory->create();
-            if (!empty($selected_option_id)) {
+            if (!empty($selectedOptionId)) {
                 $collection = $quizModel->getCollection()
-                    ->addFieldToFilter('question_id', $current_question_id)
-                    ->addFieldToFilter('attribute_set_id', $attribute_set_id);
+                    ->addFieldToFilter('question_id', $currentQuestionId)
+                    ->addFieldToFilter('attribute_set_id', $attributeSetId);
 
                 $options = $collection->getItems();
                 foreach ($options as $option) {
                     $value = $option->getOptionId();
 
-                    $conditionString = "$selected_option_id $value";
+                    $conditionString = "$selectedOptionId $value";
                     $condition = eval("return $conditionString;");
 
                     if ($condition) {
@@ -191,8 +191,8 @@ class Data extends AbstractHelper
                 }
             } else {
                 $collection = $quizModel->getCollection()
-                    ->addFieldToFilter('question_id', $current_question_id)
-                    ->addFieldToFilter('attribute_set_id', $attribute_set_id);
+                    ->addFieldToFilter('question_id', $currentQuestionId)
+                    ->addFieldToFilter('attribute_set_id', $attributeSetId);
 
                 $questionData = $collection->getData();
             }
@@ -203,21 +203,21 @@ class Data extends AbstractHelper
         return $questionData;
     }
 
-    public function getNextQuestionData($current_question_id, $selected_option_id, $attribute_set_id)
+    public function getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId)
     {
 
         try {
             $quizModel = $this->productRecommendationQuizFactory->create();
 
             $collection = $quizModel->getCollection()
-                ->addFieldToFilter('attribute_set_id', $attribute_set_id)
-                ->addFieldToFilter('question_id', $current_question_id);
+                ->addFieldToFilter('attribute_set_id', $attributeSetId)
+                ->addFieldToFilter('question_id', $currentQuestionId);
 
             if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
             } else {
                 $questionData = null;
-                $this->logger->debug("No data found for question ID: $current_question_id and option ID: $selected_option_id");
+                $this->logger->debug("No data found for question ID: $currentQuestionId and option ID: $selectedOptionId");
             }
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
@@ -226,36 +226,49 @@ class Data extends AbstractHelper
         return $questionData;
     }
 
-    public function getnextQuestion($current_question_id, $selected_option_id, $attribute_set_id)
+    public function getnextQuestion($currentQuestionId, $selectedOptionId, $attributeSetId, $groupId)
     {
-        if (is_array($selected_option_id)) {
-            $selected_option_id = implode(',', $selected_option_id);
+        $finalCollection = [];
+        if (is_array($selectedOptionId)) {
+            $selectedOptionId = implode(',', $selectedOptionId);
         }
-
+              
         try {
             $quizModel = $this->productRecommendationQuizFactory->create();
-            if (!empty($selected_option_id)) {
+            if (!empty($selectedOptionId)) {
 
                 $collection = $quizModel->getCollection()
-                    ->addFieldToFilter('attribute_set_id', $attribute_set_id)
-                    ->addFieldToFilter('question_id', $current_question_id)
-                    ->addFieldToFilter('option_id', $selected_option_id);
+                    ->addFieldToFilter('attribute_set_id', $attributeSetId)
+                    ->addFieldToFilter('question_id', $currentQuestionId)
+                    ->addFieldToFilter('option_id', $selectedOptionId);
+
+                $finalCollection = $quizModel->getCollection()
+                    ->addFieldToFilter('attribute_set_id', $attributeSetId)
+                    ->addFieldToFilter('question_id', $currentQuestionId)
+                    ->addFieldToFilter('option_id', $selectedOptionId);
             } else {
                 $collection = $quizModel->getCollection()
-                    ->addFieldToFilter('attribute_set_id', $attribute_set_id)
-                    ->addFieldToFilter('question_id', $current_question_id);
+                    ->addFieldToFilter('attribute_set_id', $attributeSetId)
+                    ->addFieldToFilter('question_id', $currentQuestionId);
             }
-
-            if ($collection->getSize() > 0) {
+           
+            if ($collection->getSize() > 1) {
+                if($groupId == 1){
+                    $finalCollection->addFieldToFilter('group_id', $groupId);
+                    $questionData = $finalCollection->getSize() > 0 ? $finalCollection->getFirstItem() : $collection->getFirstItem();
+                }else{
+                    $collection->addFieldToFilter('group_id', $groupId);
+                    $questionData = $collection->getFirstItem();
+                }
+            }else if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
             } else {
                 $questionData = null;
-                $this->logger->debug("No data found for question ID: $current_question_id and option ID: $selected_option_id");
+                $this->logger->debug("No data found for question ID: $currentQuestionId and option ID: $selectedOptionId");
             }
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
-
         return $questionData;
     }
 
@@ -338,26 +351,26 @@ class Data extends AbstractHelper
     }
 
     // save customer data in database
-    public function saveQuizData($customerId, $current_question_id, $selected_option_id, $attribute_set_id, $next_question_id, $productName)
+    public function saveQuizData($customerId, $currentQuestionId, $selectedOptionId, $attributeSetId, $nextQuestionId, $productName)
     {
-        $questionSet = json_encode([$current_question_id => $selected_option_id]);
+        $questionSet = json_encode([$currentQuestionId => $selectedOptionId]);
 
         if ($customerId) {
             $quizDataModel = $this->productRecommendationQuizDataFactory->create();
             $existingRecord = $quizDataModel->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
-                ->addFieldToFilter('category', $attribute_set_id)
+                ->addFieldToFilter('category', $attributeSetId)
                 ->getFirstItem();
 
             if ($existingRecord->getId() && $existingRecord->getQuestionSet()) {
-                if ($next_question_id == 'final_question') {
+                if ($nextQuestionId == 'final_question') {
                     $existingRecord->setData('product', $productName);
                 } else {
                     $existingRecord->setData('product', "currently not define");
                 }
 
                 $existingQuestionSet = json_decode($existingRecord->getData('question_set'), true);
-                $existingQuestionSet[$current_question_id] = $selected_option_id;
+                $existingQuestionSet[$currentQuestionId] = $selectedOptionId;
 
                 $questionSet = json_encode($existingQuestionSet);
                 $existingRecord->setData('question_set', $questionSet);
@@ -370,7 +383,7 @@ class Data extends AbstractHelper
             } else {
                 $quizDataModel->setData('customer_id', $customerId);
                 $quizDataModel->setData('question_set', $questionSet);
-                $quizDataModel->setData('category', $attribute_set_id);
+                $quizDataModel->setData('category', $attributeSetId);
                 $quizDataModel->setData('product', "currently not define");
 
                 try {
@@ -381,6 +394,30 @@ class Data extends AbstractHelper
             }
         }
     }
+
+    public function getGroupId($questionId)
+    {
+        try {
+            $quizDataCollection = $this->productRecommendationQuizFactory->create();
+
+            $existingRecord = $quizDataCollection->getCollection()
+                ->addFieldToFilter('question_id', $questionId)
+                ->getFirstItem();
+
+            if ($existingRecord->getId()) {
+                return $existingRecord->getData('group_id');
+            } else {
+                return null;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error("An error occurred while getting the group ID: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    
+    
+    
 
     
 

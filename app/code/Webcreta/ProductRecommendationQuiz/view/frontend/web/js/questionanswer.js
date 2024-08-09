@@ -113,7 +113,7 @@ require(['jquery'], function($) {
                             const optionsContainer = $('.options');
                         
                             localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
-                        
+                            localStorage.setItem('groupId-' + categoryId, response.data.group_id);
                             questionElement.attr('data-question-id', response.data.question_id);
                             questionElement.find('p').text(response.data.question);
                             optionsContainer.empty();
@@ -173,6 +173,7 @@ require(['jquery'], function($) {
             localStorage.setItem('question_id_' + categoryId, '');
             localStorage.setItem('question_value_' + categoryId, '');
             localStorage.setItem('question_sets-' + categoryId, '');
+            localStorage.setItem('groupId-' + categoryId, '');
 
             // Reset values on server side via AJAX
             $.ajax({
@@ -248,7 +249,6 @@ require(['jquery'], function($) {
 
             $("input[type=date]").on('change', function() {
                 var option = $(this).val();
-                console.log(option);
                 if (option === '' && $("input[type=date]").length > 0) {
                     alert('Please select proper date value.');
                     isValid = false;
@@ -262,6 +262,7 @@ require(['jquery'], function($) {
             }
 
             var currentQuestionId = localStorage.getItem('nextQuestionId-' + categoryId);
+            var groupId = localStorage.getItem('groupId-' + categoryId);
 
             var attributeSetId = categoryAttributeValue;
 
@@ -286,29 +287,32 @@ require(['jquery'], function($) {
                     id: newId,
                     currentQuestionId: currentQuestionId,
                     selectedOptionId: selectedOptionId,
-                    attributeSetId: attributeSetId
+                    attributeSetId: attributeSetId,
+                    groupId: groupId
                 });
 
                 localStorage.setItem('question_sets-' + categoryId, JSON.stringify(questionSets));
                 localStorage.setItem('question_back-' + categoryId, JSON.stringify(questionSets));
             }
 
-            ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId)
+            ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId, groupId)
 
         });
 
         // On click Next Button this funcation call
-        function ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId) {
+        function ajaxCallForGetQuestion(currentQuestionId, selectedOptionId, attributeSetId, groupId) {
 
             localStorage.setItem('question_id_' + categoryId, currentQuestionId);
             localStorage.setItem('question_value_' + categoryId, selectedOptionId);
+            localStorage.setItem('group_id' + categoryId, groupId);
 
             $.ajax({
                 url: getnextquestion,
                 data: {
                     current_question_id: currentQuestionId,
                     selected_option_id: selectedOptionId,
-                    attribute_set_id: attributeSetId
+                    attribute_set_id: attributeSetId,
+                    group_id : groupId
                 },
                 type: 'POST',
                 dataType: 'json',
@@ -347,6 +351,7 @@ require(['jquery'], function($) {
 
                         if (response.data && response.data.question_id) {
                             localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
+                            localStorage.setItem('groupId-' + categoryId, response.data.group_id);
                             $('.question p').text(response.data.question);
                             $('.question').attr('data-question-id', response.data.question_id);
 
@@ -502,6 +507,7 @@ require(['jquery'], function($) {
                     } else {
                         if (response.data && response.data.question_id) {
                             localStorage.setItem('nextQuestionId-' + categoryId, response.data.question_id);
+                            localStorage.setItem('groupId-' + categoryId, response.data.groupId);
                             $('.question p').text(response.data.question);
                             $('.question').attr('data-question-id', response.data.question_id);
 
