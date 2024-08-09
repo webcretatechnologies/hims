@@ -57,26 +57,27 @@ class GetNextQuestion extends Action
         }
 
         try {
-            $current_question_id = isset($data['current_question_id']) ? $data['current_question_id'] : null;
-            $selected_option_id = isset($data['selected_option_id']) ? $data['selected_option_id'] : null;
-            $attribute_set_id = isset($data['attribute_set_id']) ? $data['attribute_set_id'] : null;
+            $currentQuestionId = isset($data['current_question_id']) ? $data['current_question_id'] : null;
+            $selectedOptionId = isset($data['selected_option_id']) ? $data['selected_option_id'] : null;
+            $attributeSetId = isset($data['attribute_set_id']) ? $data['attribute_set_id'] : null;
+            $groupId = isset($data['group_id']) ? $data['group_id'] : null;
 
-            if (!$current_question_id) {
+
+            if (!$currentQuestionId) {
                 return $result->setData(['success' => false, 'error' => 'Invalid request parameters']);
             }
 
-            $type = $this->quizHelper->getAttributeType($current_question_id);
+            $type = $this->quizHelper->getAttributeType($currentQuestionId);
 
             if ($type == 'text') {
-                $questionData = $this->quizHelper->getLogicandquestionData($current_question_id, $selected_option_id, $attribute_set_id);
+                $questionData = $this->quizHelper->getLogicandquestionData($currentQuestionId, $selectedOptionId, $attributeSetId);
             } elseif ($type == 'date' || $type == 'media_image') {
-                $questionData = $this->quizHelper->getNextQuestionData($current_question_id, $selected_option_id, $attribute_set_id);
+                $questionData = $this->quizHelper->getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId);
             } else {
-                $questionData = $this->quizHelper->getnextQuestion($current_question_id, $selected_option_id, $attribute_set_id);
+                $questionData = $this->quizHelper->getnextQuestion($currentQuestionId, $selectedOptionId, $attributeSetId,$groupId);
             }
 
             $customerId = $this->customerSession->getCustomerId();
-
             if ($questionData) {
                 $next_question_id = $questionData['next_question_id'];
                 $questionName = $this->quizHelper->getAttributeLabel($next_question_id);
@@ -101,7 +102,7 @@ class GetNextQuestion extends Action
                     $quizDataModel = $this->productRecommendationQuizDataFactory->create();
                     $existingRecord = $quizDataModel->getCollection()
                         ->addFieldToFilter('customer_id', $customerId)
-                        ->addFieldToFilter('category', $attribute_set_id)
+                        ->addFieldToFilter('category', $attributeSetId)
                         ->getFirstItem();
 
                     $matchedValue = '';
@@ -119,11 +120,12 @@ class GetNextQuestion extends Action
                         'question' => $questionName,
                         'options' => $questionOption,
                         'selected_value' => $matchedValue,
+                        'group_id' => $questionData['group_id'],
                         "final" => false
                     ];
                 }
 
-                $this->quizHelper->saveQuizData($customerId, $current_question_id, $selected_option_id, $attribute_set_id, $next_question_id, $productName);
+                $this->quizHelper->saveQuizData($customerId, $currentQuestionId, $selectedOptionId, $attributeSetId, $next_question_id, $productName);
 
                 return $result->setData(['success' => true, 'data' => $responseData]);
             }
