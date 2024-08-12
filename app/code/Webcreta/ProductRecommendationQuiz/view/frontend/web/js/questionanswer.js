@@ -60,7 +60,9 @@ require(['jquery'], function($) {
                     if (Array.isArray(response.data)) {
                       const attributeSetId = categoryAttributeValue;
                       const dataLength = response.data.length;
-                      const transformedData = response.data.map((item, index) => ({
+                      const transformedData = response.data
+                      .filter(item => item.key != null && item.value != null)
+                      .map((item, index) => ({
                         id: item.id,
                         currentQuestionId: item.key.toString(),
                         selectedOptionId: item.value.toString(),
@@ -199,6 +201,26 @@ require(['jquery'], function($) {
 
         // On click Next Button
         $('#next-question').on('click', function(e) {
+            var birthDate = new Date($('#date').val());
+            if (birthDate) {
+                var today = new Date();
+                var age = today.getFullYear() - birthDate.getFullYear();
+                var monthDiff = today.getMonth() - birthDate.getMonth();
+
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+            
+                if (age < 18) {
+                    alert('You are not eligible. You must be 18 years or older.');
+                    $('#date').val(''); 
+                    return false; 
+                } else if (age > 80) {
+                    alert('You are not eligible. You must be 80 years or younger.');
+                    $('#date').val(''); 
+                    return false; 
+                }
+            }
             e.preventDefault();
             var isValid = true;
             var selectedOptionId = [];
@@ -304,7 +326,7 @@ require(['jquery'], function($) {
 
             localStorage.setItem('question_id_' + categoryId, currentQuestionId);
             localStorage.setItem('question_value_' + categoryId, selectedOptionId);
-            localStorage.setItem('group_id' + categoryId, groupId);
+            localStorage.setItem('groupId-' + categoryId, groupId);
 
             $.ajax({
                 url: getnextquestion,

@@ -72,7 +72,7 @@ class GetNextQuestion extends Action
             if ($type == 'text') {
                 $questionData = $this->quizHelper->getLogicandquestionData($currentQuestionId, $selectedOptionId, $attributeSetId);
             } elseif ($type == 'date' || $type == 'media_image') {
-                $questionData = $this->quizHelper->getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId);
+                $questionData = $this->quizHelper->getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId,$groupId);
             } else {
                 $questionData = $this->quizHelper->getnextQuestion($currentQuestionId, $selectedOptionId, $attributeSetId,$groupId);
             }

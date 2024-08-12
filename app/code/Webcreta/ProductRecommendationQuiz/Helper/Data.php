@@ -203,7 +203,7 @@ class Data extends AbstractHelper
         return $questionData;
     }
 
-    public function getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId)
+    public function getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId, $groupId)
     {
 
         try {
@@ -211,7 +211,8 @@ class Data extends AbstractHelper
 
             $collection = $quizModel->getCollection()
                 ->addFieldToFilter('attribute_set_id', $attributeSetId)
-                ->addFieldToFilter('question_id', $currentQuestionId);
+                ->addFieldToFilter('question_id', $currentQuestionId)
+                ->addFieldToFilter('group_id', $groupId);
 
             if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
@@ -258,9 +259,16 @@ class Data extends AbstractHelper
                     $questionData = $finalCollection->getSize() > 0 ? $finalCollection->getFirstItem() : $collection->getFirstItem();
                 }else{
                     $collection->addFieldToFilter('group_id', $groupId);
-                    $questionData = $collection->getFirstItem();
+                    $questionData = $collection->getSize() > 0 ? $collection->getFirstItem() : null;
+                    if (!$questionData || !$questionData->getId()) { 
+                        $finalCollection = $quizModel->getCollection()
+                            ->addFieldToFilter('attribute_set_id', $attributeSetId)
+                            ->addFieldToFilter('question_id', $currentQuestionId)
+                            ->addFieldToFilter('option_id', $selectedOptionId);
+                        $questionData = $finalCollection->getSize() > 0 ? $finalCollection->getFirstItem() : null;
+                    }
                 }
-            }else if ($collection->getSize() > 0) {
+            } else if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
             } else {
                 $questionData = null;
