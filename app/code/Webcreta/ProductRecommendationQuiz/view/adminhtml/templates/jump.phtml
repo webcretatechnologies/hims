@@ -301,11 +301,40 @@ if(empty($ProductQuestionData)){
 
                 var lastField = $('.main_field').last();
                 
-                fieldClone.find('input[type="radio"]').prop('checked', false);
+                var lastQuestionSelect = lastField.find('select[name="next_question_id[]"]').val();
+                var fieldClone = lastField.clone();
+                var lastField = $('.main_field').last();
+                var lastQuestionSelect = lastField.find('select[name="next_question_id[]"]').val();
 
-                lastField.after(fieldClone); 
+                var newFieldClone = lastField.clone();
+                newFieldClone.find('select[name="question_id[]"]').val(lastQuestionSelect);
+                newFieldClone.find('input[name="default_id[]"]').prop('checked', false);
+                newFieldClone.find('select[name="next_question_id[]"]').val('');
+                var newSelect = newFieldClone.find('select[name="option_id[]"]');
+                fetchOptionsForNewField(lastQuestionSelect,newSelect);
+                lastField.after(newFieldClone);
             });
 
+            function fetchOptionsForNewField(lastQuestionSelect,newSelect) {
+                $.ajax({
+                    url: '<?php echo $block->getUrl('productrecommendationquiz/index/getoptions'); ?>',
+                    type: 'GET',
+                    data: { attribute_id: lastQuestionSelect },
+                    dataType: 'json',
+                    success: function(response) {
+                        newSelect.empty(); // Clear existing options
+                                $.each(response.options, function(index, option) {
+                                    newSelect.append($('<option>', {
+                                        value: option.value,
+                                        text: option.label
+                                    }));
+                                });
+                            },
+                        error: function(xhr, status, error) {
+                            console.error("Error occurred while fetching options:", error);
+                        }
+                });
+            }
 
             $(document).on('change', '.question', function() {
                 console.log("change");

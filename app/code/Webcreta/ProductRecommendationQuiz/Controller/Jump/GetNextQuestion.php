@@ -62,11 +62,13 @@ class GetNextQuestion extends Action
             $attributeSetId = isset($data['attribute_set_id']) ? $data['attribute_set_id'] : null;
             $groupId = isset($data['group_id']) ? $data['group_id'] : null;
 
-
             if (!$currentQuestionId) {
                 return $result->setData(['success' => false, 'error' => 'Invalid request parameters']);
             }
 
+            if (!$groupId || $groupId == 'null') {
+                return $result->setData(['success' => false, 'error' => 'Invalid request parameters']);
+            }
             $type = $this->quizHelper->getAttributeType($currentQuestionId);
 
             if ($type == 'text') {
@@ -81,7 +83,7 @@ class GetNextQuestion extends Action
             if ($questionData) {
                 $next_question_id = $questionData['next_question_id'];
                 $questionName = $this->quizHelper->getAttributeLabel($next_question_id);
-                $questionOption = $this->quizHelper->getOptionsByQuestionId($next_question_id);
+                $questionOption = $this->quizHelper->getOptionsByQuestionIds($type,$next_question_id,$attributeSetId,$groupId);
                 $attributeType = $this->quizHelper->getAttributeType($next_question_id);
                 $productName = '';
                 if ($next_question_id == 'final_question') {

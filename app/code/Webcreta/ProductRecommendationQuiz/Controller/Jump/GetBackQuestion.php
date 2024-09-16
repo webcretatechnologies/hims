@@ -34,6 +34,7 @@ class GetBackQuestion extends Action
     {
         $result = $this->jsonFactory->create();
         $data = $this->getRequest()->getPostValue();
+        // dd($data);
 
         if (empty($data)) {
             return $result->setData(['success' => false, 'error' => 'No data received']);
@@ -43,6 +44,7 @@ class GetBackQuestion extends Action
             $current_question_id = $data['current_question_id'] ?? null;
             $selected_option_id = $data['selected_option_id'] ?? null;
             $attribute_set_id = $data['attribute_set_id'] ?? null;
+            $groupId = $data['group_id'] ?? null;
 
             if (!$current_question_id) {
                 return $result->setData(['success' => false, 'error' => 'Invalid request parameters']);
@@ -53,7 +55,7 @@ class GetBackQuestion extends Action
             if ($type == 'text') {
                 $questionData = $this->quizHelper->getLogicandquestionData($current_question_id, $selected_option_id, $attribute_set_id);
             } else {
-                $questionData = $this->quizHelper->getNextQuestionData($current_question_id, $selected_option_id, $attribute_set_id);
+                $questionData = $this->quizHelper->getnextQuestion($current_question_id, $selected_option_id, $attribute_set_id, $groupId);
             }
 
             if (!$questionData) {
@@ -63,9 +65,8 @@ class GetBackQuestion extends Action
             $next_question_id = $questionData['question_id'];
 
             $questionName = $this->quizHelper->getAttributeLabel($next_question_id);
-            $questionOption = $this->quizHelper->getOptionsByQuestionId($next_question_id);
-
             $attributeType = $this->quizHelper->getAttributeType($next_question_id);
+            $questionOption = $this->quizHelper->getOptionsByQuestionIds($attributeType , $next_question_id,$attribute_set_id,$groupId);
 
             if ($questionData['question_id'] == 'final_question') {
                 $productId = $questionData['product'];
@@ -87,6 +88,7 @@ class GetBackQuestion extends Action
                     'type' => $attributeType,
                     'question' => $questionName,
                     'options' => $questionOption,
+                    'group_id' => $questionData['group_id'],
                     "final" => false
                 ];
             }
