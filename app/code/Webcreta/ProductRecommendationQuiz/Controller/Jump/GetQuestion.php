@@ -33,7 +33,6 @@ class GetQuestion extends Action
         $result = $this->jsonFactory->create();
 
         $data = $this->getRequest()->getPostValue('categoryAttributeValue');
-
         if (!$data) {
             return $result->setData(['success' => false, 'error' => 'No data received']);
         }
@@ -50,9 +49,9 @@ class GetQuestion extends Action
 
         $questionId = $questionData->getQuestionId();
         $questionName = $this->quizHelper->getAttributeLabel($questionId);
-        $questionOption = $this->quizHelper->getOptionsByQuestionId($questionId);
+        $questionOption = $this->quizHelper->getOptionsByQuestionId($questionId ,$data);
         $inputType = $this->quizHelper->getAttributeType($questionId);
-        $groupId = $this->quizHelper->getGroupId($questionId);
+        $groupId = $this->quizHelper->getGroupIds($questionId);
         $responseData = [
             'question_id' => $questionId,
             'question' => $questionName,
@@ -60,7 +59,6 @@ class GetQuestion extends Action
             'type' => $inputType,
             'group_id' => $groupId
         ];
-
       
         return $result->setData(['success' => true, 'data' => $responseData]);
     }

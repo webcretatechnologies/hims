@@ -203,7 +203,7 @@ class Data extends AbstractHelper
         return $questionData;
     }
 
-    public function getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId)
+    public function getNextQuestionData($currentQuestionId, $selectedOptionId, $attributeSetId, $groupId)
     {
 
         try {
@@ -212,6 +212,21 @@ class Data extends AbstractHelper
             $collection = $quizModel->getCollection()
                 ->addFieldToFilter('attribute_set_id', $attributeSetId)
                 ->addFieldToFilter('question_id', $currentQuestionId);
+                
+                $validQuestions = [];
+                $remainingGroupIds = [];
+            
+                $groupIds = explode(',', $groupId);
+
+                foreach ($groupIds as $key => $groupId) {
+                    $filteredCollection = clone $collection; 
+                    $filteredCollection->addFieldToFilter('group_id', $groupId);
+            
+                    if ($filteredCollection->getSize() > 0) {
+                        $validQuestions[] = $filteredCollection->getFirstItem();
+                        $remainingGroupIds[] = $groupId;
+                    }
+                }
 
             if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
@@ -219,10 +234,11 @@ class Data extends AbstractHelper
                 $questionData = null;
                 $this->logger->debug("No data found for question ID: $currentQuestionId and option ID: $selectedOptionId");
             }
+            $questionData['group_ids'] = $remainingGroupIds;
+
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
-
         return $questionData;
     }
 
@@ -253,12 +269,18 @@ class Data extends AbstractHelper
             }
            
             if ($collection->getSize() > 1) {
+                $questionData = $collection->getFirstItem();
                 if($groupId == 1){
                     $finalCollection->addFieldToFilter('group_id', $groupId);
                     $questionData = $finalCollection->getSize() > 0 ? $finalCollection->getFirstItem() : $collection->getFirstItem();
                 }else{
                     $collection->addFieldToFilter('group_id', $groupId);
-                    $questionData = $collection->getFirstItem();
+                    $items = $collection;
+                    foreach($items as $item){
+                        if($item->getData('group_id') == $groupId ){
+                            $questionData = $item;
+                        }
+                    }
                 }
             }else if ($collection->getSize() > 0) {
                 $questionData = $collection->getFirstItem();
@@ -284,24 +306,25 @@ class Data extends AbstractHelper
         }
     }
 
-    // get question options by using question id
-    public function getOptionsByQuestionId($questionId)
+    public function getOptionsByQuestionId($questionId,$attributeSetId)
     {
         $options = [];
         try {
             $attributeModel = $this->eavAttribute->loadByCode(Product::ENTITY, $questionId);
-
+    
             if ($attributeModel && $attributeModel->getId()) {
-
+    
                 $additionalData = $attributeModel->getAdditionalData();
                 if (!empty($additionalData)) {
-                 
+    
                     $additionalDataArray = json_decode($additionalData, true);
-     
+    
                     if (isset($additionalDataArray['swatch_input_type']) && $additionalDataArray['swatch_input_type'] === 'visual') {
                         $optionsData = $attributeModel->getSource()->getAllOptions();
                         foreach ($optionsData as $option) {
                             if (!empty($option['value'])) {
+                                $groupid = $this->getGroupIdByOptionAndQuestion($option['value'], $questionId,$attributeSetId);
+                                
                                 $optionId = $option['value'];
                                 $swatchCollection = $this->swatchCollectionFactory->create();
                                 $swatchCollection->addFieldtoFilter('option_id', $optionId);
@@ -311,19 +334,22 @@ class Data extends AbstractHelper
                                     'value' => $option['value'],
                                     'label' => $option['label'],
                                     'images' => $images,
+                                    'groupid' => $groupid, // Add the group ID here
                                 ];
                             }
                         }
-                    }
-                    else{
+                    } else {
                         $optionsData = $attributeModel->getSource()->getAllOptions();
-
-                        foreach ($optionsData as $option) {
     
+                        foreach ($optionsData as $option) {
                             if (!empty($option['value'])) {
+                                // Fetch group ID from the custom table
+                                $groupid = $this->getGroupIdByOptionAndQuestion($option['value'], $questionId, $attributeSetId);
+    
                                 $options[] = [
                                     'value' => $option['value'],
                                     'label' => $option['label'],
+                                    'groupid' => $groupid, // Add the group ID here
                                 ];
                             }
                         }
@@ -332,11 +358,13 @@ class Data extends AbstractHelper
                     $optionsData = $attributeModel->getSource()->getAllOptions();
 
                     foreach ($optionsData as $option) {
-
                         if (!empty($option['value'])) {
+                            $groupid = $this->getGroupIdByOptionAndQuestion($option['value'], $questionId, $attributeSetId);
+    
                             $options[] = [
                                 'value' => $option['value'],
                                 'label' => $option['label'],
+                                'groupid' => $groupid,
                             ];
                         }
                     }
@@ -345,11 +373,26 @@ class Data extends AbstractHelper
         } catch (\Exception $e) {
             $this->logger->error("An error occurred: " . $e->getMessage());
         }
-
-        
+    
         return $options;
     }
 
+    private function getGroupIdByOptionAndQuestion($optionValue, $questionId, $attributeSetId)
+{
+    // Fetch the group ID from the custom table based on the option value and question ID
+    $quizModel = $this->productRecommendationQuizFactory->create();
+    $collection = $quizModel->getCollection()
+        ->addFieldToFilter('attribute_set_id', $attributeSetId)
+        ->addFieldToFilter('question_id', $questionId)
+        ->addFieldToFilter('option_id', $optionValue);
+
+    
+        $groupIds = [];
+        foreach ($collection as $quizItem) {
+            $groupIds[] = $quizItem->getGroupId(); // Replace 'getGroupId' with the correct method to get the group ID
+        }  
+    return $groupIds; // Replace 'getGroupId' with the correct method to get the group ID
+}
     // save customer data in database
     public function saveQuizData($customerId, $currentQuestionId, $selectedOptionId, $attributeSetId, $nextQuestionId, $productName)
     {
@@ -395,7 +438,7 @@ class Data extends AbstractHelper
         }
     }
 
-    public function getGroupId($questionId)
+    public function getGroupIds($questionId)
     {
         try {
             $quizDataCollection = $this->productRecommendationQuizFactory->create();
@@ -414,12 +457,102 @@ class Data extends AbstractHelper
             return null;
         }
     }
+    public function getOptionsByQuestionIds($type,$questionId,$attributeSetId,$groupId)
+    {
+        $options = [];
+        try {
+            $attributeModel = $this->eavAttribute->loadByCode(Product::ENTITY, $questionId);
+    
+            if ($attributeModel && $attributeModel->getId()) {
+    
+                $additionalData = $attributeModel->getAdditionalData();
+                if (!empty($additionalData)) {
+    
+                    $additionalDataArray = json_decode($additionalData, true);
+    
+                    if (isset($additionalDataArray['swatch_input_type']) && $additionalDataArray['swatch_input_type'] === 'visual') {
+                        $optionsData = $attributeModel->getSource()->getAllOptions();
+                        foreach ($optionsData as $option) {
+                            if (!empty($option['value'])) {
+                                // Fetch group ID from the custom table
+                                $groupid = $this->getGroupIdByOptionAndQuestions($type, $option['value'], $questionId,$attributeSetId,$groupId);
+                                
+                                $optionId = $option['value'];
+                                $swatchCollection = $this->swatchCollectionFactory->create();
+                                $swatchCollection->addFieldtoFilter('option_id', $optionId);
+                                $item = $swatchCollection->getFirstItem();
+                                $images = $this->swatchMediaHelper->getSwatchAttributeImage('swatch_thumb', $item->getValue());
+                                $options[] = [
+                                    'value' => $option['value'],
+                                    'label' => $option['label'],
+                                    'images' => $images,
+                                    'groupid' => $groupid, // Add the group ID here
+                                ];
+                            }
+                        }
+                    } else {
+                        $optionsData = $attributeModel->getSource()->getAllOptions();
+                        
+                        foreach ($optionsData as $option) {
+                            if (!empty($option['value'])) {
+                                // Fetch group ID from the custom table
+                                $groupid = $this->getGroupIdByOptionAndQuestion($option['value'], $questionId, $attributeSetId,$groupId);
+    
+                                $options[] = [
+                                    'value' => $option['value'],
+                                    'label' => $option['label'],
+                                    'groupid' => $groupid, // Add the group ID here
+                                ];
+                            }
+                        }
 
-    
-    
-    
+                    }
+                } else {
+                    $optionsData = $attributeModel->getSource()->getAllOptions();
+                    
+                    foreach ($optionsData as $option) {
+                        if (!empty($option['value'])) {
+                            // Fetch group ID from the custom table
+                            $groupid = $this->getGroupIdByOptionAndQuestions($type, $option['value'], $questionId, $attributeSetId,$groupId);
+                            
+                            $options[] = [
+                                'value' => $option['value'],
+                                'label' => $option['label'],
+                                'groupid' => $groupid, 
+                            ];
+                        }
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            $this->logger->error("An error occurred: " . $e->getMessage());
+        }
+        return $options;
+    }
+    public function getGroupIdByOptionAndQuestions($type, $optionValue, $questionId, $attributeSetId, $groupId)
+    {
+        $quizModel = $this->productRecommendationQuizFactory->create();
+        $collection = $quizModel->getCollection()
+        ->addFieldToFilter('attribute_set_id', $attributeSetId)
+        ->addFieldToFilter('question_id', $questionId);
+        $collection->addFieldToFilter('option_id', ['like' => '%' . $optionValue . '%']);
+        
+        $validQuestions = [];
+        $remainingGroupIds = [];
 
-    
+        $groupIds = explode(',', $groupId);
+
+        foreach ($groupIds as $key => $groupId) {
+            $filteredCollection = clone $collection;
+            $filteredCollection->addFieldToFilter('group_id', $groupId);
+
+            if ($filteredCollection->getSize() > 0) {
+                $validQuestions[] = $filteredCollection->getFirstItem();
+                $remainingGroupIds[] = $groupId;
+            }
+        }
+        return !empty($remainingGroupIds) ? $remainingGroupIds : null;
+    }
 
 
 }
